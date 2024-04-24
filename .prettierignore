@@ -1,0 +1,7 @@
+*.cjs
+*.yaml
+*.md
+*.html
+*.json
+*.env.d.ts
+*.config.ts
