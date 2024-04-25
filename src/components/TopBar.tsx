@@ -1,4 +1,4 @@
-import { Container, Group } from '@mantine/core';
+import { Container, Group, Text } from '@mantine/core';
 import { IconBread } from '@tabler/icons-react';
 import classes from './css/TopBar.module.css';
 import Links from './shared/links';
@@ -14,7 +14,8 @@ const TopBar = () => {
 				<IconBread size={28} />
 				<Group gap={5} visibleFrom="xs">
 					{Links.map((link) => (
-						<a
+						<Text
+							component="a"
 							key={link.label}
 							href={link.link}
 							className={classes.link}
@@ -27,7 +28,7 @@ const TopBar = () => {
 							}}
 						>
 							{link.label}
-						</a>
+						</Text>
 					))}
 				</Group>
 			</Container>

@@ -1,4 +1,4 @@
-import { Container, Group } from '@mantine/core';
+import { Container, Group, Text, useMantineTheme } from '@mantine/core';
 import { IconBrandMantine } from '@tabler/icons-react';
 import classes from './css/BottomBar.module.css';
 import Links from './shared/links';
@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const BottomBar = () => {
 	const nav = useNavigate();
 	const location = useLocation();
+	const theme = useMantineTheme();
 
 	return (
 		<div className={classes.footer}>
@@ -14,7 +15,8 @@ const BottomBar = () => {
 				<IconBrandMantine size={28} />
 				<Group className={classes.links}>
 					{Links.map((link) => (
-						<a
+						<Text
+							component="a"
 							key={link.label}
 							href={link.link}
 							className={classes.link}
@@ -27,7 +29,7 @@ const BottomBar = () => {
 							}}
 						>
 							{link.label}
-						</a>
+						</Text>
 					))}
 				</Group>
 			</Container>

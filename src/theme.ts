@@ -1,4 +1,4 @@
-import { createTheme } from '@mantine/core';
+import { createTheme, rem } from '@mantine/core';
 
 export const theme = createTheme({
 	focusRing: 'never',
@@ -9,4 +9,12 @@ export const theme = createTheme({
 		dark: 7,
 	},
 	autoContrast: true,
+	headings: {
+		fontFamily: 'monospace',
+		fontWeight: '700',
+		textWrap: 'pretty',
+		sizes: {
+			h1: { fontSize: rem(36) },
+		},
+	},
 });
