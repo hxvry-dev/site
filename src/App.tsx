@@ -12,21 +12,19 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import NotFound from './components/pages/NotFound';
 import TopBar from './components/TopBar';
-import BottomBar from './components/BottomBar';
 
 const Layout = () => {
 	return (
 		<div>
 			<TopBar />
 			<Outlet />
-			<BottomBar />
 		</div>
 	);
 };
 
 const App = () => {
 	return (
-		<MantineProvider theme={theme}>
+		<MantineProvider theme={theme} defaultColorScheme="dark">
 			<Router>
 				<Routes>
 					<Route path="/" element={<Layout />}>
