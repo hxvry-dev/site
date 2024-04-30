@@ -1,11 +1,10 @@
-import { Code, Container } from '@mantine/core';
+import { Group, Text } from '@mantine/core';
 
 const Home = () => {
 	return (
-		<Container>
-			<h1>Home</h1>
-			<Code>Hello World 0</Code>
-		</Container>
+		<Group>
+			<Text size="xl">Hello World</Text>
+		</Group>
 	);
 };
 
