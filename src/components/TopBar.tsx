@@ -1,5 +1,5 @@
-import { Container, Group } from '@mantine/core';
-import { IconBread } from '@tabler/icons-react';
+import { Center, Container, Group, Space, Text } from '@mantine/core';
+import { IconCode } from '@tabler/icons-react';
 import classes from './css/TopBar.module.css';
 import Links from './shared/links';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -11,7 +11,13 @@ const TopBar = () => {
 	return (
 		<header className={classes.header}>
 			<Container size="md" className={classes.inner}>
-				<IconBread size={28} />
+				<Center>
+					<IconCode size={28} />
+					<Space w="sm" />
+					<Text className={classes.highlight} component="a" href="/">
+						Placeholder
+					</Text>
+				</Center>
 				<Group gap={5} visibleFrom="xs">
 					{Links.map((link) => (
 						<a
