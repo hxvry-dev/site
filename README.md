@@ -10,3 +10,4 @@
 - [Mantine UI](https://ui.mantine.dev)
   - [Tabler Icons](https://tabler.io/)
   - [Open Color](https://yeun.github.io/open-color/)
+- [Animations](https://www.react-spring.dev/)
