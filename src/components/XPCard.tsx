@@ -2,11 +2,11 @@ import {
 	Badge,
 	Card,
 	Code,
-	Container,
+	Flex,
 	Group,
 	Image,
+	Stack,
 	Text,
-	rem,
 	useMantineTheme,
 } from '@mantine/core';
 import { formatDuration, intervalToDuration } from 'date-fns';
@@ -22,28 +22,41 @@ const XPCard = () => {
 		return formatDuration(duration, { delimiter: ', ' });
 	};
 	return (
-		<Container>
+		<Flex>
 			{Experience.map((exp) => (
-				<Card key={exp.label} pt={rem(15)}>
-					<Card.Section>
-						<Image src={exp.imageSlug}></Image>
-					</Card.Section>
-					<Group>
-						<Badge color={theme.colors.orange[5]}>
-							{exp.companyName}
-						</Badge>
-						<Text>
-							{exp.jobTitle} -{' '}
-							<Code>
-								{timeEmployed(exp.startDate, exp.endDate)}
-							</Code>
-						</Text>
+				<Card
+					key={exp.label}
+					shadow="sm"
+					padding="lg"
+					radius="md"
+					withBorder
+				>
+					<Group gap={5}>
+						<Image
+							src={exp.imageSlug}
+							alt={exp.jobDescription}
+							h={250}
+							w="auto"
+							radius="lg"
+							fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+						/>
 
-						<Text>{exp.jobDescription}</Text>
+						<Stack mt="md" mb="xs" gap={5}>
+							<Badge color={theme.colors.orange[5]}>
+								{exp.companyName}
+							</Badge>
+							<Text>
+								{exp.jobTitle} -{' '}
+								<Code>
+									{timeEmployed(exp.startDate, exp.endDate)}
+								</Code>
+							</Text>
+							<Text>{exp.jobDescription}</Text>
+						</Stack>
 					</Group>
 				</Card>
 			))}
-		</Container>
+		</Flex>
 	);
 };
 
