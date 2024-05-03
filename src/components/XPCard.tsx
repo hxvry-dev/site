@@ -5,7 +5,6 @@ import {
 	Flex,
 	Group,
 	Image,
-	Stack,
 	Text,
 	useMantineTheme,
 } from '@mantine/core';
@@ -22,7 +21,7 @@ const XPCard = () => {
 		return formatDuration(duration, { delimiter: ', ' });
 	};
 	return (
-		<Flex>
+		<Flex columnGap={15} align="flex-start">
 			{Experience.map((exp) => (
 				<Card
 					key={exp.label}
@@ -31,29 +30,26 @@ const XPCard = () => {
 					radius="md"
 					withBorder
 				>
-					<Group gap={5}>
-						<Image
-							src={exp.imageSlug}
-							alt={exp.jobDescription}
-							h={250}
-							w="auto"
-							radius="lg"
-							fallbackSrc="https://placehold.co/600x400?text=Placeholder"
-						/>
-
-						<Stack mt="md" mb="xs" gap={5}>
-							<Badge color={theme.colors.orange[5]}>
-								{exp.companyName}
-							</Badge>
-							<Text>
-								{exp.jobTitle} -{' '}
-								<Code>
-									{timeEmployed(exp.startDate, exp.endDate)}
-								</Code>
-							</Text>
-							<Text>{exp.jobDescription}</Text>
-						</Stack>
+					<Image
+						src={exp.imageSlug}
+						alt={exp.jobDescription}
+						h={250}
+						w="auto"
+						radius="lg"
+						fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+					/>
+					<Group mt="md" mb="xs" justify="space-between">
+						<Badge color={theme.colors.orange[5]}>
+							{exp.companyName}
+						</Badge>
+						<Text>
+							{exp.jobTitle} -{' '}
+							<Code>
+								{timeEmployed(exp.startDate, exp.endDate)}
+							</Code>
+						</Text>
 					</Group>
+					<Text display="inline-block">{exp.jobDescription}</Text>
 				</Card>
 			))}
 		</Flex>
