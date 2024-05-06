@@ -1,4 +1,18 @@
-interface EXP {
+import {
+	Badge,
+	Card,
+	Center,
+	Code,
+	Flex,
+	Group,
+	Image,
+	Space,
+	Text,
+	useMantineTheme,
+} from '@mantine/core';
+import { formatDuration, intervalToDuration } from 'date-fns';
+
+interface JobExperienceProps {
 	label: string;
 	imageSlug: string;
 	jobTitle: string;
@@ -9,7 +23,7 @@ interface EXP {
 	endDate: Date;
 }
 
-const Experience: Array<EXP> = [
+const JobExperience: Array<JobExperienceProps> = [
 	{
 		label: 'exp-1',
 		imageSlug: 'src/assets/roundry.png',
@@ -34,4 +48,50 @@ const Experience: Array<EXP> = [
 	},
 ];
 
-export default Experience;
+const JobExperienceCard = () => {
+	const theme = useMantineTheme();
+	const timeEmployed = (date1: Date, date2: Date) => {
+		const duration = intervalToDuration({
+			start: date1,
+			end: date2,
+		});
+		return formatDuration(duration, { delimiter: ', ' });
+	};
+	return (
+		<Flex columnGap={15} align="flex-start">
+			{JobExperience.map((exp) => (
+				<Card
+					key={exp.label}
+					shadow="sm"
+					padding="lg"
+					radius="md"
+					withBorder
+				>
+					<Image
+						src={exp.imageSlug}
+						alt={exp.jobDescription}
+						h={250}
+						w="auto"
+						radius="lg"
+						fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+					/>
+					<Group mt="md" mb="xs" justify="space-between">
+						<Badge color={theme.colors.orange[5]}>
+							{exp.companyName}
+						</Badge>
+						<Center>
+							{exp.jobTitle}
+							<Space w="xs" />-<Space w="xs" />
+							<Code>
+								{timeEmployed(exp.startDate, exp.endDate)}
+							</Code>
+						</Center>
+					</Group>
+					<Text>{exp.jobDescription}</Text>
+				</Card>
+			))}
+		</Flex>
+	);
+};
+
+export default JobExperienceCard;
