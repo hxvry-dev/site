@@ -1,11 +1,11 @@
 import { Container, Title } from '@mantine/core';
-import XPCard from '../XPCard';
+import JobExperienceCard from '../JobExperienceCard';
 
 const Home = () => {
 	return (
 		<Container>
 			<Title>Professional Experience</Title>
-			<XPCard />
+			<JobExperienceCard />
 		</Container>
 	);
 };

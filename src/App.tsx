@@ -11,12 +11,14 @@ import {
 import Home from './components/pages/Home';
 import NotFound from './components/pages/NotFound';
 import TopBar from './components/TopBar';
+import SocialMedia from './components/SocialMedia';
 
 const Layout = () => {
 	return (
 		<Stack>
 			<TopBar />
 			<Outlet />
+			<SocialMedia />
 		</Stack>
 	);
 };
