@@ -1,10 +1,10 @@
-import { Container, Text } from '@mantine/core';
+import { Container, Title } from '@mantine/core';
 import XPCard from '../XPCard';
 
 const Home = () => {
 	return (
 		<Container>
-			<Text size="xl">Hello World</Text>
+			<Title>Professional Experience</Title>
 			<XPCard />
 		</Container>
 	);
