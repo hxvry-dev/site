@@ -8,27 +8,6 @@
 .inner {
 	height: rem(55px);
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-}
-
-.link {
-	display: block;
-	line-height: 1;
-	padding: rem(8px) rem(12px);
-	border-radius: var(--mantine-radius-sm);
-	text-decoration: none;
-	font-size: var(--mantine-font-size-sm);
-	color: light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-0));
-	font-weight: 500;
-
-	@mixin hover {
-		background-color: var(--mantine-primary-color-light-hover);
-		color: var(--mantine-color-white);
-		font-weight: 700;
-	}
-
-	[data-mantine-color-scheme] &[data-active] {
-		background-color: var(--mantine-primary-color-filled);
-	}
 }
