@@ -1,10 +1,12 @@
 import {
 	Badge,
 	Card,
+	Center,
 	Code,
 	Flex,
 	Group,
 	Image,
+	Space,
 	Text,
 	useMantineTheme,
 } from '@mantine/core';
@@ -42,14 +44,15 @@ const XPCard = () => {
 						<Badge color={theme.colors.orange[5]}>
 							{exp.companyName}
 						</Badge>
-						<Text>
-							{exp.jobTitle} -{' '}
+						<Center>
+							{exp.jobTitle}
+							<Space w="xs" />-<Space w="xs" />
 							<Code>
 								{timeEmployed(exp.startDate, exp.endDate)}
 							</Code>
-						</Text>
+						</Center>
 					</Group>
-					<Text display="inline-block">{exp.jobDescription}</Text>
+					<Text>{exp.jobDescription}</Text>
 				</Card>
 			))}
 		</Flex>

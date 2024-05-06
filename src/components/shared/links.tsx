@@ -3,9 +3,6 @@ interface Link {
 	label: string;
 }
 
-const Links: Array<Link> = [
-	{ link: '/', label: 'Home' },
-	{ link: '/about', label: 'About' },
-];
+const Links: Array<Link> = [{ link: '/', label: 'Home' }];
 
 export default Links;

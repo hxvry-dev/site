@@ -1,5 +1,5 @@
 import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, Stack } from '@mantine/core';
 import { theme } from './theme';
 import {
 	BrowserRouter as Router,
@@ -9,16 +9,15 @@ import {
 } from 'react-router-dom';
 
 import Home from './components/pages/Home';
-import About from './components/pages/About';
 import NotFound from './components/pages/NotFound';
 import TopBar from './components/TopBar';
 
 const Layout = () => {
 	return (
-		<div>
+		<Stack>
 			<TopBar />
 			<Outlet />
-		</div>
+		</Stack>
 	);
 };
 
@@ -29,7 +28,6 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Layout />}>
 						<Route index element={<Home />} />
-						<Route path="/about" element={<About />} />
 						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
