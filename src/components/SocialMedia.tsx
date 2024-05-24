@@ -1,4 +1,10 @@
-import { Center, Container, Space, Text, useMantineTheme } from '@mantine/core';
+import {
+	Anchor,
+	Center,
+	Container,
+	Space,
+	useMantineTheme,
+} from '@mantine/core';
 import {
 	Icon,
 	IconBrandInstagram,
@@ -9,7 +15,6 @@ import {
 } from '@tabler/icons-react';
 import react from 'react';
 import classes from './css/SocialMedia.module.css';
-import { useNavigate } from 'react-router-dom';
 
 interface SocialMediaProps {
 	key: string;
@@ -42,37 +47,31 @@ const Socials: Array<SocialMediaProps> = [
 ];
 
 const SocialMedia = () => {
-	const nav = useNavigate();
 	const theme = useMantineTheme();
 	return (
 		<footer className={classes.footer}>
-			<Container className={classes.inner}>
+			<Container size="md" className={classes.inner}>
 				{Socials.map((social) => (
-					<Center
-						inline
-						component="a"
+					<Anchor
 						href={social.link}
-						onClick={(event) => {
-							nav(social.link);
-							event.preventDefault();
-						}}
 						className={classes.link}
+						key={social.key}
 					>
-						{<social.icon />}
-						<Space w="xs" />
-						<Text>{social.name}</Text>
-					</Center>
+						<Center inline>
+							{<social.icon />}
+							<Space w="xs" />
+							{social.name}
+						</Center>
+					</Anchor>
 				))}
 			</Container>
-			<Text size="xs" className={classes.footerText}>
-				<Center inline>
-					Made with
-					<Space w="xs" />
-					<IconHeartCode color={theme.colors.red[5]} size={25} />
-					<Space w="xs" />
-					by Henry
-				</Center>
-			</Text>
+			<Center className={classes.blurb}>
+				Made with
+				<Space w="xs" />
+				<IconHeartCode size={15} color={theme.colors.red[5]} />
+				<Space w="xs" />
+				by Henry
+			</Center>
 		</footer>
 	);
 };
