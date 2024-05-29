@@ -1,16 +1,9 @@
-import {
-	Anchor,
-	Center,
-	Container,
-	Space,
-	useMantineTheme,
-} from '@mantine/core';
+import { Anchor, Center, Container, Space } from '@mantine/core';
 import {
 	Icon,
 	IconBrandInstagram,
 	IconBrandX,
 	IconCode,
-	IconHeartCode,
 	IconProps,
 } from '@tabler/icons-react';
 import react from 'react';
@@ -47,7 +40,6 @@ const Socials: Array<SocialMediaProps> = [
 ];
 
 const SocialMedia = () => {
-	const theme = useMantineTheme();
 	return (
 		<footer className={classes.footer}>
 			<Container size="md" className={classes.inner}>
@@ -65,13 +57,6 @@ const SocialMedia = () => {
 					</Anchor>
 				))}
 			</Container>
-			<Center className={classes.blurb}>
-				Made with
-				<Space w="xs" />
-				<IconHeartCode size={15} color={theme.colors.red[5]} />
-				<Space w="xs" />
-				by Henry
-			</Center>
 		</footer>
 	);
 };
