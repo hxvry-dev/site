@@ -1,11 +1,21 @@
-import { Card, Grid, Image, Spoiler, Table, Text, Title } from '@mantine/core';
+import {
+	Card,
+	Grid,
+	Group,
+	Image,
+	List,
+	Space,
+	Spoiler,
+	Table,
+	Title,
+} from '@mantine/core';
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 interface JobExperienceProps {
 	label: string;
 	imageSlug: string;
 	jobTitle: string;
-	jobDescription: string;
+	jobDescription: Array<React.ReactNode>;
 	companyName: string;
 
 	startDate: Date;
@@ -14,61 +24,47 @@ interface JobExperienceProps {
 
 const JobExperience: Array<JobExperienceProps> = [
 	{
-		label: 'exp-1',
-		imageSlug: 'src/assets/roundry.png',
-		jobTitle: 'SWE',
-		jobDescription:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Mi quis hendrerit dolor magna eget. Praesent semper feugiat nibh sed pulvinar. Enim neque volutpat ac tincidunt vitae semper quis lectus. Sed nisi lacus sed viverra tellus in hac. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Congue nisi vitae suscipit tellus. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Molestie at elementum eu facilisis sed odio. Pharetra magna ac placerat vestibulum lectus mauris ultrices eros in. Eget arcu dictum varius duis at consectetur lorem. Augue ut lectus arcu bibendum at varius vel pharetra. Egestas integer eget aliquet nibh praesent tristique.',
-		companyName: 'Company',
+		label: 'chiropassion',
+		imageSlug: 'src/assets/chiropassion.jpeg',
+		jobTitle: 'Data Analyst/Social Media Manager',
+		jobDescription: [
+			'Study Google Analytics trends pertaining to sales and enrollments in a course.',
+			'Optimization of Google AdWords, including negative keywords.',
+			'Improved CTR and SEO using Google AdWords.',
+		],
+		companyName: 'Chiropassion Consulting',
 
-		startDate: new Date('1/1/2000'),
-		endDate: new Date('2/1/2010'),
-	},
-	{
-		label: 'exp-2',
-		imageSlug: 'src/assets/roundry.png',
-		jobTitle: 'SWE-2',
-		jobDescription:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Mi quis hendrerit dolor magna eget. Praesent semper feugiat nibh sed pulvinar. Enim neque volutpat ac tincidunt vitae semper quis lectus. Sed nisi lacus sed viverra tellus in hac. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Congue nisi vitae suscipit tellus. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Molestie at elementum eu facilisis sed odio. Pharetra magna ac placerat vestibulum lectus mauris ultrices eros in. Eget arcu dictum varius duis at consectetur lorem. Augue ut lectus arcu bibendum at varius vel pharetra. Egestas integer eget aliquet nibh praesent tristique.',
-		companyName: 'Company 2',
-
-		startDate: new Date('1/1/2000'),
-		endDate: new Date('2/1/2020'),
-	},
-	{
-		label: 'exp-2',
-		imageSlug: 'src/assets/roundry.png',
-		jobTitle: 'SWE-2',
-		jobDescription:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Mi quis hendrerit dolor magna eget. Praesent semper feugiat nibh sed pulvinar. Enim neque volutpat ac tincidunt vitae semper quis lectus. Sed nisi lacus sed viverra tellus in hac. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Congue nisi vitae suscipit tellus. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Molestie at elementum eu facilisis sed odio. Pharetra magna ac placerat vestibulum lectus mauris ultrices eros in. Eget arcu dictum varius duis at consectetur lorem. Augue ut lectus arcu bibendum at varius vel pharetra. Egestas integer eget aliquet nibh praesent tristique.',
-		companyName: 'Company 2',
-
-		startDate: new Date('1/1/2000'),
-		endDate: new Date('2/1/2020'),
+		startDate: new Date('3/1/2021'),
+		endDate: new Date('6/1/2021'),
 	},
 ];
 
 const JobExperienceCard = () => {
-	const timeEmployed = (date1: Date, date2: Date) => {
+	const timeEmployed = (date1: Date, date2: Date): string => {
 		const duration = intervalToDuration({
 			start: date1,
 			end: date2,
 		});
 		return formatDuration(duration, { delimiter: ', ' });
 	};
+	const makeBullets = (desc: Array<React.ReactNode>) => {
+		const items = desc.map((item) => <List.Item>{item}</List.Item>);
+		return <List spacing="md">{items}</List>;
+	};
 	return (
-		<Grid justify="flex-start" align="stretch">
-			{JobExperience.map((exp) => (
-				<Grid.Col span={4}>
-					<Card key={exp.label} shadow="sm" padding="lg" radius="xs">
+		<Grid>
+			{JobExperience.map((exp, index) => (
+				<Grid.Col span={4} key={index}>
+					<Card key={index} shadow="sm" padding="lg" radius="xs">
 						<Image
 							src={exp.imageSlug}
-							alt={exp.jobDescription}
+							alt={exp.companyName}
 							h={250}
 							w="100%"
 							radius="xs"
 							fallbackSrc="https://placehold.co/600x400?text=Placeholder"
 						/>
+						<Space h={15} />
 						<Table>
 							<Table.Thead>
 								<Table.Tr>
@@ -94,16 +90,19 @@ const JobExperienceCard = () => {
 								</Table.Tr>
 							</Table.Thead>
 						</Table>
-						<Title size="sm" pt={15} pb={15} c="dimmed">
-							Job Description
-						</Title>
-						<Spoiler
-							maxHeight={120}
-							showLabel="Read More"
-							hideLabel="Hide"
-						>
-							<Text>{exp.jobDescription}</Text>
-						</Spoiler>
+						<Space h={15} />
+						<Group>
+							<Title size="sm" pt={15} pb={15}>
+								Job Description
+							</Title>
+							<Spoiler
+								maxHeight={120}
+								showLabel="Read More"
+								hideLabel="Hide"
+							>
+								{makeBullets(exp.jobDescription)}
+							</Spoiler>
+						</Group>
 					</Card>
 				</Grid.Col>
 			))}
