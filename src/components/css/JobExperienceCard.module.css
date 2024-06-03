@@ -1,0 +1,13 @@
+.list li {
+	margin-left: -25px;
+	text-wrap: wrap;
+	padding-bottom: 10px;
+}
+.list ul li {
+	margin-left: -45px;
+}
+.title {
+	font-size: var(--mantine-font-size-md);
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
