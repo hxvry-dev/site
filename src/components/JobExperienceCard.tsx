@@ -1,14 +1,5 @@
-import {
-	Card,
-	Grid,
-	Group,
-	Image,
-	List,
-	Space,
-	Spoiler,
-	Table,
-	Title,
-} from '@mantine/core';
+import { Card, Grid, Image, Space, Spoiler, Table, Title } from '@mantine/core';
+import classes from '../components/css/JobExperienceCard.module.css';
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 interface JobExperienceProps {
@@ -37,6 +28,21 @@ const JobExperience: Array<JobExperienceProps> = [
 		startDate: new Date('3/1/2021'),
 		endDate: new Date('6/1/2021'),
 	},
+	{
+		label: 'ccsd-it-technician',
+		imageSlug: 'src/assets/camden.png',
+		jobTitle: 'IT Support Technician',
+		jobDescription: [
+			'Handled client work orders.',
+			'withPadding Managed inventory of electronic devices for CCSD.',
+			'Responsible for installation and removal of classroom computers.',
+			'Performed repairs on laptops, including repairing screens, motherboards, fans, batteries, and data ports.',
+		],
+		companyName: 'Camden Central School District',
+
+		startDate: new Date('6/1/2017'),
+		endDate: new Date('8/1/2018'),
+	},
 ];
 
 const JobExperienceCard = () => {
@@ -48,13 +54,26 @@ const JobExperienceCard = () => {
 		return formatDuration(duration, { delimiter: ', ' });
 	};
 	const makeBullets = (desc: Array<React.ReactNode>) => {
-		const items = desc.map((item) => <List.Item>{item}</List.Item>);
-		return <List spacing="md">{items}</List>;
+		const items: Array<React.ReactNode> = [];
+		desc.forEach((description, index) => {
+			let item = description as string;
+			if (item.includes('withPadding ')) {
+				item = item.replace('withPadding ', '');
+				items.push(
+					<ul key={index}>
+						<li key={index}>{item}</li>
+					</ul>,
+				);
+			} else {
+				items.push(<li key={index}>{item}</li>);
+			}
+		});
+		return items;
 	};
 	return (
-		<Grid>
+		<Grid columns={9}>
 			{JobExperience.map((exp, index) => (
-				<Grid.Col span={4} key={index}>
+				<Grid.Col span={3} key={index}>
 					<Card key={index} shadow="sm" padding="lg" radius="xs">
 						<Image
 							src={exp.imageSlug}
@@ -91,18 +110,16 @@ const JobExperienceCard = () => {
 							</Table.Thead>
 						</Table>
 						<Space h={15} />
-						<Group>
-							<Title size="sm" pt={15} pb={15}>
-								Job Description
-							</Title>
-							<Spoiler
-								maxHeight={120}
-								showLabel="Read More"
-								hideLabel="Hide"
-							>
+						<Title className={classes.title}>Job Description</Title>
+						<Spoiler
+							maxHeight={120}
+							showLabel="Read More"
+							hideLabel="Hide"
+						>
+							<ul className={classes.list} key={index}>
 								{makeBullets(exp.jobDescription)}
-							</Spoiler>
-						</Group>
+							</ul>
+						</Spoiler>
 					</Card>
 				</Grid.Col>
 			))}
