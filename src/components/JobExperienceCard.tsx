@@ -1,6 +1,12 @@
 import { Card, Grid, Image, Space, Spoiler, Table, Title } from '@mantine/core';
 import classes from '../components/css/JobExperienceCard.module.css';
-import { formatDuration, intervalToDuration } from 'date-fns';
+import {
+	format,
+	formatDistanceToNow,
+	formatDuration,
+	intervalToDuration,
+} from 'date-fns';
+import React, { ReactNode } from 'react';
 
 interface JobExperienceProps {
 	label: string;
@@ -10,10 +16,25 @@ interface JobExperienceProps {
 	companyName: string;
 
 	startDate: Date;
-	endDate: Date;
+	endDate?: Date;
 }
 
 const JobExperience: Array<JobExperienceProps> = [
+	{
+		label: 'bryx',
+		imageSlug: 'src/assets/bryx.png',
+		jobTitle: 'Customer Support Engineer',
+		jobDescription: [
+			'Handled client work requests.',
+			'Perform updates to backend infrastructure.',
+			'withPadding Provision and configure Bryx-provided hardware',
+			'Interface with Linux-based Operating Systems.',
+			'withPadding Experience with network troubleshooting.',
+		],
+		companyName: 'Bryx, Inc.',
+
+		startDate: new Date('5/26/2022'),
+	},
 	{
 		label: 'chiropassion',
 		imageSlug: 'src/assets/chiropassion.jpeg',
@@ -46,15 +67,27 @@ const JobExperience: Array<JobExperienceProps> = [
 ];
 
 const JobExperienceCard = () => {
-	const timeEmployed = (date1: Date, date2: Date): string => {
-		const duration = intervalToDuration({
-			start: date1,
-			end: date2,
-		});
-		return formatDuration(duration, { delimiter: ', ' });
+	const timeEmployed = (date1: Date, date2?: Date): string => {
+		if (date2) {
+			const duration = intervalToDuration({
+				start: date1,
+				end: date2,
+			});
+			return formatDuration(duration, { delimiter: ', ' });
+		} else {
+			const duration = formatDistanceToNow(date1);
+			return duration;
+		}
 	};
-	const makeBullets = (desc: Array<React.ReactNode>) => {
-		const items: Array<React.ReactNode> = [];
+	const dateFormat = (date?: Date): ReactNode => {
+		if (date) {
+			return format(date, 'MMMM do, y');
+		} else {
+			return null;
+		}
+	};
+	const makeBullets = (desc: Array<ReactNode>): ReactNode => {
+		const items: Array<ReactNode> = [];
 		desc.forEach((description, index) => {
 			let item = description as string;
 			if (item.includes('withPadding ')) {
@@ -96,6 +129,18 @@ const JobExperienceCard = () => {
 									<Table.Th>Job Title</Table.Th>
 									<Table.Td c="dimmed">
 										{exp.jobTitle}
+									</Table.Td>
+								</Table.Tr>
+								<Table.Tr>
+									<Table.Th>Start Date</Table.Th>
+									<Table.Td c="dimmed">
+										{dateFormat(exp.startDate)}
+									</Table.Td>
+								</Table.Tr>
+								<Table.Tr>
+									<Table.Th>End Date</Table.Th>
+									<Table.Td c="dimmed">
+										{dateFormat(exp.endDate)}
 									</Table.Td>
 								</Table.Tr>
 								<Table.Tr>
