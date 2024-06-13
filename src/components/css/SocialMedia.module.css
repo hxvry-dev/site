@@ -24,7 +24,7 @@
 	align-items: center;
 
 	@mixin hover {
-		background-color: var(--mantine-primary-color-filled);
+		background-color: var(--mantine-color-gray-0);
 	}
 
 	[data-mantine-color-scheme] &[data-active] {

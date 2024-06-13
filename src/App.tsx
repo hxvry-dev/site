@@ -12,6 +12,7 @@ import Home from './components/pages/Home';
 import NotFound from './components/pages/NotFound';
 import TopBar from './components/TopBar';
 import SocialMedia from './components/SocialMedia';
+import Resume from './components/pages/Resume';
 
 const Layout = () => {
 	return (
@@ -30,6 +31,7 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Layout />}>
 						<Route index element={<Home />} />
+						<Route path="/resume" element={<Resume />} />
 						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
