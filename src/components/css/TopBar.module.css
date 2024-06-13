@@ -8,6 +8,24 @@
 .inner {
 	height: rem(55px);
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
+}
+
+.links {
+	display: block;
+	line-height: 1;
+	padding: rem(8px) rem(12px);
+	border-radius: var(--mantine-radius-xs);
+	text-decoration: none;
+	color: var(--mantine-color-dark-0);
+	font-size: var(--mantine-font-size-sm);
+
+	@mixin hover {
+		background-color: var(--mantine-color-gray-0);
+	}
+
+	[data-mantine-color-scheme] &[data-active] {
+		background-color: var(--mantine-primary-color-filled);
+	}
 }
