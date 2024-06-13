@@ -3,30 +3,31 @@
 	margin-top: rem(120px);
 	background-color: var(--mantine-color-body);
 	border-top: rem(1px) solid var(--mantine-color-gray-5);
-	font-weight: 500;
 }
 
 .inner {
 	height: rem(55px);
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 }
 
-.link {
-	padding: rem(12px) rem(12px);
+.links {
+	display: block;
+	line-height: 1;
+	padding: rem(8px) rem(12px);
+	border-radius: var(--mantine-radius-xs);
 	text-decoration: none;
-	color: var(--mantine-color-dimmed);
-	@mixin hover {
-		background-color: var(--mantine-primary-color-filled-hover);
-		color: var(--mantine-color-white);
-	}
-}
-
-.blurb {
+	color: var(--mantine-color-dark-0);
+	font-size: var(--mantine-font-size-sm);
 	justify-content: center;
-	background-color: var(--mantine-color-body);
-	color: var(--mantine-color-dimmed);
-	background-color: var(--mantine-color-body);
-	font-size: var(--mantine-font-size-xs);
+	align-items: center;
+
+	@mixin hover {
+		background-color: var(--mantine-primary-color-filled);
+	}
+
+	[data-mantine-color-scheme] &[data-active] {
+		background-color: var(--mantine-primary-color-filled);
+	}
 }
