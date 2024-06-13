@@ -12,3 +12,5 @@
   - [Open Color](https://yeun.github.io/open-color/)
 - [Animations](https://www.react-spring.dev/)
 - [Date/Time](https://date-fns.org/)
+
+- [Atomic State Management](https://recoiljs.org/)
