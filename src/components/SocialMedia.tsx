@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Center, Container, Group } from '@mantine/core';
+import { Anchor, Center, Container, Group, Space } from '@mantine/core';
 import {
 	Icon,
 	IconBrandInstagram,
@@ -47,13 +47,8 @@ const SocialMedia = () => {
 							className={classes.links}
 						>
 							<Center inline>
-								<ActionIcon
-									size="lg"
-									color="dimmed"
-									variant="subtle"
-								>
-									<social.icon stroke={1.5} />
-								</ActionIcon>
+								<social.icon stroke={1.5} />
+								<Space w="xs" />
 								{social.label}
 							</Center>
 						</Anchor>

@@ -1,12 +1,4 @@
-import {
-	ActionIcon,
-	Anchor,
-	Burger,
-	Center,
-	Container,
-	Group,
-	Space,
-} from '@mantine/core';
+import { Anchor, Burger, Center, Container, Group, Space } from '@mantine/core';
 import {
 	Icon,
 	IconCode,
@@ -66,13 +58,7 @@ const TopBar = () => {
 							}}
 						>
 							<Center inline>
-								<ActionIcon
-									size="lg"
-									color="dimmed"
-									variant="subtle"
-								>
-									<link.icon stroke={1.5} />
-								</ActionIcon>
+								<link.icon stroke={1.5} />
 								<Space w="xs" />
 								{link.label}
 							</Center>
