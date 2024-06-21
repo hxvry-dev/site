@@ -22,7 +22,7 @@
 	font-size: var(--mantine-font-size-sm);
 
 	@mixin hover {
-		background-color: var(--mantine-color-gray-0);
+		background-color: var(--mantine-color-dark-6);
 	}
 
 	[data-mantine-color-scheme] &[data-active] {
