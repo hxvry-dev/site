@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '@mantine/tiptap/styles.css';
 import { MantineProvider, Stack } from '@mantine/core';
 import { theme } from './theme';
 import {
@@ -8,11 +9,12 @@ import {
 	Outlet,
 } from 'react-router-dom';
 
-import Home from './components/pages/Home';
-import NotFound from './components/pages/NotFound';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import TopBar from './components/TopBar';
 import SocialMedia from './components/SocialMedia';
-import Resume from './components/pages/Resume';
+import Resume from './pages/Resume';
+import Formatters from './pages/Formatters';
 
 const Layout = () => {
 	return (
@@ -32,6 +34,7 @@ const App = () => {
 					<Route path="/" element={<Layout />}>
 						<Route index element={<Home />} />
 						<Route path="/resume" element={<Resume />} />
+						<Route path="/formatters" element={<Formatters />} />
 						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
