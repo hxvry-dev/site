@@ -3,6 +3,7 @@ import {
 	Icon,
 	IconCode,
 	IconHome,
+	IconLineDashed,
 	IconPaperclip,
 	IconProps,
 } from '@tabler/icons-react';
@@ -29,6 +30,11 @@ const Links: Array<LinkProps> = [
 		href: '/resume',
 		label: 'Job Experience / Resume',
 		icon: IconPaperclip,
+	},
+	{
+		href: '/formatters',
+		label: 'Formatters',
+		icon: IconLineDashed,
 	},
 ];
 
