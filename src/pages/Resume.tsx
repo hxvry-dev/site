@@ -1,5 +1,5 @@
 import { Container, Title } from '@mantine/core';
-import JobExperienceCard from '../JobExperienceCard';
+import JobExperienceCard from '../components/JobExperienceCard';
 
 const Resume = () => {
 	return (

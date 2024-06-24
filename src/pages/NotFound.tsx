@@ -1,5 +1,5 @@
 import { Title, Text, Button, Container, Group } from '@mantine/core';
-import classes from '../css/NotFound.module.css';
+import classes from './css/NotFound.module.css';
 
 const NotFound = () => {
 	return (
