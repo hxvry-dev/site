@@ -1,0 +1,10 @@
+.about {
+	.bryxLink {
+		text-decoration: none;
+		color: #8f0808;
+	}
+	.aboutText {
+		padding-bottom: 12px;
+		font-family: monospace;
+	}
+}
