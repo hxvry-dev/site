@@ -2,9 +2,11 @@
 	margin-left: -25px;
 	text-wrap: wrap;
 	padding-bottom: 10px;
+	font-size: var(--mantine-font-size-md);
 }
 .list ul li {
 	margin-left: -45px;
+	font-size: var(--mantine-font-size-md);
 }
 .title {
 	font-size: var(--mantine-font-size-md);
