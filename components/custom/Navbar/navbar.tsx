@@ -1,5 +1,4 @@
 'use client';
-import './styles.css';
 import {
 	Menubar,
 	MenubarItem,
@@ -13,21 +12,23 @@ import UISwitch from '../UISwitch/ui-switch';
 
 const Navbar = () => {
 	return (
-		<Menubar>
-			<MenubarMenu>
-				<MenubarTrigger className="menubar-trigger">Menu</MenubarTrigger>
-				<MenubarContent sideOffset={5} className="menubar-content">
-					<MenubarItem className="menubar-item" asChild>
-						<Link href="/">Home</Link>
-					</MenubarItem>
-					<MenubarSeparator />
-					<MenubarItem className="menubar-item" asChild>
-						<Link href="/resume">Resume</Link>
-					</MenubarItem>
-				</MenubarContent>
-			</MenubarMenu>
+		<>
 			<UISwitch />
-		</Menubar>
+			<Menubar className="w-fit">
+				<MenubarMenu>
+					<MenubarTrigger className="menubar-trigger">Menu</MenubarTrigger>
+					<MenubarContent sideOffset={5} className="menubar-content">
+						<MenubarItem className="menubar-item" asChild>
+							<Link href="/">Home</Link>
+						</MenubarItem>
+						<MenubarSeparator />
+						<MenubarItem className="menubar-item" asChild>
+							<Link href="/resume">Resume</Link>
+						</MenubarItem>
+					</MenubarContent>
+				</MenubarMenu>
+			</Menubar>
+		</>
 	);
 };
 
