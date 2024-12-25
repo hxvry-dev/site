@@ -12,8 +12,7 @@ import UISwitch from '../UISwitch/ui-switch';
 
 const Navbar = () => {
 	return (
-		<>
-			<UISwitch />
+		<div className="grid grid-cols-5 gap-0">
 			<Menubar className="w-fit">
 				<MenubarMenu>
 					<MenubarTrigger className="menubar-trigger">Menu</MenubarTrigger>
@@ -28,7 +27,9 @@ const Navbar = () => {
 					</MenubarContent>
 				</MenubarMenu>
 			</Menubar>
-		</>
+			<p className="place-self-center col-span-3">Henry Ouellette</p>
+			<UISwitch />
+		</div>
 	);
 };
 
