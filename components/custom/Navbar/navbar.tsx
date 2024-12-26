@@ -15,19 +15,19 @@ const Navbar = () => {
 		<div className="grid grid-cols-5 gap-0">
 			<Menubar className="w-fit">
 				<MenubarMenu>
-					<MenubarTrigger className="menubar-trigger">Menu</MenubarTrigger>
-					<MenubarContent sideOffset={5} className="menubar-content">
-						<MenubarItem className="menubar-item" asChild>
+					<MenubarTrigger>Menu</MenubarTrigger>
+					<MenubarContent sideOffset={5}>
+						<MenubarItem asChild>
 							<Link href="/">Home</Link>
 						</MenubarItem>
 						<MenubarSeparator />
-						<MenubarItem className="menubar-item" asChild>
+						<MenubarItem asChild>
 							<Link href="/resume">Resume</Link>
 						</MenubarItem>
 					</MenubarContent>
 				</MenubarMenu>
 			</Menubar>
-			<p className="place-self-center col-span-3">Henry Ouellette</p>
+			<h1 className="place-self-center col-span-3">Henry Ouellette</h1>
 			<UISwitch />
 		</div>
 	);
