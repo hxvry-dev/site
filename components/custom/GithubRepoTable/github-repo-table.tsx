@@ -32,9 +32,7 @@ const TableStandalone: React.FC<{ repos: Repo[] }> = ({ repos }) => {
 			<TableBody>
 				{repos.map((repo) => (
 					<TableRow key={repo.id}>
-						<TableCell className="font-mono bg-primary-foreground text-center hover:font-bold">
-							{repo.id}
-						</TableCell>
+						<TableCell className="code">{repo.id}</TableCell>
 						<TableCell>
 							<Link href={repo.html_url!}>{repo.name}</Link>
 						</TableCell>
