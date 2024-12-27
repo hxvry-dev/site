@@ -22,6 +22,10 @@ const Navbar = () => {
 						</MenubarItem>
 						<MenubarSeparator />
 						<MenubarItem asChild>
+							<Link href="/about">About Me</Link>
+						</MenubarItem>
+						<MenubarSeparator />
+						<MenubarItem asChild>
 							<Link href="/resume">Resume</Link>
 						</MenubarItem>
 					</MenubarContent>
