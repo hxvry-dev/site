@@ -68,4 +68,6 @@ const GithubRepoTable: React.FC = () => {
 	);
 };
 
+GithubRepoTable.displayName = 'GithubRepoTable';
+
 export default GithubRepoTable;

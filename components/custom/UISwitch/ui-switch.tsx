@@ -1,9 +1,8 @@
-import './styles.css';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
-const UISwitch = () => {
+const UISwitch: React.FC = () => {
 	const { theme, setTheme } = useTheme();
 	const toggleTheme = (_theme?: string) => {
 		if (_theme === 'dark') {
@@ -26,5 +25,7 @@ const UISwitch = () => {
 		</Button>
 	);
 };
+
+UISwitch.displayName = 'UISwitch';
 
 export default UISwitch;

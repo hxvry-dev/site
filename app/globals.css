@@ -10,6 +10,18 @@ h1 {
 	font-family: var(--font-geist-mono);
 }
 
+h2 {
+	font-family: var(--font-geist-mono);
+}
+
+h3 {
+	font-family: var(--font-geist-mono);
+}
+
+h4 {
+	font-family: var(--font-geist-mono);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
