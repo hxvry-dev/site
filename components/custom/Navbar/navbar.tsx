@@ -3,7 +3,7 @@ import Link from 'next/link';
 import UISwitch from '../UISwitch/ui-switch';
 import { Button } from '@/components/ui/button';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
 	return (
 		<div className="grid grid-cols-5 gap-0">
 			<Button
@@ -18,5 +18,6 @@ const Navbar = () => {
 		</div>
 	);
 };
+Navbar.displayName = 'Navbar';
 
 export default Navbar;
