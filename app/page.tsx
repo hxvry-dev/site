@@ -28,7 +28,9 @@ export default function Home() {
 					<Link href="/resume">My Resume</Link>
 				</Button>
 				<Button asChild size="sm" variant="ghost">
-					<Link href="/">Link #1</Link>
+					<Link href="https://github.com/hxvry-dev" target="_blank">
+						My Github
+					</Link>
 				</Button>
 			</div>
 			<div className="pb-5" />
