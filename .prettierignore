@@ -1,0 +1,6 @@
+.gitignore
+*.mjs
+*.md
+*.yaml
+/app/fonts/*
+/node_modules/*
