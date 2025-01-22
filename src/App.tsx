@@ -5,7 +5,7 @@ import Home from './components/custom/Home';
 import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
 import Resume from './components/custom/Resume';
-import Incremental from './components/custom/game/Incremental';
+import IncrementalLayout from './components/custom/game/IncrementalLayout';
 
 const App: FC = () => {
 	return (
@@ -14,7 +14,7 @@ const App: FC = () => {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/resume" element={<Resume />} />
-				<Route path="/incremental" element={<Incremental />} />
+				<Route path="/incremental" element={<IncrementalLayout />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</>
