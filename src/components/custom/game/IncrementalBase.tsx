@@ -6,6 +6,7 @@ const ge: GameEngine = new GameEngine();
 const IncrementalBase: FC = () => {
 	let frameID: number;
 	const [gold, setGold] = useState(ge.getResource('gold'));
+	console.log(gold);
 
 	useEffect(() => {
 		const gameLoop = () => {
@@ -21,12 +22,7 @@ const IncrementalBase: FC = () => {
 		};
 	}, []);
 
-	return (
-		<div className="justify-items-center">
-			<h1>Idle Game</h1>
-			<p>Gold: {gold.toFixed(1)}</p>
-		</div>
-	);
+	return <p>Gold: {gold.toFixed(2)}</p>;
 };
 
 export default IncrementalBase;
