@@ -6,7 +6,12 @@ import { gameStateAtom } from '../atomFactory';
 const ClickerButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const handleClick = () => {
-		const clickValue = 1 + Object.values(gameState.upgrades).reduce((acc, upgrade) => acc + upgrade.effect, 0);
+		const clickValue =
+			1 +
+			Object.values(gameState.upgrades).reduce(
+				(acc, upgrade) => acc + (upgrade.firstPurchase ? upgrade.effect : 0),
+				0,
+			);
 		setGameState((state) => ({
 			...state,
 			resources: {
@@ -15,12 +20,13 @@ const ClickerButton: FC = () => {
 			},
 		}));
 	};
-	return (
-		<Button onClick={handleClick}>
-			Click me! (Resource count: +
-			{1 + Object.values(gameState.upgrades).reduce((acc, upgrade) => acc + upgrade.effect, 0)})
-		</Button>
-	);
+	const cv: number =
+		1 +
+		Object.values(gameState.upgrades).reduce(
+			(acc, upgrade) => acc + (upgrade.firstPurchase ? upgrade.effect : 0),
+			0,
+		);
+	return <Button onClick={handleClick}>Click me! (+{cv})</Button>;
 };
 
 export default ClickerButton;

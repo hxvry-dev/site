@@ -53,7 +53,7 @@ export const Incremental = () => {
 				resources: {
 					...state.resources,
 					amount: newResourceAmount,
-					perSecond: state.resources.perSecond + upgrade.effect,
+					perSecond: state.resources.perSecond + upgrade.currencyPerSecond,
 				},
 				upgrades: {
 					...state.upgrades,
@@ -62,6 +62,7 @@ export const Incremental = () => {
 						level: upgrade.level + 1,
 						cost: upgrade.cost * 1.5,
 						effect: upgrade.effect + upgrade.effect,
+						firstPurchase: true,
 					},
 				},
 			};
@@ -77,7 +78,10 @@ export const Incremental = () => {
 					<Button
 						key={key}
 						onClick={() => handleUpgrade(key)}
-						disabled={gameState.resources.amount! < gameState.upgrades[key].cost}
+						disabled={
+							gameState.resources.amount! < gameState.upgrades[key].cost ||
+							gameState.upgrades[key].level >= gameState.upgrades[key].maxLevel
+						}
 					>
 						{key} (Cost: {gameState.upgrades[key].cost}, Level: {gameState.upgrades[key].level})
 					</Button>
