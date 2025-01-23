@@ -5,7 +5,7 @@ import Home from './components/custom/Home';
 import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
 import Resume from './components/custom/Resume';
-import IncrementalLayout from './components/custom/game/IncrementalLayout';
+import IncrementalLayout from './components/custom/game/components/IncrementalLayout';
 
 const App: FC = () => {
 	return (
