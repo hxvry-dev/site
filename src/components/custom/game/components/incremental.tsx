@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import ClickerButton from './ClickerButton';
 import { useToast } from '@/hooks/use-toast';
+import PrestigeButton from './PrestigeButton';
 
 export const Incremental = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -24,7 +25,7 @@ export const Incremental = () => {
 					},
 				};
 			});
-		}, 1000);
+		}, 1000 / 60);
 		return () => clearInterval(interval);
 	}, [setGameState]);
 
@@ -83,10 +84,11 @@ export const Incremental = () => {
 							gameState.upgrades[key].level >= gameState.upgrades[key].maxLevel
 						}
 					>
-						{key} (Cost: {gameState.upgrades[key].cost}, Level: {gameState.upgrades[key].level})
+						{key} (Cost: {gameState.upgrades[key].cost.toFixed(2)}, Level: {gameState.upgrades[key].level})
 					</Button>
 				))}
 			</div>
+			<PrestigeButton />
 		</div>
 	);
 };
