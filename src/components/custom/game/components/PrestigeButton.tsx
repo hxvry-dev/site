@@ -1,28 +1,32 @@
 import { useAtom } from 'jotai';
-import { gameStateAtom } from '../atomFactory';
+import { gameStateAtom, initialGameState } from '../atomFactory';
 import { Button } from '@/components/ui/button';
 
 const PrestigeButton = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
-	const newPrestigePoints = Math.floor(gameState.resources.amount / 1e7);
+	const newPrestigePoints = Math.floor(gameState.resources.amount / gameState.prestige.cost);
 
 	const handlePrestige = () => {
-		if (gameState.prestigePoints > 0 && newPrestigePoints > 1) {
-			setGameState((state) => ({
+		if (gameState.prestige.points >= 0 && newPrestigePoints >= 1) {
+			return setGameState((state) => ({
 				...state,
-				resources: { perSecond: 0, amount: 0 },
-				upgrades: gameState.defaultUpgrades,
-				prestigePoints: state.prestigePoints + newPrestigePoints,
+				resources: initialGameState.resources,
+				upgrades: initialGameState.upgrades,
+				prestige: {
+					...state.prestige,
+					count: gameState.prestige.count + 1,
+					cost: gameState.prestige.cost * gameState.prestige.costMultiplier,
+					costMultiplier: gameState.prestige.costMultiplier * 1.01,
+					points: gameState.prestige.points + newPrestigePoints,
+				},
 			}));
 		}
 	};
 
 	return (
-		<>
-			<Button onClick={handlePrestige} disabled={newPrestigePoints <= 0}>
-				Prestige? (Prestige Points {gameState.prestigePoints} New Prestige Points {newPrestigePoints})
-			</Button>
-		</>
+		<Button onClick={handlePrestige} disabled={newPrestigePoints <= 0} className="w-full">
+			Prestige?
+		</Button>
 	);
 };
 

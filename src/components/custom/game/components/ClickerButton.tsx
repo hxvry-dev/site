@@ -9,7 +9,7 @@ const ClickerButton: FC = () => {
 		const clickValue =
 			1 +
 			Object.values(gameState.upgrades).reduce(
-				(acc, upgrade) => acc + (upgrade.firstPurchase ? upgrade.effect : 0),
+				(acc, upgrade) => acc + (upgrade.firstPurchase ? upgrade.clickPowerIncrease! : 0),
 				0,
 			);
 		setGameState((state) => ({
@@ -20,13 +20,11 @@ const ClickerButton: FC = () => {
 			},
 		}));
 	};
-	const cv: number =
-		1 +
-		Object.values(gameState.upgrades).reduce(
-			(acc, upgrade) => acc + (upgrade.firstPurchase ? upgrade.effect : 0),
-			0,
-		);
-	return <Button onClick={handleClick}>Click me! (+{cv})</Button>;
+	return (
+		<Button onClick={handleClick} size="default" className="w-full">
+			Click me! (+{gameState.resources.clickPower})
+		</Button>
+	);
 };
 
 export default ClickerButton;
