@@ -2,6 +2,7 @@ import { atomWithStorage } from 'jotai/utils';
 
 interface ResourceAtom {
 	amount: number;
+	clickPower: number;
 	perSecond: number;
 }
 
@@ -26,7 +27,7 @@ const createGameState = (initialState: GameState) => {
 };
 
 export const initialGameState: GameState = {
-	resources: { amount: 0, perSecond: 0 },
+	resources: { amount: 0, clickPower: 1, perSecond: 0 },
 	upgrades: {
 		upgrade1: { cost: 10, effect: 1, level: 1, maxLevel: 99, currencyPerSecond: 0, firstPurchase: false },
 		upgrade2: { cost: 25, effect: 2, level: 1, maxLevel: 99, currencyPerSecond: 2.5, firstPurchase: false },
