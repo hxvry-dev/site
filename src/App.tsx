@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route,Routes } from 'react-router-dom';
 
+import Incremental from './components/custom/game/Incremental';
 import Home from './components/custom/Home';
 import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
 import Resume from './components/custom/Resume';
-import Incremental from './components/custom/game/Incremental';
 
 const App: FC = () => {
 	return (

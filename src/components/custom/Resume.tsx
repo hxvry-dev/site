@@ -1,8 +1,10 @@
+import { FC } from 'react';
+
+import { DateTime } from 'luxon';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { DateTime } from 'luxon';
-import { FC } from 'react';
 
 interface JobCardProps {
 	id: number;

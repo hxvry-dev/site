@@ -1,7 +1,9 @@
 import { FC } from 'react';
-import UISwitch from './UISwitch';
-import { Button } from '@/components/ui/button';
 import { NavLink } from 'react-router-dom';
+
+import UISwitch from './UISwitch';
+
+import { Button } from '@/components/ui/button';
 
 const Navbar: FC = () => {
 	return (
