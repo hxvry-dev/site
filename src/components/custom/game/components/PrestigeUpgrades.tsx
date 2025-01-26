@@ -52,7 +52,7 @@ const PrestigeUpgrades = () => {
 	};
 
 	return (
-		<div className="w-[450px]">
+		<div className="w-[450px]" hidden={!(gameState.prestige.count >= 1)}>
 			<Accordion type="single" collapsible>
 				<AccordionItem value="Prestige Upgrades">
 					<AccordionTrigger>Prestige Upgrades</AccordionTrigger>

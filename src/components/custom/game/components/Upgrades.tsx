@@ -4,7 +4,7 @@ import { gameStateAtom } from '../atomFactory';
 import { useToast } from '@/hooks/use-toast';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
-const Upgrades = () => {
+const UpgradePanel = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const { toast } = useToast();
 
@@ -88,4 +88,4 @@ const Upgrades = () => {
 	);
 };
 
-export default Upgrades;
+export default UpgradePanel;

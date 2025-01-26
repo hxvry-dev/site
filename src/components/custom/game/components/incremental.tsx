@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import ClickerButton from './ClickerButton';
 import PrestigeButton from './PrestigeButton';
 import { Button } from '@/components/ui/button';
-import Upgrades from './upgrades';
+import UpgradePanel from './Upgrades';
 import PrestigeUpgrades from './PrestigeUpgrades';
 
 export const Incremental = () => {
@@ -62,9 +62,9 @@ export const Incremental = () => {
 				</div>
 			</div>
 			<div className="flex flex-col flex-grow w-[450px] float-start">
-				<Upgrades />
+				<UpgradePanel />
 			</div>
-			<div className="flex flex-col flex-grow w-[450px] float-right" hidden={!(gameState.prestige.points >= 1)}>
+			<div className="flex flex-col flex-grow w-[450px] float-right">
 				<PrestigeUpgrades />
 			</div>
 			<div className="justify-self-center">
