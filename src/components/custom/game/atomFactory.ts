@@ -23,6 +23,7 @@ interface Prestige {
 	cost: number;
 	points: number;
 	costMultiplier: number;
+	upgrades: Record<string, Upgrade>;
 }
 
 interface GameState {
@@ -36,14 +37,14 @@ const createGameState = (initialState: GameState) => {
 };
 
 export const initialGameState: GameState = {
-	resources: { amount: 1e7, clickPower: 1, perSecond: 0 },
+	resources: { amount: 0, clickPower: 1, perSecond: 0 },
 	upgrades: {
 		better_index_finger: {
 			name: 'Better Index Finger',
 			cost: 10,
 			costMult: 10,
 			clickPowerIncrease: 1,
-			level: 1,
+			level: 0,
 			maxLevel: 5,
 			currencyPerSecond: 0,
 			firstPurchase: false,
@@ -54,7 +55,7 @@ export const initialGameState: GameState = {
 			cost: 25,
 			costMult: 12.5,
 			clickPowerIncrease: 0,
-			level: 1,
+			level: 0,
 			maxLevel: 99,
 			currencyPerSecond: 0.125,
 			firstPurchase: false,
@@ -65,7 +66,7 @@ export const initialGameState: GameState = {
 			cost: 50,
 			costMult: 15,
 			clickPowerIncrease: 0,
-			level: 1,
+			level: 0,
 			maxLevel: 99,
 			currencyPerSecond: 1,
 			firstPurchase: false,
@@ -77,6 +78,41 @@ export const initialGameState: GameState = {
 		cost: 1e7,
 		points: 0,
 		costMultiplier: 500,
+		upgrades: {
+			pre_carpal_tunnel: {
+				name: 'Preemptive Carpal Tunnel Surgery',
+				description: `You find it odd that the surgeon wants to charge you per finger.`,
+				cost: 1,
+				costMult: 150,
+				level: 0,
+				maxLevel: 10,
+				clickPowerIncrease: 0,
+				currencyPerSecond: 0,
+				firstPurchase: false,
+			},
+			new_key_caps: {
+				name: 'Weighted Keycaps',
+				description: `You bought these off of Aluzam because your buddy told you he was able to spam spacebar faster with them once like 5 years ago, and never thought to buy them.`,
+				cost: 5,
+				costMult: 1,
+				level: 0,
+				maxLevel: 1,
+				clickPowerIncrease: 150,
+				currencyPerSecond: 0,
+				firstPurchase: false,
+			},
+			botnet: {
+				name: 'Bot Net',
+				description: `Leetcode finally paid off.`,
+				cost: 10,
+				costMult: 1,
+				level: 0,
+				maxLevel: 3,
+				clickPowerIncrease: 250,
+				currencyPerSecond: 10,
+				firstPurchase: false,
+			},
+		},
 	},
 };
 
