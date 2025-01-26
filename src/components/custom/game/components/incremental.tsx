@@ -1,11 +1,15 @@
-import { useAtom } from 'jotai';
-import { gameStateAtom, initialGameState } from '../atomFactory';
 import { useEffect, useRef } from 'react';
+
+import { useAtom } from 'jotai';
+
+import { gameStateAtom, initialGameState } from '../atomFactory';
+
 import ClickerButton from './ClickerButton';
 import PrestigeButton from './PrestigeButton';
-import { Button } from '@/components/ui/button';
-import UpgradePanel from './Upgrades';
 import PrestigeUpgrades from './PrestigeUpgrades';
+import UpgradePanel from './Upgrades';
+
+import { Button } from '@/components/ui/button';
 
 export const Incremental = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);

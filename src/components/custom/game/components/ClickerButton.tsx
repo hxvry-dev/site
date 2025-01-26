@@ -1,7 +1,10 @@
-import { Button } from '@/components/ui/button';
-import { useAtom } from 'jotai';
 import { FC } from 'react';
+
+import { useAtom } from 'jotai';
+
 import { gameStateAtom } from '../atomFactory';
+
+import { Button } from '@/components/ui/button';
 
 const ClickerButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);

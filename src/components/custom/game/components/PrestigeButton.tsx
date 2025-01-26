@@ -1,5 +1,7 @@
 import { useAtom } from 'jotai';
+
 import { gameStateAtom, initialGameState } from '../atomFactory';
+
 import { Button } from '@/components/ui/button';
 
 const PrestigeButton = () => {

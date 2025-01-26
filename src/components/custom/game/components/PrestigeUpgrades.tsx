@@ -1,8 +1,10 @@
-import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
+
 import { gameStateAtom } from '../atomFactory';
-import { useToast } from '@/hooks/use-toast';
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 const PrestigeUpgrades = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
