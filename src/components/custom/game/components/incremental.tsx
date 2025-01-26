@@ -67,6 +67,11 @@ export const Incremental = () => {
 			<div className="flex flex-col flex-grow w-[450px] float-right" hidden={!(gameState.prestige.points >= 1)}>
 				<PrestigeUpgrades />
 			</div>
+			<div className="justify-self-center">
+				<Button onClick={() => setGameState(initialGameState)} variant="destructive">
+					Reset Game?
+				</Button>
+			</div>
 		</div>
 	);
 };
