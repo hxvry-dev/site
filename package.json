@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -61,6 +61,7 @@
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^15.14.0",
     "postcss": "^8.5.1",
     "prettier": "^3.4.2",
