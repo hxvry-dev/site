@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Route,Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Incremental from './components/custom/game/Incremental';
 import Home from './components/custom/Home';
