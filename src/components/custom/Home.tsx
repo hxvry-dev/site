@@ -1,7 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { ArrowBigRightDash } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+
+import { ArrowBigRightDash } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 const Home: React.FC = () => {
 	const [isHovering, setIsHovering] = useState(false);

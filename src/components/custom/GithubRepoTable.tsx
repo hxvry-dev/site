@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useEffect, useState } from 'react';
 
 interface Repo {
 	id: number;

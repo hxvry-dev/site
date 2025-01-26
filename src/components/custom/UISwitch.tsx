@@ -1,7 +1,7 @@
-import { useTheme } from '@/components/theme-provider';
-
-import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
+
+import { useTheme } from '@/components/theme-provider';
+import { Button } from '@/components/ui/button';
 const UISwitch: React.FC = () => {
 	const { theme, setTheme } = useTheme();
 	const toggleTheme = (_theme?: string) => {
