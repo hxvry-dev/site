@@ -56,7 +56,7 @@ const PrestigeUpgrades: FC = () => {
 	};
 
 	return (
-		<div className="w-full" hidden={!(gameState.prestige.count >= 0)}>
+		<div className="w-full" hidden={!(gameState.prestige.count >= 1)}>
 			<Accordion type="single" collapsible>
 				<AccordionItem value="Prestige Upgrades">
 					<AccordionTrigger>Prestige Upgrades</AccordionTrigger>
