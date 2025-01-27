@@ -5,8 +5,10 @@ import { gameStateAtom } from '../atomFactory';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import BuyChip from './BuyChip';
+import { FC } from 'react';
 
-const PrestigeUpgrades = () => {
+const PrestigeUpgrades: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const { toast } = useToast();
 
@@ -34,7 +36,7 @@ const PrestigeUpgrades = () => {
 				resources: {
 					...state.resources,
 					perSecond: state.resources.perSecond + upgrade.currencyPerSecond,
-					clickPower: state.resources.clickPower + upgrade.clickPowerIncrease,
+					clickPower: (state.resources.clickPower + upgrade.clickPowerIncrease) * upgrade.clickPowerMult,
 				},
 				prestige: {
 					...state.prestige,
@@ -54,7 +56,7 @@ const PrestigeUpgrades = () => {
 	};
 
 	return (
-		<div className="w-[450px]" hidden={!(gameState.prestige.count >= 1)}>
+		<div className="w-full" hidden={!(gameState.prestige.count >= 0)}>
 			<Accordion type="single" collapsible>
 				<AccordionItem value="Prestige Upgrades">
 					<AccordionTrigger>Prestige Upgrades</AccordionTrigger>
@@ -62,17 +64,31 @@ const PrestigeUpgrades = () => {
 						{Object.keys(gameState.prestige.upgrades).map((key) => (
 							<Accordion type="single" collapsible key={key}>
 								<AccordionItem value={key}>
-									<AccordionTrigger>{gameState.prestige.upgrades[key].name}</AccordionTrigger>
+									<AccordionTrigger>
+										<div className="w-full grid grid-cols-3">
+											<p>{gameState.prestige.upgrades[key].name}</p>
+											<p>
+												Level: {gameState.prestige.upgrades[key].level}/
+												{gameState.prestige.upgrades[key].maxLevel}
+											</p>
+											{
+												<BuyChip
+													resourceAmount={gameState.prestige.points}
+													upgrade={gameState.prestige.upgrades[key]}
+												/>
+											}
+										</div>
+									</AccordionTrigger>
 									<AccordionContent>
 										<p>
 											Click Power Increase: +{gameState.prestige.upgrades[key].clickPowerIncrease}
 										</p>
 										<p>
-											Level: {gameState.prestige.upgrades[key].level}/
-											{gameState.prestige.upgrades[key].maxLevel}
+											Click Power Multiplier Increase: +
+											{gameState.prestige.upgrades[key].clickPowerMult}
 										</p>
 										<p>
-											Cost: {gameState.prestige.upgrades[key].cost} Prestige Point
+											Cost: {gameState.prestige.upgrades[key].cost.toFixed(0)} Prestige Point
 											{gameState.prestige.upgrades[key].cost > 1 ? 's' : ''}
 										</p>
 										<small>{gameState.prestige.upgrades[key].description}</small>

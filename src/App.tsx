@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Incremental from './components/custom/game/Incremental';
+import Incremental from './components/custom/game/components/incremental';
 import Home from './components/custom/Home';
 import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
