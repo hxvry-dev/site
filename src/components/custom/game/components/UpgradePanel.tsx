@@ -5,10 +5,10 @@ import { gameStateAtom } from '../atomFactory';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import BuyChip from './BuyChip';
+import { BuyChip } from './BuyChip';
 import { FC } from 'react';
 
-const UpgradePanel: FC = () => {
+export const UpgradePanel: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const { toast } = useToast();
 
@@ -106,5 +106,3 @@ const UpgradePanel: FC = () => {
 		</div>
 	);
 };
-
-export default UpgradePanel;
