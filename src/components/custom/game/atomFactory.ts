@@ -47,10 +47,10 @@ export const initialGameState: GameState = {
 		prestige: PrestigeUpgrades,
 	},
 	prestige: {
-		count: 1,
+		count: 0,
 		cost: 1e7,
 		prestigeCostMultiplier: 500,
-		points: 123456,
+		points: 0,
 	},
 };
 
