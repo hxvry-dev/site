@@ -23,7 +23,9 @@ export const UpgradePanel: FC = () => {
 					...state.resources,
 					amount: state.resources.amount - upgrade.cost,
 					perSecond: state.resources.perSecond + upgrade.currencyPerSecond,
-					clickPower: (state.resources.clickPower + upgrade.clickPowerIncrease) * upgrade.clickPowerMult,
+					clickPower: gameState.resources.clickPower + upgrade.clickPowerIncrease,
+					addedClickPower: gameState.resources.addedClickPower + upgrade.clickPowerIncrease,
+					clickPowerMultiplier: state.resources.clickPowerMultiplier + upgrade.clickPowerMultiplierIncrease,
 				},
 				upgrades: {
 					...state.upgrades,
@@ -68,6 +70,10 @@ export const UpgradePanel: FC = () => {
 									<AccordionContent>
 										<small>{gameState.upgrades.base[key].description}</small>
 										<p>Click Power Increase: +{gameState.upgrades.base[key].clickPowerIncrease}</p>
+										<p>
+											Click Power Multiplier Increase: +
+											{gameState.upgrades.base[key].clickPowerMultiplierIncrease}x
+										</p>
 										<p>
 											Currency Per Second Increase: +
 											{gameState.upgrades.base[key].currencyPerSecond.toFixed(2)}

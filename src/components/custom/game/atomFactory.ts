@@ -5,7 +5,8 @@ import { PrestigeUpgrades, Upgrades } from './upgrades';
 interface ResourceAtom {
 	amount: number;
 	clickPower: number;
-	//clickPowerMultiplier: number;
+	addedClickPower: number;
+	clickPowerMultiplier: number;
 	perSecond: number;
 }
 
@@ -14,7 +15,7 @@ export interface Upgrade {
 	cost: number;
 	costMult: number;
 	clickPowerIncrease: number;
-	clickPowerMult: number;
+	clickPowerMultiplierIncrease: number;
 	level: number;
 	maxLevel: number;
 	currencyPerSecond: number;
@@ -25,11 +26,11 @@ export interface Upgrade {
 interface Prestige {
 	count: number;
 	cost: number;
-	costMultiplier: number;
+	prestigeCostMultiplier: number;
 	points: number;
 }
 
-interface GameState {
+export interface GameState {
 	resources: ResourceAtom;
 	upgrades: { base: Record<string, Upgrade>; prestige: Record<string, Upgrade> };
 	prestige: Prestige;
@@ -40,16 +41,16 @@ const createGameState = (initialState: GameState) => {
 };
 
 export const initialGameState: GameState = {
-	resources: { amount: 0, clickPower: 1, perSecond: 0 },
+	resources: { amount: 0, clickPower: 1, addedClickPower: 0, clickPowerMultiplier: 1, perSecond: 0 },
 	upgrades: {
 		base: Upgrades,
 		prestige: PrestigeUpgrades,
 	},
 	prestige: {
-		count: 0,
+		count: 1,
 		cost: 1e7,
-		costMultiplier: 500,
-		points: 0,
+		prestigeCostMultiplier: 500,
+		points: 123456,
 	},
 };
 

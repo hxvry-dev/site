@@ -22,8 +22,8 @@ export const PrestigeButton: FC = () => {
 				prestige: {
 					...state.prestige,
 					count: gameState.prestige.count + 1,
-					cost: gameState.prestige.cost * gameState.prestige.costMultiplier,
-					costMultiplier: gameState.prestige.costMultiplier * 1.01,
+					cost: gameState.prestige.cost * gameState.prestige.prestigeCostMultiplier,
+					costMultiplier: gameState.prestige.prestigeCostMultiplier * 1.01,
 					points: gameState.prestige.points + newPrestigePoints,
 				},
 			}));

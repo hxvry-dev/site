@@ -53,7 +53,14 @@ export const Incremental: FC = () => {
 			<div className="grid grid-cols-3 grid-rows-1 gap-0 justify-between">
 				<div className="grid float-left">
 					<p className="mb-1">Resources: {gameState.resources.amount.toFixed(2)}</p>
-					<p className="mb-1">Current Click Power: {gameState.resources.clickPower.toFixed(0)}</p>
+					<p className="mb-1">
+						Current Click Power:{' '}
+						{(gameState.resources.clickPower * gameState.resources.clickPowerMultiplier).toFixed(0)}
+					</p>
+					<p className="mb-1">
+						Current Click Power Multiplier: {gameState.resources.clickPowerMultiplier.toFixed(0)}x
+					</p>
+					<p>Click Power Added From Upgrades: +{gameState.resources.addedClickPower.toFixed(2)}</p>
 					<p className="mb-1">Resources/second: {gameState.resources.perSecond.toFixed(2)}</p>
 					<ClickerButton />
 				</div>

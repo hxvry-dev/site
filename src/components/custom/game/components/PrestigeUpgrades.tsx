@@ -24,7 +24,9 @@ export const PrestigeUpgrades: FC = () => {
 				resources: {
 					...state.resources,
 					perSecond: state.resources.perSecond + upgrade.currencyPerSecond,
-					clickPower: (state.resources.clickPower + upgrade.clickPowerIncrease) * upgrade.clickPowerMult,
+					clickPower: state.resources.clickPower + upgrade.clickPowerIncrease,
+					addedClickPower: gameState.resources.addedClickPower + upgrade.clickPowerIncrease,
+					clickPowerMultiplier: state.resources.clickPowerMultiplier + upgrade.clickPowerMultiplierIncrease,
 				},
 				upgrades: {
 					...state.upgrades,
@@ -76,7 +78,7 @@ export const PrestigeUpgrades: FC = () => {
 										</p>
 										<p>
 											Click Power Multiplier Increase: +
-											{gameState.upgrades.prestige[key].clickPowerMult}
+											{gameState.upgrades.prestige[key].clickPowerMultiplierIncrease}x
 										</p>
 										<p>
 											Cost: {gameState.upgrades.prestige[key].cost.toFixed(0)} Prestige Point
