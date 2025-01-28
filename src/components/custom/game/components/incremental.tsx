@@ -10,6 +10,7 @@ import { PrestigeUpgrades } from './PrestigeUpgrades';
 import { UpgradePanel } from './UpgradePanel';
 
 import { Button } from '@/components/ui/button';
+import { Version } from '../version';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -83,6 +84,7 @@ export const Incremental: FC = () => {
 					Reset Game?
 				</Button>
 			</div>
+			<Version />
 		</div>
 	);
 };
