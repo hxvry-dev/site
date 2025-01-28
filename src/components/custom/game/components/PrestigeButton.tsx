@@ -5,7 +5,7 @@ import { gameStateAtom, initialGameState } from '../atomFactory';
 import { Button } from '@/components/ui/button';
 import { FC } from 'react';
 
-const PrestigeButton: FC = () => {
+export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const newPrestigePoints = Math.floor(gameState.resources.amount / gameState.prestige.cost);
 
@@ -32,5 +32,3 @@ const PrestigeButton: FC = () => {
 		</Button>
 	);
 };
-
-export default PrestigeButton;

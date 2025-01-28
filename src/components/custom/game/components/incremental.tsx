@@ -4,10 +4,10 @@ import { useAtom } from 'jotai';
 
 import { gameStateAtom, initialGameState } from '../atomFactory';
 
-import ClickerButton from './ClickerButton';
-import PrestigeButton from './PrestigeButton';
-import PrestigeUpgrades from './PrestigeUpgrades';
-import UpgradePanel from './Upgrades';
+import { ClickerButton } from './ClickerButton';
+import { PrestigeButton } from './PrestigeButton';
+import { PrestigeUpgrades } from './PrestigeUpgrades';
+import { UpgradePanel } from './UpgradePanel';
 
 import { Button } from '@/components/ui/button';
 

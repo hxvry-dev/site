@@ -2,12 +2,12 @@ import { FC } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Upgrade } from '../atomFactory';
 
-const BuyChip: FC<{ resourceAmount: number; upgrade: Upgrade }> = ({ resourceAmount, upgrade }) => {
+export const BuyChip: FC<{ resourceAmount: number; upgrade: Upgrade }> = ({ resourceAmount, upgrade }) => {
 	const TrueChip: FC = () => {
-		return <Badge className={`mr-8 clear-left float-right bg-green-600 text-stone-300`}>Click Me!</Badge>;
+		return <Badge className={`mr-8 clear-left float-right bg-green-700 text-stone-300`}>Click Me!</Badge>;
 	};
 	const FalseChip: FC = () => {
-		return <Badge className={`mr-8 clear-left float-right bg-red-600 text-stone-300`}>Can&apos;t Afford!</Badge>;
+		return <Badge className={`mr-8 clear-left float-right bg-red-700 text-stone-300`}>Can&apos;t Afford!</Badge>;
 	};
 	const PurchasedChip: FC = () => {
 		return <Badge className={`mr-8 clear-left float-right bg-stone-950 text-stone-300`}>Max Level</Badge>;
@@ -23,4 +23,6 @@ const BuyChip: FC<{ resourceAmount: number; upgrade: Upgrade }> = ({ resourceAmo
 	}
 };
 
-export default BuyChip;
+export const canPurchaseChip: FC<{}> = ({}) => {
+	return <Badge className={`mr-8 clear-left float-right bg-green-700 text-stone-300`}>Upgrade Available!</Badge>;
+};

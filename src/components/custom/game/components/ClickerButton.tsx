@@ -6,7 +6,7 @@ import { gameStateAtom } from '../atomFactory';
 
 import { Button } from '@/components/ui/button';
 
-const ClickerButton: FC = () => {
+export const ClickerButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const handleClick = () => {
 		setGameState((state) => ({
@@ -23,5 +23,3 @@ const ClickerButton: FC = () => {
 		</Button>
 	);
 };
-
-export default ClickerButton;
