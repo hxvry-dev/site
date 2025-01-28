@@ -1,5 +1,5 @@
 import { atomWithStorage } from 'jotai/utils';
-import { PrestigeUpgrades, Upgrades } from './constants';
+import { PrestigeUpgrades, Upgrades } from './upgrades';
 
 interface ResourceAtom {
 	amount: number;
