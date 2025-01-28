@@ -1,16 +1,6 @@
-/*
-	name: string,
-	description: string,
-	cost: number,
-	costMult: number,
-	clickPowerIncrease: number,
-	level: number,
-	maxLevel: number,
-	currencyPerSecond: number,
-	firstPurchase: boolean,
-*/
+import { Upgrade } from './atomFactory';
 
-export const Upgrades = {
+export const Upgrades: Record<string, Upgrade> = {
 	forceful_clicking: {
 		name: `Forceful Clicking`,
 		description: `Maybe if you click harder...`,

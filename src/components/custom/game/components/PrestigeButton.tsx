@@ -1,9 +1,10 @@
+import { FC } from 'react';
+
 import { useAtom } from 'jotai';
 
 import { gameStateAtom, initialGameState } from '../atomFactory';
 
 import { Button } from '@/components/ui/button';
-import { FC } from 'react';
 
 export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -14,7 +15,10 @@ export const PrestigeButton: FC = () => {
 			return setGameState((state) => ({
 				...state,
 				resources: initialGameState.resources,
-				upgrades: initialGameState.upgrades,
+				upgrades: {
+					...state.upgrades,
+					base: initialGameState.upgrades.base,
+				},
 				prestige: {
 					...state.prestige,
 					count: gameState.prestige.count + 1,

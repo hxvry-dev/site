@@ -1,6 +1,9 @@
 import { FC } from 'react';
+
+import { gameStateAtom, Upgrade } from '../atomFactory';
+
 import { Badge } from '@/components/ui/badge';
-import { Upgrade } from '../atomFactory';
+import { useAtom } from 'jotai';
 
 export const BuyChip: FC<{ resourceAmount: number; upgrade: Upgrade }> = ({ resourceAmount, upgrade }) => {
 	const TrueChip: FC = () => {
@@ -23,6 +26,10 @@ export const BuyChip: FC<{ resourceAmount: number; upgrade: Upgrade }> = ({ reso
 	}
 };
 
-export const canPurchaseChip: FC<{}> = ({}) => {
+export const canPurchaseChip: FC<{ resourceAmount: number; upgrade: Upgrade }> = ({ resourceAmount, upgrade }) => {
+	const [gameState] = useAtom(gameStateAtom);
+	{
+		gameState.prestige;
+	}
 	return <Badge className={`mr-8 clear-left float-right bg-green-700 text-stone-300`}>Upgrade Available!</Badge>;
 };
