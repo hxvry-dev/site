@@ -7,15 +7,18 @@ import { useAtom } from 'jotai';
 
 interface ChipProps {
 	upgrade: Upgrade;
+	upgradeType: 'base' | 'prestige';
 }
 
 interface CanBuyProps {
 	upgrades: Record<string, Upgrade>;
+	upgradeType: 'base' | 'prestige';
 }
 
-export const Chip: FC<ChipProps> = ({ upgrade }) => {
+export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 	const [gameState] = useAtom(gameStateAtom);
-	if (gameState.resources.amount >= upgrade.cost) {
+	const resources = upgradeType === 'base' ? gameState.resources.amount : gameState.prestige.points;
+	if (resources >= upgrade.cost) {
 		if (upgrade.level >= upgrade.maxLevel) {
 			// Max Level reached
 			return (
@@ -46,11 +49,11 @@ export const Chip: FC<ChipProps> = ({ upgrade }) => {
 	}
 };
 
-export const CanBuyChip: FC<CanBuyProps> = ({ upgrades }) => {
+export const CanBuyChip: FC<CanBuyProps> = ({ upgrades, upgradeType }) => {
 	const [gameState] = useAtom(gameStateAtom);
 	const upgradesArray = Object.values(upgrades);
-	const canBuy = (upgrade: Upgrade) => gameState.resources.amount >= upgrade.cost;
-	console.log(upgradesArray.some(canBuy));
+	const resources = upgradeType === 'base' ? gameState.resources.amount : gameState.prestige.points;
+	const canBuy = (upgrade: Upgrade) => resources >= upgrade.cost;
 	if (upgradesArray.some(canBuy) === true) {
 		return (
 			<div>

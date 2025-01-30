@@ -4,8 +4,8 @@ import { gameStateAtom } from '../atomFactory';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { BuyChip } from './BuyChip';
 import { FC } from 'react';
+import { CanBuyChip, Chip } from './Chip';
 
 export const UpgradePanel: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -47,7 +47,13 @@ export const UpgradePanel: FC = () => {
 		<div className="w-full">
 			<Accordion type="single" collapsible>
 				<AccordionItem value="Upgrades">
-					<AccordionTrigger>Upgrades</AccordionTrigger>
+					<AccordionTrigger>
+						<div className="w-full grid grid-cols-3">
+							<p>Upgrades</p>
+							<p />
+							{<CanBuyChip upgrades={gameState.upgrades.base} upgradeType="base" />}
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						{Object.keys(gameState.upgrades.base).map((key) => (
 							<Accordion type="single" collapsible key={key}>
@@ -59,12 +65,7 @@ export const UpgradePanel: FC = () => {
 												Level: {gameState.upgrades.base[key].level}/
 												{gameState.upgrades.base[key].maxLevel}
 											</p>
-											{
-												<BuyChip
-													resourceAmount={gameState.resources.amount}
-													upgrade={gameState.upgrades.base[key]}
-												/>
-											}
+											{<Chip upgrade={gameState.upgrades.base[key]} upgradeType="base" />}
 										</div>
 									</AccordionTrigger>
 									<AccordionContent>
