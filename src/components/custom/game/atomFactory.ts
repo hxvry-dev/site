@@ -48,7 +48,7 @@ export const initialGameState: GameState = {
 	},
 	prestige: {
 		count: 0,
-		cost: 1e7,
+		cost: 1e5,
 		prestigeCostMultiplier: 500,
 		points: 0,
 	},
