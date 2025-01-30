@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 
 import { gameStateAtom } from '../atomFactory';
 
-import { BuyChip } from './BuyChip';
+import { Chip, CanBuyChip } from './Chip';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
@@ -52,7 +52,13 @@ export const PrestigeUpgrades: FC = () => {
 		<div className="w-full" hidden={!(gameState.prestige.count >= 1)}>
 			<Accordion type="single" collapsible>
 				<AccordionItem value="Prestige Upgrades">
-					<AccordionTrigger>Prestige Upgrades</AccordionTrigger>
+					<AccordionTrigger>
+						<div className="w-full grid grid-cols-3">
+							<p>Prestige Upgrades</p>
+							<p />
+							{<CanBuyChip upgrades={gameState.upgrades.prestige} upgradeType="prestige" />}
+						</div>
+					</AccordionTrigger>
 					<AccordionContent>
 						{Object.keys(gameState.upgrades.prestige).map((key) => (
 							<Accordion type="single" collapsible key={key}>
@@ -64,12 +70,7 @@ export const PrestigeUpgrades: FC = () => {
 												Level: {gameState.upgrades.prestige[key].level}/
 												{gameState.upgrades.prestige[key].maxLevel}
 											</p>
-											{
-												<BuyChip
-													resourceAmount={gameState.prestige.points}
-													upgrade={gameState.upgrades.prestige[key]}
-												/>
-											}
+											{<Chip upgrade={gameState.upgrades.prestige[key]} upgradeType="prestige" />}
 										</div>
 									</AccordionTrigger>
 									<AccordionContent>
