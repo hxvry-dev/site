@@ -81,7 +81,7 @@ export const Upgrades: Record<string, Upgrade> = {
 	},
 };
 
-export const PrestigeUpgrades = {
+export const PrestigeUpgrades: Record<string, Upgrade> = {
 	better_keyboard: {
 		name: 'Better Keyboard',
 		description: `You splurged and bought the newest mechanical keyboard you could find... Let's see if it helps!`,
