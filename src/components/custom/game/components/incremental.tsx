@@ -11,6 +11,7 @@ import { UpgradePanel } from './UpgradePanel';
 
 import { Button } from '@/components/ui/button';
 import { Version } from '../version';
+import { PrestigeBar } from './PrestigeBar';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -53,23 +54,24 @@ export const Incremental: FC = () => {
 			<h1 className="font-incremental text-2xl justify-self-center">Idle Game</h1>
 			<div className="grid grid-cols-3 grid-rows-1 gap-0 justify-between">
 				<div className="grid float-left">
-					<p className="mb-1">Resources: {gameState.resources.amount.toFixed(2)}</p>
-					<p className="mb-1">
+					<p>Resources: {gameState.resources.amount.toFixed(2)}</p>
+					<p>
 						Current Click Power:{' '}
 						{(gameState.resources.clickPower * gameState.resources.clickPowerMultiplier).toFixed(0)}
 					</p>
-					<p className="mb-1">
-						Current Click Power Multiplier: {gameState.resources.clickPowerMultiplier.toFixed(0)}x
-					</p>
+					<p>Current Click Power Multiplier: {gameState.resources.clickPowerMultiplier.toFixed(0)}x</p>
 					<p>Click Power Added From Upgrades: +{gameState.resources.addedClickPower.toFixed(2)}</p>
-					<p className="mb-1">Resources/second: {gameState.resources.perSecond.toFixed(2)}</p>
+					<p>Resources/second: {gameState.resources.perSecond.toFixed(2)}</p>
+					<div className="pt-1" />
 					<ClickerButton />
 				</div>
 				<div className="col-span-1" />
 				<div className="grid clear-left float-right">
-					<p className="mb-1 text-right">Prestige Points: {gameState.prestige.points.toFixed(0)}</p>
-					<p className="mb-1 text-right">Cost to Prestige: {gameState.prestige.cost.toFixed(0)}</p>
-					<p className="mb-1 text-right"># of successful prestiges: {gameState.prestige.count.toFixed(0)}</p>
+					<p className="text-right">Prestige Points: {gameState.prestige.points.toFixed(0)}</p>
+					<p className="text-right">Cost to Prestige: {gameState.prestige.cost.toFixed(0)}</p>
+					<p className="text-right">Prestige Cost Multiplier: {gameState.prestige.prestigeCostMultiplier}</p>
+					<p className="text-right"># of successful prestiges: {gameState.prestige.count.toFixed(0)}</p>
+					<PrestigeBar />
 					<PrestigeButton />
 				</div>
 			</div>
