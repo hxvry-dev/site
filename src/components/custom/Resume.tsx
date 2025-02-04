@@ -1,19 +1,20 @@
 import { FC } from 'react';
 
-import { DateTime } from 'luxon';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { formatDuration, intervalToDuration } from 'date-fns';
+import { Badge } from '../ui/badge';
 
 interface JobCardProps {
 	id: number;
 	jobName: string;
 	jobTitle: string;
-	jobStartDate: DateTime;
-	jobSecondStartDate?: DateTime;
-	jobEndDate?: DateTime | string;
-	jobSecondEndDate?: DateTime | string;
+	jobStartDate: Date;
+	jobSecondStartDate?: Date;
+	jobEndDate?: Date;
+	jobSecondEndDate?: Date;
 	disclaimer?: string;
 	responsibilities?: string[];
 }
@@ -21,26 +22,22 @@ interface JobCardProps {
 const jobs: JobCardProps[] = [
 	{
 		id: 0,
-		jobName: 'Camden Central School District',
-		jobTitle: 'IT Support Technician',
-		jobStartDate: DateTime.fromObject({ month: 6, year: 2017 }, { zone: 'America/New_York' }),
-		jobSecondStartDate: DateTime.fromObject({ month: 8, year: 2018 }, { zone: 'America/New_York' }),
-		jobEndDate: 'To End of Summer',
-		jobSecondEndDate: 'To End of Summer',
-		disclaimer: 'I worked here twice, once in 2017, and again in 2018, as it was a seasonal job.',
+		jobName: 'Bryx',
+		jobTitle: 'Customer Support Engineer',
+		jobStartDate: new Date('05-01-2022'),
+		jobEndDate: new Date(),
 		responsibilities: [
-			'Performed repairs on laptops, including repairing screens, motherboards, fans, batteries, and data ports.',
-			'Responsible for installation and removal of classroom computers.',
-			'Managed inventory of electronic devices for CCSD.',
-			'Handled client work orders.',
+			'Triage customer questions and concerns as they relate to Bryx Mobile and Bryx Station Alerting.',
+			'Remote and on-site troubleshooting of rack-mounted hardware and software.',
+			'Write code to enhance the customer experience as it relates to Bryx Mobile and Bryx Station Alerting.',
 		],
 	},
 	{
 		id: 1,
 		jobName: 'Chiropassion Consulting',
 		jobTitle: 'Data Analyst/Social Media Manager',
-		jobStartDate: DateTime.fromObject({ month: 3, year: 2021 }, { zone: 'America/New_York' }),
-		jobEndDate: DateTime.fromObject({ month: 6, year: 2021 }, { zone: 'America/New_York' }),
+		jobStartDate: new Date('03-01-2021'),
+		jobEndDate: new Date('06-01-2021'),
 		disclaimer: 'This role was temporary, and was filled after 3 months.',
 		responsibilities: [
 			'Study Google Analytics trends pertaining to sales and enrollments in a course.',
@@ -50,30 +47,56 @@ const jobs: JobCardProps[] = [
 	},
 	{
 		id: 2,
-		jobName: 'Bryx',
-		jobTitle: 'Customer Support Engineer',
-		jobStartDate: DateTime.fromObject({ month: 5, year: 2022 }, { zone: 'America/New_York' }),
-		jobEndDate: 'to present',
+		jobName: 'Camden Central School District',
+		jobTitle: 'IT Support Technician',
+		jobStartDate: new Date('06-01-2017'),
+		jobSecondStartDate: new Date('08-01-2018'),
+		jobEndDate: new Date('09-01-2017'),
+		jobSecondEndDate: new Date('09-01-2018'),
+		disclaimer: 'I worked here twice, once in 2017, and again in 2018, as it was a seasonal job.',
 		responsibilities: [
-			'Triage customer questions and concerns as they relate to Bryx Mobile and Bryx Station Alerting.',
-			'Remote and on-site troubleshooting of rack-mounted hardware and software.',
-			'Write code to enhance the customer experience as it relates to Bryx Mobile and Bryx Station Alerting.',
+			'Performed repairs on laptops, including repairing screens, motherboards, fans, batteries, and data ports.',
+			'Responsible for installation and removal of classroom computers.',
+			'Managed inventory of electronic devices for CCSD.',
+			'Handled client work orders.',
 		],
 	},
 ];
 
+const getDuration = (startDate: Date, endDate: Date): string => {
+	const duration = intervalToDuration({ start: startDate, end: endDate });
+	const result = formatDuration(duration, { delimiter: ', ', format: ['years', 'months'] });
+	return result;
+};
+
 const Resume: FC = () => {
 	const pdf: string = '/pdfs/Resume.pdf';
+	const isMobile = useIsMobile();
 	return (
 		<div className="justify-items-center font-mono">
-			<div className="grid grid-cols-3 gap-3 pt-16 pb-8 pl-8 pr-8">
+			<div
+				className={
+					isMobile
+						? 'grid grid-rows-3 gap-3 pt-16 pb-8 pl-8 pr-8'
+						: 'grid grid-cols-3 gap-3 pt-16 pb-8 pl-8 pr-8'
+				}
+			>
 				{jobs.map((job) => (
-					<Card key={job.id} className="w-fit">
+					<Card key={job.id} className="max-w-[650px]">
 						<CardHeader>
 							<CardTitle>{job.jobName}</CardTitle>
 							<CardDescription>{job.jobTitle}</CardDescription>
 						</CardHeader>
 						<CardContent>
+							<div className="mb-5">
+								Duration of Employment: <Badge>{getDuration(job.jobStartDate, job.jobEndDate!)}</Badge>
+								{job.jobSecondStartDate ? (
+									<Badge className="ml-5">
+										{getDuration(job.jobSecondStartDate, job.jobSecondEndDate!)}
+									</Badge>
+								) : null}
+							</div>
+
 							<ul className="list-disc pl-5 pr-5">
 								{job.responsibilities?.map((r) => <li key={r.length}>{r}</li>)}
 							</ul>

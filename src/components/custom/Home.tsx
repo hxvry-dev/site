@@ -4,53 +4,53 @@ import { NavLink } from 'react-router-dom';
 import { ArrowBigRightDash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Home: React.FC = () => {
 	const [isHovering, setIsHovering] = useState(false);
-	const [isHoveringIncremental, setIsHoveringIncremental] = useState(false);
+	const isMobile = useIsMobile();
 
 	return (
 		<div className="justify-items-center font-mono">
-			<div className="w-[650px] mt-64 p-5 border-2 rounded-xs">
+			<div className="mt-64 p-5 border-2 rounded-xs max-w-[650px]">
 				<h1>Hi, I&apos;m Henry!</h1>
 				<br />
 				<h2>
 					I like to write code, talk about cars, doom scroll social media, and play video games in my free
 					time. Welcome to my website.
 				</h2>
-				<br />
 			</div>
-			<h4 className="pt-5">Okay, now that we&apos;ve gotten that out of the way...</h4>
-			<h4 className="pb-5">Check out these links!</h4>
-			<div className="w-[650px] grid grid-cols-4 grid-rows-2 gap-5">
-				<Button asChild size="sm" variant="ghost">
+			<h4 className="pt-5 pb-5 pl-5 pr-5 justify-self-center">
+				Okay, now that we&apos;ve gotten that out of the way...
+			</h4>
+			<h4 className="pb-5 pl-5 pr-5 justify-self-center">Check out these links!</h4>
+			<div className={isMobile ? 'grid grid-cols-1 grid-rows-5 gap-5' : 'grid grid-cols-4 grid-rows-2 gap-5'}>
+				<Button asChild size="sm" variant={isMobile ? 'outline' : 'ghost'}>
 					<NavLink to="https://www.linkedin.com/in/henry-ouellette-8a3b36201/" target="_blank">
 						My LinkedIn
 					</NavLink>
 				</Button>
-				<Button asChild size="sm" variant="ghost">
+				<Button asChild size="sm" variant={isMobile ? 'outline' : 'ghost'}>
 					<NavLink to="/resume">My Resume</NavLink>
 				</Button>
-				<Button asChild size="sm" variant="ghost">
+				<Button asChild size="sm" variant={isMobile ? 'outline' : 'ghost'}>
 					<NavLink to="https://github.com/hxvry-dev" target="_blank">
 						My Github
 					</NavLink>
 				</Button>
-				<Button asChild size="sm" variant="ghost">
+				<Button asChild size="sm" variant={isMobile ? 'outline' : 'ghost'}>
 					<NavLink to="https://bsky.app/profile/hxvry.com" target="_blank">
 						Bluesky
 					</NavLink>
 				</Button>
-				<Button asChild size="sm" variant="ghost" className="col-span-4">
+				<Button
+					asChild
+					size="sm"
+					variant={isMobile ? 'outline' : 'ghost'}
+					className={isMobile ? '' : 'col-span-4'}
+				>
 					<NavLink to="/incremental">
-						<span
-							onMouseEnter={() => setIsHoveringIncremental(true)}
-							onMouseLeave={() => setIsHoveringIncremental(false)}
-						>
-							{isHoveringIncremental
-								? `I'm building a simple Incremental game! Check it out here `
-								: `Take a peek at what I'm building next `}
-						</span>
+						<span>I'm building a simple Incremental game! Check it out here </span>
 						<ArrowBigRightDash />
 					</NavLink>
 				</Button>
