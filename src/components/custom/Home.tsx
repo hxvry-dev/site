@@ -12,7 +12,13 @@ const Home: React.FC = () => {
 
 	return (
 		<div className="justify-items-center font-mono">
-			<div className="mt-64 p-5 border-2 rounded-xs max-w-[650px]">
+			<div
+				className={
+					isMobile
+						? 'mt-32 p-5 border-2 rounded-xs max-w-[650px]'
+						: 'mt-64 p-5 border-2 rounded-xs max-w-[650px]'
+				}
+			>
 				<h1>Hi, I&apos;m Henry!</h1>
 				<br />
 				<h2>
