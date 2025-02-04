@@ -61,7 +61,7 @@ const Home: React.FC = () => {
 					</NavLink>
 				</Button>
 			</div>
-			<div className="pt-5">
+			<div className="pt-5 justify-self-center">
 				<small className="text-stone-700 italic">
 					Made with &#9829; by me, in the{' '}
 					<span onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
