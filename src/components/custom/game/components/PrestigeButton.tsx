@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 
 export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
-	const newPrestigePoints = Math.floor(gameState.resources.amount / gameState.prestige.cost);
+	const newPrestigePoints = Math.floor(gameState.resources.balance / gameState.prestige.cost);
 
 	const handlePrestige = () => {
 		if (gameState.prestige.points >= 0 && newPrestigePoints >= 1) {

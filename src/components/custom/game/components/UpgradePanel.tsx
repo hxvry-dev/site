@@ -21,11 +21,15 @@ export const UpgradePanel: FC = () => {
 				...state,
 				resources: {
 					...state.resources,
-					amount: state.resources.amount - upgrade.cost,
-					perSecond: state.resources.perSecond + upgrade.currencyPerSecond,
-					clickPower: gameState.resources.clickPower + upgrade.clickPowerIncrease,
-					addedClickPower: gameState.resources.addedClickPower + upgrade.clickPowerIncrease,
-					clickPowerMultiplier: state.resources.clickPowerMultiplier + upgrade.clickPowerMultiplierIncrease,
+					balance: state.resources.balance - upgrade.cost * gameState.resources.buyPower,
+					perSecond: state.resources.perSecond + upgrade.currencyPerSecond * gameState.resources.buyPower,
+					clickPower:
+						gameState.resources.clickPower + upgrade.clickPowerIncrease * gameState.resources.buyPower,
+					addedClickPower:
+						gameState.resources.addedClickPower + upgrade.clickPowerIncrease * gameState.resources.buyPower,
+					clickPowerMultiplier:
+						state.resources.clickPowerMultiplier +
+						upgrade.clickPowerMultiplierIncrease * gameState.resources.buyPower,
 				},
 				upgrades: {
 					...state.upgrades,
@@ -33,8 +37,8 @@ export const UpgradePanel: FC = () => {
 						...state.upgrades.base,
 						[upgradeName]: {
 							...upgrade,
-							level: upgrade.level + 1,
-							cost: upgrade.cost * upgrade.costMult,
+							level: upgrade.level + 1 * gameState.resources.buyPower,
+							cost: upgrade.cost * upgrade.costMult * gameState.resources.buyPower,
 							firstPurchase: true,
 						},
 					},
@@ -70,21 +74,37 @@ export const UpgradePanel: FC = () => {
 									</AccordionTrigger>
 									<AccordionContent>
 										<small>{gameState.upgrades.base[key].description}</small>
-										<p>Click Power Increase: +{gameState.upgrades.base[key].clickPowerIncrease}</p>
+										<p>
+											Click Power Increase: +
+											{gameState.upgrades.base[key].clickPowerIncrease *
+												gameState.resources.buyPower}
+										</p>
 										<p>
 											Click Power Multiplier Increase: +
-											{gameState.upgrades.base[key].clickPowerMultiplierIncrease}x
+											{gameState.upgrades.base[key].clickPowerMultiplierIncrease *
+												gameState.resources.buyPower}
+											x
 										</p>
 										<p>
 											Currency Per Second Increase: +
-											{gameState.upgrades.base[key].currencyPerSecond.toFixed(2)}
+											{(
+												gameState.upgrades.base[key].currencyPerSecond *
+												gameState.resources.buyPower
+											).toFixed(2)}
 										</p>
-										<p>Cost: {gameState.upgrades.base[key].cost.toFixed(2)}</p>
+										<p>
+											Cost:{' '}
+											{(gameState.upgrades.base[key].cost * gameState.resources.buyPower).toFixed(
+												2,
+											)}
+										</p>
 										<div>
 											<Button
 												onClick={() => handleUpgrade(key)}
 												disabled={
-													gameState.resources.amount! < gameState.upgrades.base[key].cost ||
+													gameState.resources.balance! <
+														gameState.upgrades.base[key].cost *
+															gameState.resources.buyPower ||
 													gameState.upgrades.base[key].level >=
 														gameState.upgrades.base[key].maxLevel
 												}

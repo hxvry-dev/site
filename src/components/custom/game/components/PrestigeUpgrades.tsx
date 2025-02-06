@@ -34,15 +34,15 @@ export const PrestigeUpgrades: FC = () => {
 						...state.upgrades.prestige,
 						[upgradeName]: {
 							...upgrade,
-							level: upgrade.level + 1,
-							cost: upgrade.cost * upgrade.costMult,
+							level: upgrade.level + 1 * gameState.resources.buyPower,
+							cost: upgrade.cost * upgrade.costMult * gameState.resources.buyPower,
 							firstPurchase: true,
 						},
 					},
 				},
 				prestige: {
 					...state.prestige,
-					points: state.prestige.points - upgrade.cost,
+					points: state.prestige.points - upgrade.cost * gameState.resources.buyPower,
 				},
 			};
 		});

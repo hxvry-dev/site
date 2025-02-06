@@ -14,13 +14,13 @@ export const ClickerButton: FC = () => {
 			...state,
 			resources: {
 				...state.resources,
-				amount: state.resources.amount + state.resources.clickPower * state.resources.clickPowerMultiplier,
+				balance: state.resources.balance + state.resources.clickPower * state.resources.clickPowerMultiplier,
 			},
 		}));
 	};
 	return (
 		<Button onClick={handleClick} size="default" className="w-full">
-			Click me! (+{clickValue.toFixed(0)})
+			Click me! (+{clickValue.toFixed(2)})
 		</Button>
 	);
 };

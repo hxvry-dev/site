@@ -2,9 +2,10 @@ import { atomWithStorage } from 'jotai/utils';
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 
-interface ResourceAtom {
-	amount: number;
+interface Resources {
+	balance: number;
 	clickPower: number;
+	buyPower: number;
 	addedClickPower: number;
 	clickPowerMultiplier: number;
 	perSecond: number;
@@ -31,7 +32,7 @@ interface Prestige {
 }
 
 export interface GameState {
-	resources: ResourceAtom;
+	resources: Resources;
 	upgrades: { base: Record<string, Upgrade>; prestige: Record<string, Upgrade> };
 	prestige: Prestige;
 }
@@ -41,7 +42,7 @@ const createGameState = (initialState: GameState) => {
 };
 
 export const initialGameState: GameState = {
-	resources: { amount: 0, clickPower: 1, addedClickPower: 0, clickPowerMultiplier: 1, perSecond: 0 },
+	resources: { balance: 0, clickPower: 1, buyPower: 1, addedClickPower: 0, clickPowerMultiplier: 1, perSecond: 0 },
 	upgrades: {
 		base: Upgrades,
 		prestige: PrestigeUpgrades,
