@@ -17,8 +17,8 @@ interface CanBuyProps {
 
 export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 	const [gameState] = useAtom(gameStateAtom);
-	const resources = upgradeType === 'base' ? gameState.resources.amount : gameState.prestige.points;
-	if (resources >= upgrade.cost) {
+	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
+	if (resources >= upgrade.cost * gameState.resources.buyPower) {
 		if (upgrade.level >= upgrade.maxLevel) {
 			// Max Level reached
 			return (
@@ -52,8 +52,8 @@ export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 export const CanBuyChip: FC<CanBuyProps> = ({ upgrades, upgradeType }) => {
 	const [gameState] = useAtom(gameStateAtom);
 	const upgradesArray = Object.values(upgrades);
-	const resources = upgradeType === 'base' ? gameState.resources.amount : gameState.prestige.points;
-	const canBuy = (upgrade: Upgrade) => resources >= upgrade.cost;
+	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
+	const canBuy = (upgrade: Upgrade) => resources >= upgrade.cost * gameState.resources.buyPower;
 	if (upgradesArray.some(canBuy) === true) {
 		return (
 			<div>
