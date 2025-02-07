@@ -6,13 +6,13 @@ import { gameStateAtom, initialGameState } from '../atomFactory';
 
 import { ClickerButton } from './ClickerButton';
 import { PrestigeButton } from './PrestigeButton';
-import { PrestigeUpgrades } from './PrestigeUpgrades';
-import { UpgradePanel } from './UpgradePanel';
 
 import { Button } from '@/components/ui/button';
 import { Version } from '../version';
 import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
+import { UpgradePanel } from './UpgradePanel';
+import { PrestigeUpgrades } from './PrestigeUpgrades';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);

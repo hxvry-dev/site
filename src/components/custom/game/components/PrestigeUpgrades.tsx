@@ -42,7 +42,7 @@ export const PrestigeUpgrades: FC = () => {
 				},
 				prestige: {
 					...state.prestige,
-					points: state.prestige.points - upgrade.cost * gameState.resources.buyPower,
+					points: state.prestige.points - upgrade.cost * upgrade.costMult * gameState.resources.buyPower,
 				},
 			};
 		});

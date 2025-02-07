@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { FC, useId } from 'react';
 import { gameStateAtom } from '../atomFactory';
 export const BuyMultiple: FC = () => {
-	const [_, setGameState] = useAtom(gameStateAtom);
+	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const id = useId();
 
 	interface BuyMultipleItemsProps {
@@ -44,7 +44,7 @@ export const BuyMultiple: FC = () => {
 	return (
 		<fieldset className="space-y-4">
 			<legend className="text-sm font-medium leading-none text-foreground">Buy Multiple Upgrades!</legend>
-			<RadioGroup className="grid grid-cols-4 gap-2" defaultValue="1">
+			<RadioGroup className="grid grid-cols-4 gap-2" value={gameState.resources.buyPower.toString() || '10'}>
 				{buyMultipleItems.map((item) => (
 					<label
 						key={`${id}-${item.value}`}
@@ -52,7 +52,7 @@ export const BuyMultiple: FC = () => {
 					>
 						<RadioGroupItem
 							id={`${id}-${item.value}`}
-							value={item.value.toString()}
+							value={`${item.value}`}
 							className="sr-only after:absolute after:inset-0"
 							disabled={item.disabled}
 							onClick={() => handleClick(item.value)}

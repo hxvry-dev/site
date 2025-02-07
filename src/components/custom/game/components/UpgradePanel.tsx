@@ -21,7 +21,7 @@ export const UpgradePanel: FC = () => {
 				...state,
 				resources: {
 					...state.resources,
-					balance: state.resources.balance - upgrade.cost * gameState.resources.buyPower,
+					balance: state.resources.balance - upgrade.cost * upgrade.costMult * gameState.resources.buyPower,
 					perSecond: state.resources.perSecond + upgrade.currencyPerSecond * gameState.resources.buyPower,
 					clickPower:
 						gameState.resources.clickPower + upgrade.clickPowerIncrease * gameState.resources.buyPower,
@@ -37,7 +37,7 @@ export const UpgradePanel: FC = () => {
 						...state.upgrades.base,
 						[upgradeName]: {
 							...upgrade,
-							level: upgrade.level + 1 * gameState.resources.buyPower,
+							level: upgrade.level + gameState.resources.buyPower,
 							cost: upgrade.cost * upgrade.costMult * gameState.resources.buyPower,
 							firstPurchase: true,
 						},
