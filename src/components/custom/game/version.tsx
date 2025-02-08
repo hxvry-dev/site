@@ -5,7 +5,7 @@ export const Version: FC = () => {
 	return (
 		<div className="justify-self-center mt-8">
 			<NavLink to="https://github.com/hxvry-dev/site" target="_blank">
-				<small className="code">Version: 0.0.3</small>
+				<small className="code">Version: 0.0.5</small>
 			</NavLink>
 		</div>
 	);

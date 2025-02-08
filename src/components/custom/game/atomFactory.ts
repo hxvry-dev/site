@@ -43,7 +43,7 @@ const createGameState = (initialState: GameState) => {
 
 export const initialGameState: GameState = {
 	resources: {
-		balance: 1000,
+		balance: 0,
 		buyPower: 1,
 		clickPower: 1,
 		addedClickPower: 0,
@@ -55,10 +55,10 @@ export const initialGameState: GameState = {
 		prestige: PrestigeUpgrades,
 	},
 	prestige: {
-		count: 1,
+		count: 0,
 		cost: 1e5,
 		prestigeCostMultiplier: 500,
-		points: 1000,
+		points: 0,
 	},
 };
 
