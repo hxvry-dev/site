@@ -13,6 +13,7 @@ import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
 import { UpgradePanel } from './UpgradePanel';
 import { PrestigeUpgrades } from './PrestigeUpgrades';
+import { Upgrades } from './v2/Upgrades';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -90,6 +91,7 @@ export const Incremental: FC = () => {
 				</Button>
 			</div>
 			<Version />
+			<Upgrades />
 		</div>
 	);
 };
