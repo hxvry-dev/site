@@ -2,22 +2,27 @@ import { FC, useEffect, useRef } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom, initialGameState } from '../atomFactory';
+import { gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
 
 import { ClickerButton } from './ClickerButton';
 import { PrestigeButton } from './PrestigeButton';
-import { PrestigeUpgrades } from './PrestigeUpgrades';
-import { UpgradePanel } from './UpgradePanel';
 
 import { Button } from '@/components/ui/button';
 import { Version } from '../version';
 import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
+import { Upgrades } from './Upgrades';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
+	const [toggle, setToggle] = useAtom(toggleAtom);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
+
+	const handleToggle = () => {
+		setToggle((prev) => !prev);
+	};
 
 	useEffect(() => {
 		const updateResources = () => {
@@ -78,13 +83,28 @@ export const Incremental: FC = () => {
 					<PrestigeButton />
 				</div>
 			</div>
-			<div className="flex flex-col flex-grow w-[650px] float-start">
-				<UpgradePanel />
-			</div>
-			<div className="flex flex-col flex-grow w-[650px] float-right">
-				<PrestigeUpgrades />
+			<div className="mt-8">
+				<legend>Upgrades</legend>
+				<Tabs defaultValue="base">
+					<TabsList>
+						<TabsTrigger value="base">Base</TabsTrigger>
+						<TabsTrigger value="prestige">Prestige</TabsTrigger>
+					</TabsList>
+					<TabsContent value="base">{<Upgrades upgradeType="base" />}</TabsContent>
+					<TabsContent value="prestige">{<Upgrades upgradeType="prestige" />}</TabsContent>
+				</Tabs>
 			</div>
 			<div className="justify-self-center">
+				<Button
+					onClick={() => handleToggle()}
+					className={
+						toggle ? 'bg-green-700 hover:bg-green-700 text-white' : 'bg-red-700 hover:bg-red-700 text-white'
+					}
+				>
+					Toggle Upgrades{` ${toggle ? 'ON' : 'OFF'}`}
+				</Button>
+			</div>
+			<div className="justify-self-center mt-8">
 				<Button onClick={() => setGameState(initialGameState)} variant="destructive">
 					Reset Game?
 				</Button>

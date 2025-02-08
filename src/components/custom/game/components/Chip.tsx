@@ -23,7 +23,7 @@ export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 			// Max Level reached
 			return (
 				<div>
-					<Badge className={`mr-8 clear-left float-right bg-stone-950 text-stone-300 hover:bg-stone-950`}>
+					<Badge className={`clear-left float-right bg-stone-950 text-stone-300 hover:bg-stone-950`}>
 						Max Level
 					</Badge>
 				</div>
@@ -32,7 +32,7 @@ export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 		// Can Purchase this upgrade
 		return (
 			<div>
-				<Badge className={`mr-8 clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
+				<Badge className={`clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
 					Click Me!
 				</Badge>
 			</div>
@@ -41,7 +41,7 @@ export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 		// Cannot purchase this upgrade
 		return (
 			<div>
-				<Badge className={`mr-8 clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
+				<Badge className={`clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
 					Can&apos;t Afford!
 				</Badge>
 			</div>
@@ -57,7 +57,7 @@ export const CanBuyChip: FC<CanBuyProps> = ({ upgrades, upgradeType }) => {
 	if (upgradesArray.some(canBuy) === true) {
 		return (
 			<div>
-				<Badge className={`mr-8 clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
+				<Badge className={`clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
 					Upgrade Available!
 				</Badge>
 			</div>
@@ -65,7 +65,7 @@ export const CanBuyChip: FC<CanBuyProps> = ({ upgrades, upgradeType }) => {
 	} else {
 		return (
 			<div>
-				<Badge className={`mr-8 clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
+				<Badge className={`clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
 					Can&apos;t Afford!
 				</Badge>
 			</div>
