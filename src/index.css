@@ -95,14 +95,14 @@
 		font-style: normal;
 		font-weight: 400;
 		font-display: swap;
-		src: url(/fonts/GeistVF.woff);
+		src: url(/fonts/Geist.ttf);
 	}
 	@font-face {
 		font-family: 'geist-mono';
 		font-style: normal;
 		font-weight: 400;
 		font-display: swap;
-		src: url(/fonts/GeistMonoVF.woff);
+		src: url(/fonts/GeistMono.ttf);
 	}
 	@font-face {
 		font-family: 'space-grotesk';
