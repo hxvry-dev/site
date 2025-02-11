@@ -105,6 +105,13 @@
 		src: url(/fonts/GeistMono.ttf);
 	}
 	@font-face {
+		font-family: 'geist-heavy';
+		font-style: normal;
+		font-weight: 600;
+		font-display: swap;
+		src: url(/fonts/GeistMono.ttf);
+	}
+	@font-face {
 		font-family: 'space-grotesk';
 		font-style: normal;
 		font-weight: 400;
