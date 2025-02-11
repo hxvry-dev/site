@@ -4,15 +4,16 @@ import { gameStateAtom, Upgrade } from '../atomFactory';
 
 import { Badge } from '@/components/ui/badge';
 import { useAtom } from 'jotai';
+import { UpgradeTypes } from './Upgrades';
 
 interface ChipProps {
 	upgrade: Upgrade;
-	upgradeType: 'base' | 'prestige';
+	upgradeType: UpgradeTypes;
 }
 
 interface CanBuyProps {
 	upgrades: Record<string, Upgrade>;
-	upgradeType: 'base' | 'prestige';
+	upgradeType: UpgradeTypes;
 }
 
 export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {

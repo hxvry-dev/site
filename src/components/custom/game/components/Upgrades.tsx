@@ -3,8 +3,9 @@ import { FC } from 'react';
 import { gameStateAtom, toggleAtom, Upgrade } from '../atomFactory';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { UpgradeItem } from './UpgradeItem';
 
-type UpgradeTypes = 'base' | 'prestige';
+export type UpgradeTypes = 'base' | 'prestige';
 interface UpgradeProps {
 	upgradeType: UpgradeTypes;
 }
@@ -119,6 +120,7 @@ export const Upgrades: FC<UpgradeProps> = ({ upgradeType }) => {
 						))}
 					</TableBody>
 				</Table>
+				<UpgradeItem upgradeType={upgradeType} />
 			</div>
 		</>
 	);
