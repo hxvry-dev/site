@@ -8,7 +8,7 @@ import { ClickerButton } from './ClickerButton';
 import { PrestigeButton } from './PrestigeButton';
 
 import { Button } from '@/components/ui/button';
-import { Version } from '../version';
+import { Version } from './version';
 import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
