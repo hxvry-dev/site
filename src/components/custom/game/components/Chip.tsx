@@ -22,31 +22,13 @@ export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
 	if (resources >= upgrade.cost * gameState.resources.buyPower) {
 		if (upgrade.level >= upgrade.maxLevel) {
 			// Max Level reached
-			return (
-				<div>
-					<Badge className={`clear-left float-right bg-stone-950 text-stone-300 hover:bg-stone-950`}>
-						Max Level
-					</Badge>
-				</div>
-			);
+			return <Badge className={`bg-stone-950 text-stone-300 hover:bg-stone-950`}>Max Level</Badge>;
 		}
 		// Can Purchase this upgrade
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
-					Click Me!
-				</Badge>
-			</div>
-		);
+		return <Badge className={`bg-green-700 text-stone-300 hover:bg-green-700`}>Click Me!</Badge>;
 	} else {
 		// Cannot purchase this upgrade
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
-					Can&apos;t Afford!
-				</Badge>
-			</div>
-		);
+		return <Badge className={`bg-red-700 text-stone-300 hover:bg-red-700`}>Can&apos;t Afford!</Badge>;
 	}
 };
 
@@ -56,20 +38,8 @@ export const CanBuyChip: FC<CanBuyProps> = ({ upgrades, upgradeType }) => {
 	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
 	const canBuy = (upgrade: Upgrade) => resources >= upgrade.cost * gameState.resources.buyPower;
 	if (upgradesArray.some(canBuy) === true) {
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
-					Upgrade Available!
-				</Badge>
-			</div>
-		);
+		return <Badge className={`bg-green-700 text-stone-300 hover:bg-green-700`}>Upgrade Available!</Badge>;
 	} else {
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
-					Can&apos;t Afford!
-				</Badge>
-			</div>
-		);
+		return <Badge className={`bg-red-700 text-stone-300 hover:bg-red-700`}>Can&apos;t Afford!</Badge>;
 	}
 };

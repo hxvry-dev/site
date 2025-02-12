@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Version } from '../version';
 import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
-import { Upgrades } from './Upgrades';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Upgrades } from './Upgrades';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -67,7 +67,7 @@ export const Incremental: FC = () => {
 					</p>
 					<p>Current Click Power Multiplier: {gameState.resources.clickPowerMultiplier.toFixed(0)}x</p>
 					<p>Click Power Added From Upgrades: +{gameState.resources.addedClickPower.toFixed(2)}</p>
-					<p>Resources/second: {gameState.resources.perSecond.toFixed(2)}</p>
+					<p>Resources/second: {gameState.resources.perSecond.toFixed(4)}</p>
 					<div className="pt-1" />
 					<ClickerButton />
 				</div>
@@ -83,9 +83,9 @@ export const Incremental: FC = () => {
 					<PrestigeButton />
 				</div>
 			</div>
-			<div className="mt-8">
-				<legend>Upgrades</legend>
-				<Tabs defaultValue="base">
+			<div className="mt-8 px-5 max-w-fit justify-self-center" hidden={toggle}>
+				<legend className="mb-2 font-mono font-bold italic underline">Upgrades</legend>
+				<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
 					<TabsList>
 						<TabsTrigger value="base">Base</TabsTrigger>
 						<TabsTrigger value="prestige">Prestige</TabsTrigger>
