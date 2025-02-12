@@ -5,7 +5,6 @@ export default {
 	theme: {
 		fontFamily: {
 			mono: ['geist-mono'],
-			heavy: ['geist-heavy'],
 			sans: ['geist'],
 			incremental: ['space-grotesk'],
 		},

@@ -81,6 +81,9 @@
 	.code {
 		@apply font-mono bg-primary-foreground text-center hover:bg-primary hover:text-black;
 	}
+	.spoiler {
+		@apply bg-background text-background hover:bg-background hover:text-foreground;
+	}
 }
 
 @layer base {
@@ -93,28 +96,21 @@
 	@font-face {
 		font-family: 'geist';
 		font-style: normal;
-		font-weight: 400;
+		font-weight: 400 600;
 		font-display: swap;
 		src: url(/fonts/Geist.ttf);
 	}
 	@font-face {
 		font-family: 'geist-mono';
 		font-style: normal;
-		font-weight: 400;
-		font-display: swap;
-		src: url(/fonts/GeistMono.ttf);
-	}
-	@font-face {
-		font-family: 'geist-heavy';
-		font-style: normal;
-		font-weight: 600;
+		font-weight: 400 600;
 		font-display: swap;
 		src: url(/fonts/GeistMono.ttf);
 	}
 	@font-face {
 		font-family: 'space-grotesk';
 		font-style: normal;
-		font-weight: 400;
+		font-weight: 400 600;
 		font-display: swap;
 		src: url(/fonts/SpaceGrotesk-VariableFont_wght.ttf);
 	}
