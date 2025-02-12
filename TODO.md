@@ -4,7 +4,8 @@
   - [ ] Implement some sort of threshold with leveling where the next "tier" unlocks after x levels.
   - [ ] Implement multiple layers of this mechanic. For replayability (lol)
 - [ ] Update the main stat screen
-  - [ ] Change the layout/UX of the top 1/3 of the screen to allow for easier reading.
+  - [x] Change the layout/UX of the top 1/3 of the screen to allow for easier reading.
+    - [ ] More needs to be done (Move the left + right divs into one, unified layout)
   - [ ] Add a stats page/widget.
   - [ ] Add a formal "Save" option.
 - [ ] Prevent real-time editing of the state to prevent cheating.
