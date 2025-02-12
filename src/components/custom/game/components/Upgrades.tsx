@@ -6,8 +6,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Chip } from './Chip';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-
-export type UpgradeTypes = 'base' | 'prestige';
+import { UpgradeTypes } from '../util/types';
+import { getCost } from '../util/util';
 
 interface UpgradeItemProps {
 	upgradeType: UpgradeTypes;
@@ -16,20 +16,7 @@ interface UpgradeItemProps {
 export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const data = gameState.upgrades[upgradeType];
-
-	const getCost = (upgrade: Upgrade) => {
-		let cost = upgrade.cost;
-		const numUpgrades: number = gameState.resources.buyPower;
-		if (numUpgrades === 1 && upgrade.firstPurchase) {
-			cost *= upgrade.costMult;
-			return cost;
-		} else {
-			for (let i = 1; i < numUpgrades; i++) {
-				cost *= upgrade.costMult;
-			}
-		}
-		return cost;
-	};
+	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
 
 	const handleUpgrade = (upgrade: Upgrade) => {
 		setGameState((state) => {
@@ -37,7 +24,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 				...state,
 				resources: {
 					...state.resources,
-					balance: state.resources.balance - getCost(upgrade),
+					balance: resources - getCost(upgrade, gameState),
 					perSecond: state.resources.perSecond + upgrade.currencyPerSecond * state.resources.buyPower,
 					clickPower: state.resources.clickPower + upgrade.clickPowerIncrease * state.resources.buyPower,
 					addedClickPower:
@@ -53,7 +40,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 						[upgrade.id]: {
 							...upgrade,
 							level: upgrade.level + gameState.resources.buyPower,
-							cost: getCost(upgrade),
+							cost: getCost(upgrade, gameState),
 							firstPurchase: true,
 						},
 					},
@@ -80,11 +67,11 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 										<div>
 											Cost:{' '}
 											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{getCost(data[key]).toFixed(2)}
+												{getCost(data[key], gameState).toFixed(2)}
 											</span>
 										</div>
 										<div>
-											<Chip upgrade={data[key]} upgradeType={upgradeType} />
+											<Chip upgrade={data[key]} resources={resources} />
 										</div>
 									</div>
 								</AccordionTrigger>
@@ -184,7 +171,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 					<div className="max-w-fit content-center">
 						<Button
 							disabled={
-								gameState.resources.balance! < data[key].cost || data[key].level >= data[key].maxLevel
+								resources < getCost(data[key], gameState) && data[key].level != data[key].maxLevel
 							}
 							onClick={() => handleUpgrade(data[key])}
 						>
