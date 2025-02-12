@@ -69,7 +69,6 @@ export const Incremental: FC = () => {
 					<p>Click Power Added From Upgrades: +{gameState.resources.addedClickPower.toFixed(2)}</p>
 					<p>Resources/second: {gameState.resources.perSecond.toFixed(4)}</p>
 					<div className="pt-1" />
-					<ClickerButton />
 				</div>
 				<div className="col-span-1 p-5">
 					<BuyMultiple />
@@ -79,17 +78,20 @@ export const Incremental: FC = () => {
 					<p className="text-right">Cost to Prestige: {gameState.prestige.cost.toFixed(0)}</p>
 					<p className="text-right">Prestige Cost Multiplier: {gameState.prestige.prestigeCostMultiplier}</p>
 					<p className="text-right"># of successful prestiges: {gameState.prestige.count.toFixed(0)}</p>
-					<PrestigeBar />
-					<PrestigeButton />
 				</div>
 			</div>
-			<div className="mt-8 px-5 max-w-fit justify-self-center" hidden={toggle}>
-				<legend className="mb-2 font-mono font-bold italic underline">Upgrades</legend>
+			<div className="mt-4 px-5 max-w-fit justify-self-center" hidden={toggle}>
+				<legend className="mb-4 font-mono font-bold italic underline">Upgrades</legend>
 				<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
-					<TabsList>
+					<TabsList className="justify-items-center">
 						<TabsTrigger value="base">Base</TabsTrigger>
 						<TabsTrigger value="prestige">Prestige</TabsTrigger>
 					</TabsList>
+					<div className="w-[350px] my-5 grid grid-cols-2 grid-rows-2 gap-5">
+						<ClickerButton />
+						<PrestigeButton />
+						<div className="col-span-2 grid-row-2">{<PrestigeBar />}</div>
+					</div>
 					<TabsContent value="base">{<Upgrades upgradeType="base" />}</TabsContent>
 					<TabsContent value="prestige">{<Upgrades upgradeType="prestige" />}</TabsContent>
 				</Tabs>

@@ -69,12 +69,21 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 						<Accordion type="single" collapsible>
 							<AccordionItem value={key}>
 								<AccordionTrigger>
-									<div className="grid grid-cols-3 grid-rows-1 gap-4">
+									<div className="grid grid-cols-4 grid-rows-1 gap-2">
 										<div className="w-[200px]">{data[key].name}</div>
-										<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-											Level: {data[key].level} / {data[key].maxLevel}
+										<div>
+											Level:{' '}
+											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+												{data[key].level} / {data[key].maxLevel}
+											</span>
 										</div>
-										<div className="justify-self-center">
+										<div>
+											Cost:{' '}
+											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+												{getCost(data[key]).toFixed(2)}
+											</span>
+										</div>
+										<div>
 											<Chip upgrade={data[key]} upgradeType={upgradeType} />
 										</div>
 									</div>
