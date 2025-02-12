@@ -12,6 +12,7 @@ interface Resources {
 }
 
 export interface Upgrade {
+	id: string;
 	isBaseUpgrade: boolean;
 	name: string;
 	cost: number;

@@ -2,6 +2,7 @@ import { Upgrade } from './atomFactory';
 
 export const Upgrades: Record<string, Upgrade> = {
 	forceful_clicking: {
+		id: 'forceful_clicking',
 		isBaseUpgrade: true,
 		name: `Forceful Clicking`,
 		description: `Maybe if you click harder...`,
@@ -15,6 +16,7 @@ export const Upgrades: Record<string, Upgrade> = {
 		firstPurchase: false,
 		relatedUpgrades: {
 			forceful_clicking_ii: {
+				id: 'forceful_clicking_ii',
 				isBaseUpgrade: false,
 				name: `Forceful Clicking II`,
 				description: `Maybe if you click even harder...`,
@@ -29,6 +31,7 @@ export const Upgrades: Record<string, Upgrade> = {
 				relatedUpgrades: {},
 			},
 			forceful_clicking_iii: {
+				id: 'forceful_clicking_iii',
 				isBaseUpgrade: false,
 				name: `Forceful Clicking III`,
 				description: `Maybe if you click EVEN harder...`,
@@ -45,6 +48,7 @@ export const Upgrades: Record<string, Upgrade> = {
 		},
 	},
 	patience: {
+		id: 'patience',
 		isBaseUpgrade: true,
 		name: `Patience`,
 		description: `
@@ -60,6 +64,7 @@ export const Upgrades: Record<string, Upgrade> = {
 		firstPurchase: false,
 		relatedUpgrades: {
 			patience_ii: {
+				id: 'patience_ii',
 				isBaseUpgrade: false,
 				name: `Patience II`,
 				description: `
@@ -76,6 +81,7 @@ export const Upgrades: Record<string, Upgrade> = {
 				relatedUpgrades: {},
 			},
 			patience_iii: {
+				id: 'patience_iii',
 				isBaseUpgrade: false,
 				name: `Patience III`,
 				description: `
@@ -97,6 +103,7 @@ export const Upgrades: Record<string, Upgrade> = {
 
 export const PrestigeUpgrades: Record<string, Upgrade> = {
 	better_keyboard: {
+		id: 'better_keyboard',
 		isBaseUpgrade: true,
 		name: 'Better Keyboard',
 		description: `You splurged and bought the newest mechanical keyboard you could find... Let's see if it helps!`,
@@ -110,6 +117,7 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		firstPurchase: false,
 		relatedUpgrades: {
 			better_keyboard_ii: {
+				id: 'better_keyboard_ii',
 				isBaseUpgrade: false,
 				name: 'Better Keyboard II',
 				description: `You splurged and bought the newest mechanical keyboard you could find... The last one seemed to help, so this one HAS to help...`,
@@ -124,6 +132,7 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 				relatedUpgrades: {},
 			},
 			better_keyboard_iii: {
+				id: 'better_keyboard_iii',
 				isBaseUpgrade: false,
 				name: 'Better Keyboard III',
 				description: `This is the nicest keyboard money can buy.`,
@@ -140,6 +149,7 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		},
 	},
 	accidental_mutation: {
+		id: 'accidental_mutation',
 		isBaseUpgrade: true,
 		name: 'Accidental Mutation',
 		description: `You woke up with a few extra fingers today...`,
@@ -153,6 +163,7 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		firstPurchase: false,
 		relatedUpgrades: {
 			accidental_mutation_ii: {
+				id: 'accidental_mutation_ii',
 				isBaseUpgrade: false,
 				name: 'Accidental Mutation II',
 				description: `You woke up with a few extra toes today...`,
@@ -166,6 +177,7 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 				firstPurchase: false,
 			},
 			accidental_mutation_iii: {
+				id: 'accidental_mutation_iii',
 				isBaseUpgrade: false,
 				name: 'Accidental Mutation III',
 				description: `You woke up with a few extra limbs today...`,
