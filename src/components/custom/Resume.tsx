@@ -9,6 +9,7 @@ import { Badge } from '../ui/badge';
 
 interface JobCardProps {
 	id: number;
+	current?: boolean;
 	jobName: string;
 	jobTitle: string;
 	jobStartDate: Date;
@@ -22,6 +23,7 @@ interface JobCardProps {
 const jobs: JobCardProps[] = [
 	{
 		id: 0,
+		current: true,
 		jobName: 'Bryx',
 		jobTitle: 'Customer Support Engineer',
 		jobStartDate: new Date('05-01-2022'),
@@ -83,17 +85,40 @@ const Resume: FC = () => {
 			>
 				{jobs.map((job) => (
 					<Card key={job.id} className="max-w-[650px]">
-						<CardHeader>
-							<CardTitle>{job.jobName}</CardTitle>
-							<CardDescription>{job.jobTitle}</CardDescription>
+						<CardHeader className="grid grid-cols-2 gap-2">
+							<div>
+								<CardTitle>{job.jobName}</CardTitle>
+								<CardDescription>{job.jobTitle}</CardDescription>
+							</div>
+							<div>
+								{job.current ? (
+									<Badge className="float-right bg-[#8F0808] hover:bg-[#8F0808] text-foreground hover:text-foreground">
+										Current
+									</Badge>
+								) : (
+									<div>
+										<Badge className="float-right">
+											I worked here in &apos;
+											{job.jobStartDate.getFullYear().toString().substring(2)}
+											{job.jobSecondStartDate ? (
+												<>
+													{' '}
+													and &apos;
+													{job.jobSecondStartDate.getFullYear().toString().substring(2)}
+												</>
+											) : null}
+										</Badge>
+									</div>
+								)}
+							</div>
 						</CardHeader>
 						<CardContent>
 							<div className="mb-5">
 								Duration of Employment: <Badge>{getDuration(job.jobStartDate, job.jobEndDate!)}</Badge>
 								{job.jobSecondStartDate ? (
-									<Badge className="ml-5">
-										{getDuration(job.jobSecondStartDate, job.jobSecondEndDate!)}
-									</Badge>
+									<>
+										, <Badge>{getDuration(job.jobSecondStartDate, job.jobSecondEndDate!)}</Badge>
+									</>
 								) : null}
 							</div>
 
