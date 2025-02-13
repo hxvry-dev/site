@@ -23,7 +23,7 @@ export const Chip: FC<ChipProps> = ({ upgrade, resources }) => {
 	} else {
 		// Cannot purchase this upgrade
 		return (
-			<Badge className={`opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground`}>Can&apos;t Afford!</Badge>
+			<Badge className={`opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground`}>Can&apos;t Afford!</Badge>
 		);
 	}
 };
