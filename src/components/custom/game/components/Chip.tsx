@@ -16,12 +16,14 @@ export const Chip: FC<ChipProps> = ({ upgrade, resources }) => {
 	if (resources > getCost(upgrade, gameState)) {
 		if (upgrade.level >= upgrade.maxLevel) {
 			// Max Level reached
-			return <Badge className={`bg-stone-950 text-stone-300 hover:bg-stone-950`}>Max Level</Badge>;
+			return <Badge className={`opacity-85 bg-stone-800 hover:bg-stone-800/90 text-foreground`}>Max Level</Badge>;
 		}
 		// Can Purchase this upgrade
-		return <Badge className={`bg-green-700 text-stone-300 hover:bg-green-700`}>Click Me!</Badge>;
+		return <Badge className={`opacity-85 bg-green-800 hover:bg-green-700/90 text-foreground`}>Click Me!</Badge>;
 	} else {
 		// Cannot purchase this upgrade
-		return <Badge className={`bg-red-700 text-stone-300 hover:bg-red-700`}>Can&apos;t Afford!</Badge>;
+		return (
+			<Badge className={`opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground`}>Can&apos;t Afford!</Badge>
+		);
 	}
 };

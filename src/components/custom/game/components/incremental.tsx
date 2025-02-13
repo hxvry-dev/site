@@ -100,14 +100,19 @@ export const Incremental: FC = () => {
 				<Button
 					onClick={() => handleToggle()}
 					className={
-						toggle ? 'bg-green-700 hover:bg-green-700 text-white' : 'bg-red-700 hover:bg-red-700 text-white'
+						toggle
+							? 'opacity-85 bg-green-700 hover:bg-green-700/90 text-foreground'
+							: 'opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground'
 					}
 				>
 					Toggle Upgrades{` ${toggle ? 'ON' : 'OFF'}`}
 				</Button>
 			</div>
 			<div className="justify-self-center mt-8">
-				<Button onClick={() => setGameState(initialGameState)} variant="destructive">
+				<Button
+					onClick={() => setGameState(initialGameState)}
+					className="opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground"
+				>
 					Reset Game?
 				</Button>
 			</div>
