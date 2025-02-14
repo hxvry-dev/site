@@ -84,7 +84,7 @@ export const Incremental: FC = () => {
 					className={
 						toggle
 							? 'mt-5 opacity-85 bg-green-700 hover:bg-green-700/90 text-foreground'
-							: 'mt-5 opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground'
+							: 'mt-5 opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground'
 					}
 				>
 					Toggle Upgrades{` ${toggle ? 'ON' : 'OFF'}`}
@@ -93,7 +93,7 @@ export const Incremental: FC = () => {
 			<div className="justify-self-center mt-8">
 				<Button
 					onClick={() => setGameState(initialGameState)}
-					className="opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground"
+					className="opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground"
 				>
 					Reset Game?
 				</Button>
