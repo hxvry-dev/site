@@ -13,6 +13,7 @@ import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upgrades } from './Upgrades';
+import { Stats } from './Stats';
 
 export const Incremental: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -58,30 +59,11 @@ export const Incremental: FC = () => {
 	return (
 		<div>
 			<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
-			<div className="grid grid-cols-3 grid-rows-1 gap-0 justify-between">
-				<div className="grid float-left">
-					<p>Resources: {gameState.resources.balance.toFixed(2)}</p>
-					<p>
-						Current Click Power:{' '}
-						{(gameState.resources.clickPower * gameState.resources.clickPowerMultiplier).toFixed(2)}
-					</p>
-					<p>Current Click Power Multiplier: {gameState.resources.clickPowerMultiplier.toFixed(0)}x</p>
-					<p>Click Power Added From Upgrades: +{gameState.resources.addedClickPower.toFixed(2)}</p>
-					<p>Resources/second: {gameState.resources.perSecond.toFixed(4)}</p>
-					<div className="pt-1" />
-				</div>
-				<div className="col-span-1 p-5">
-					<BuyMultiple />
-				</div>
-				<div className="grid clear-left float-right">
-					<p className="text-right">Prestige Points: {gameState.prestige.points.toFixed(0)}</p>
-					<p className="text-right">Cost to Prestige: {gameState.prestige.cost.toFixed(0)}</p>
-					<p className="text-right">Prestige Cost Multiplier: {gameState.prestige.prestigeCostMultiplier}</p>
-					<p className="text-right"># of successful prestiges: {gameState.prestige.count.toFixed(0)}</p>
-				</div>
+			<div className="justify-self-center">
+				<Stats />
 			</div>
 			<div className="mt-4 px-5 max-w-fit justify-self-center" hidden={toggle}>
-				<legend className="mb-4 font-mono font-bold italic underline">Upgrades</legend>
+				<legend className="mb-4 font-mono font-bold italic underline justify-self-center">Upgrades</legend>
 				<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
 					<TabsList className="justify-items-center">
 						<TabsTrigger value="base">Base</TabsTrigger>
@@ -101,8 +83,8 @@ export const Incremental: FC = () => {
 					onClick={() => handleToggle()}
 					className={
 						toggle
-							? 'opacity-85 bg-green-700 hover:bg-green-700/90 text-foreground'
-							: 'opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground'
+							? 'mt-5 opacity-85 bg-green-700 hover:bg-green-700/90 text-foreground'
+							: 'mt-5 opacity-85 bg-red-950 hover:bg-red-950/90 text-foreground'
 					}
 				>
 					Toggle Upgrades{` ${toggle ? 'ON' : 'OFF'}`}
