@@ -59,9 +59,7 @@ export const Incremental: FC = () => {
 	return (
 		<div>
 			<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
-			<div className="justify-self-center">
-				<Stats />
-			</div>
+			<Stats />
 			<div className="mt-4 px-5 max-w-fit justify-self-center" hidden={toggle}>
 				<legend className="mb-4 font-mono font-bold italic underline justify-self-center">Upgrades</legend>
 				<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
