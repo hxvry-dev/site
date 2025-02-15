@@ -13,10 +13,10 @@ import { PrestigeBar } from './PrestigeBar';
 import { BuyMultiple } from './BuyMultiple';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upgrades } from './Upgrades';
-import { Stats } from './Stats';
+import { GameStats } from './GameStats';
 
 export const Incremental: FC = () => {
-	const [gameState, setGameState] = useAtom(gameStateAtom);
+	const [_, setGameState] = useAtom(gameStateAtom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -59,8 +59,12 @@ export const Incremental: FC = () => {
 	return (
 		<div>
 			<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
-			<Stats />
-			<div className="mt-4 px-5 max-w-fit justify-self-center" hidden={toggle}>
+			<div className="justify-self-center">
+				<p className="justify-self-center mb-5">Buy Multiple Upgrades!</p>
+				<BuyMultiple />
+			</div>
+			<GameStats />
+			<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={toggle}>
 				<legend className="mb-4 font-mono font-bold italic underline justify-self-center">Upgrades</legend>
 				<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
 					<TabsList className="justify-items-center">

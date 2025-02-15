@@ -43,7 +43,6 @@ export const BuyMultiple: FC = () => {
 
 	return (
 		<fieldset className="space-y-4">
-			<legend className="text-sm font-medium leading-none text-foreground">Buy Multiple Upgrades!</legend>
 			<RadioGroup className="grid grid-cols-4 gap-2" value={gameState.resources.buyPower.toString() || '10'}>
 				{buyMultipleItems.map((item) => (
 					<label
