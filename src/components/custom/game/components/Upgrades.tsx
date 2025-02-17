@@ -51,7 +51,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	return (
 		<div>
 			{Object.keys(data).map((key) => (
-				<div className="flex grid-flow-col gap-5" key={key}>
+				<div className="flex grid-flow-col gap-5 font-mono" key={key}>
 					<div>
 						<Accordion type="single" collapsible>
 							<AccordionItem value={key}>

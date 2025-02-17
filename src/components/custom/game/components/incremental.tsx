@@ -59,13 +59,13 @@ export const Incremental: FC = () => {
 	return (
 		<div>
 			<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
-			<div className="justify-self-center">
+			<div className="justify-self-center font-mono">
 				<p className="justify-self-center mb-5">Buy Multiple Upgrades!</p>
 				<BuyMultiple />
 			</div>
 			<GameStats />
 			<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={toggle}>
-				<legend className="mb-4 font-mono font-bold italic underline justify-self-center">Upgrades</legend>
+				<legend className="mb-4 font-mono font-bold justify-self-center">Upgrades</legend>
 				<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
 					<TabsList className="justify-items-center">
 						<TabsTrigger value="base">Base</TabsTrigger>
@@ -80,7 +80,7 @@ export const Incremental: FC = () => {
 					<TabsContent value="prestige">{<Upgrades upgradeType="prestige" />}</TabsContent>
 				</Tabs>
 			</div>
-			<div className="justify-self-center">
+			<div className="justify-self-center font-mono">
 				<Button
 					onClick={() => handleToggle()}
 					className={
@@ -92,7 +92,7 @@ export const Incremental: FC = () => {
 					Toggle Upgrades{` ${toggle ? 'ON' : 'OFF'}`}
 				</Button>
 			</div>
-			<div className="justify-self-center mt-8">
+			<div className="justify-self-center mt-8 font-mono">
 				<Button
 					onClick={() => setGameState(initialGameState)}
 					className="opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground"

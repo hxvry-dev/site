@@ -31,7 +31,7 @@ export const PrestigeButton: FC = () => {
 	};
 
 	return (
-		<Button onClick={handlePrestige} disabled={newPrestigePoints <= 0} className="w-full">
+		<Button onClick={handlePrestige} disabled={newPrestigePoints <= 0} className="w-full font-mono">
 			Prestige?
 		</Button>
 	);
