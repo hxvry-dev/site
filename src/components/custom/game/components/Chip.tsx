@@ -4,71 +4,26 @@ import { gameStateAtom, Upgrade } from '../atomFactory';
 
 import { Badge } from '@/components/ui/badge';
 import { useAtom } from 'jotai';
+import { getCost } from '../util/util';
 
 interface ChipProps {
 	upgrade: Upgrade;
-	upgradeType: 'base' | 'prestige';
+	resources: number;
 }
 
-interface CanBuyProps {
-	upgrades: Record<string, Upgrade>;
-	upgradeType: 'base' | 'prestige';
-}
-
-export const Chip: FC<ChipProps> = ({ upgrade, upgradeType }) => {
+export const Chip: FC<ChipProps> = ({ upgrade, resources }) => {
 	const [gameState] = useAtom(gameStateAtom);
-	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
-	if (resources >= upgrade.cost * gameState.resources.buyPower) {
+	if (resources > getCost(upgrade, gameState)) {
 		if (upgrade.level >= upgrade.maxLevel) {
 			// Max Level reached
-			return (
-				<div>
-					<Badge className={`clear-left float-right bg-stone-950 text-stone-300 hover:bg-stone-950`}>
-						Max Level
-					</Badge>
-				</div>
-			);
+			return <Badge className={`opacity-85 bg-stone-800 hover:bg-stone-800/90 text-foreground`}>Max Level</Badge>;
 		}
 		// Can Purchase this upgrade
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
-					Click Me!
-				</Badge>
-			</div>
-		);
+		return <Badge className={`opacity-85 bg-green-800 hover:bg-green-700/90 text-foreground`}>Click Me!</Badge>;
 	} else {
 		// Cannot purchase this upgrade
 		return (
-			<div>
-				<Badge className={`clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
-					Can&apos;t Afford!
-				</Badge>
-			</div>
-		);
-	}
-};
-
-export const CanBuyChip: FC<CanBuyProps> = ({ upgrades, upgradeType }) => {
-	const [gameState] = useAtom(gameStateAtom);
-	const upgradesArray = Object.values(upgrades);
-	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
-	const canBuy = (upgrade: Upgrade) => resources >= upgrade.cost * gameState.resources.buyPower;
-	if (upgradesArray.some(canBuy) === true) {
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-green-700 text-stone-300 hover:bg-green-700`}>
-					Upgrade Available!
-				</Badge>
-			</div>
-		);
-	} else {
-		return (
-			<div>
-				<Badge className={`clear-left float-right bg-red-700 text-stone-300 hover:bg-red-700`}>
-					Can&apos;t Afford!
-				</Badge>
-			</div>
+			<Badge className={`opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground`}>Can&apos;t Afford!</Badge>
 		);
 	}
 };

@@ -12,6 +12,8 @@ interface Resources {
 }
 
 export interface Upgrade {
+	id: string;
+	isBaseUpgrade: boolean;
 	name: string;
 	cost: number;
 	costMult: number;
@@ -22,6 +24,7 @@ export interface Upgrade {
 	currencyPerSecond: number;
 	firstPurchase: boolean;
 	description: string;
+	relatedUpgrades?: Record<string, Upgrade>;
 }
 
 interface Prestige {
