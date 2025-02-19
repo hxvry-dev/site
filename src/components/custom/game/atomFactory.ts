@@ -25,6 +25,8 @@ export interface Upgrade {
 	firstPurchase: boolean;
 	description: string;
 	relatedUpgrades?: Record<string, Upgrade>;
+	upgradeUnfolded: boolean;
+	upgradeUnfoldThreshold: number;
 }
 
 interface Prestige {

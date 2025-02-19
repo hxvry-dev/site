@@ -14,6 +14,8 @@ export const Upgrades: Record<string, Upgrade> = {
 		maxLevel: 999,
 		currencyPerSecond: 0,
 		firstPurchase: false,
+		upgradeUnfoldThreshold: 15,
+		upgradeUnfolded: false,
 		relatedUpgrades: {
 			forceful_clicking_ii: {
 				id: 'forceful_clicking_ii',
@@ -28,7 +30,8 @@ export const Upgrades: Record<string, Upgrade> = {
 				maxLevel: 99,
 				currencyPerSecond: 0,
 				firstPurchase: false,
-				relatedUpgrades: {},
+				upgradeUnfoldThreshold: 15,
+				upgradeUnfolded: false,
 			},
 			forceful_clicking_iii: {
 				id: 'forceful_clicking_iii',
@@ -43,7 +46,8 @@ export const Upgrades: Record<string, Upgrade> = {
 				maxLevel: 99,
 				currencyPerSecond: 0,
 				firstPurchase: false,
-				relatedUpgrades: {},
+				upgradeUnfoldThreshold: 15,
+				upgradeUnfolded: false,
 			},
 		},
 	},
@@ -62,6 +66,8 @@ export const Upgrades: Record<string, Upgrade> = {
 		maxLevel: 99,
 		currencyPerSecond: 0.125,
 		firstPurchase: false,
+		upgradeUnfoldThreshold: 15,
+		upgradeUnfolded: false,
 		relatedUpgrades: {
 			patience_ii: {
 				id: 'patience_ii',
@@ -78,7 +84,8 @@ export const Upgrades: Record<string, Upgrade> = {
 				maxLevel: 99,
 				currencyPerSecond: 0.25,
 				firstPurchase: false,
-				relatedUpgrades: {},
+				upgradeUnfoldThreshold: 15,
+				upgradeUnfolded: false,
 			},
 			patience_iii: {
 				id: 'patience_iii',
@@ -95,7 +102,8 @@ export const Upgrades: Record<string, Upgrade> = {
 				maxLevel: 99,
 				currencyPerSecond: 0.5,
 				firstPurchase: false,
-				relatedUpgrades: {},
+				upgradeUnfoldThreshold: 15,
+				upgradeUnfolded: false,
 			},
 		},
 	},
@@ -115,6 +123,8 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		maxLevel: 5,
 		currencyPerSecond: 0,
 		firstPurchase: false,
+		upgradeUnfoldThreshold: 10,
+		upgradeUnfolded: false,
 		relatedUpgrades: {
 			better_keyboard_ii: {
 				id: 'better_keyboard_ii',
@@ -129,7 +139,8 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 				maxLevel: 3,
 				currencyPerSecond: 0,
 				firstPurchase: false,
-				relatedUpgrades: {},
+				upgradeUnfoldThreshold: 10,
+				upgradeUnfolded: false,
 			},
 			better_keyboard_iii: {
 				id: 'better_keyboard_iii',
@@ -144,7 +155,8 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 				maxLevel: 1,
 				currencyPerSecond: 0,
 				firstPurchase: false,
-				relatedUpgrades: {},
+				upgradeUnfoldThreshold: 10,
+				upgradeUnfolded: false,
 			},
 		},
 	},
@@ -161,6 +173,8 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		maxLevel: 5,
 		currencyPerSecond: 0,
 		firstPurchase: false,
+		upgradeUnfoldThreshold: 10,
+		upgradeUnfolded: false,
 		relatedUpgrades: {
 			accidental_mutation_ii: {
 				id: 'accidental_mutation_ii',
@@ -174,6 +188,8 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 				level: 0,
 				maxLevel: 3,
 				currencyPerSecond: 0,
+				upgradeUnfoldThreshold: 10,
+				upgradeUnfolded: false,
 				firstPurchase: false,
 			},
 			accidental_mutation_iii: {
@@ -188,6 +204,8 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 				level: 0,
 				maxLevel: 1,
 				currencyPerSecond: 0,
+				upgradeUnfoldThreshold: 10,
+				upgradeUnfolded: false,
 				firstPurchase: false,
 			},
 		},
