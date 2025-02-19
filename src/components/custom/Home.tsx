@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { ArrowBigRightDash } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -55,9 +53,8 @@ const Home: React.FC = () => {
 					variant={isMobile ? 'outline' : 'ghost'}
 					className={isMobile ? '' : 'col-span-4'}
 				>
-					<NavLink to="/incremental">
-						<span>I'm building a simple Incremental game! Check it out here </span>
-						<ArrowBigRightDash />
+					<NavLink to="/projects" target="_blank">
+						Projects
 					</NavLink>
 				</Button>
 			</div>
