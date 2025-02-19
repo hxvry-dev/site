@@ -13,9 +13,6 @@ export const Upgrades: Record<string, Upgrade> = {
 		maxLevel: 999,
 		currencyPerSecond: 0,
 		firstPurchase: false,
-		thresholds: {
-			tierUp: 15,
-		},
 	},
 	patience: {
 		id: 'patience',
@@ -29,9 +26,6 @@ export const Upgrades: Record<string, Upgrade> = {
 		maxLevel: 99,
 		currencyPerSecond: 0.125,
 		firstPurchase: false,
-		thresholds: {
-			tierUp: 15,
-		},
 	},
 };
 
@@ -48,9 +42,6 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		maxLevel: 5,
 		currencyPerSecond: 0,
 		firstPurchase: false,
-		thresholds: {
-			tierUp: 15,
-		},
 	},
 	accidental_mutation: {
 		id: 'accidental_mutation',
@@ -64,8 +55,5 @@ export const PrestigeUpgrades: Record<string, Upgrade> = {
 		maxLevel: 5,
 		currencyPerSecond: 0,
 		firstPurchase: false,
-		thresholds: {
-			tierUp: 15,
-		},
 	},
 };
