@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
-import { gameStateAtom, Upgrade, UpgradeTypes } from '../atomFactory';
+import { gameStateAtom, Upgrade } from '../atomFactory';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Chip } from './Chip';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { getCost } from '../util/util';
+import { UpgradeTypes } from '../v2/upgrades/v2AtomFactoryUpgrades';
 
 interface UpgradeItemProps {
 	upgradeType: UpgradeTypes;
