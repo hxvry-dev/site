@@ -2,6 +2,8 @@ import { atomWithStorage } from 'jotai/utils';
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 
+export type UpgradeTypes = 'base' | 'prestige';
+
 interface Resources {
 	balance: number;
 	buyPower: number;
