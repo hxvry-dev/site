@@ -7,7 +7,6 @@ interface ResourcesV2 {
 	currencyBalance: number;
 	purchasePower: number;
 	currencyPerClick: number;
-	addedCurrencyPerClick: number;
 	currencyPerClickMultiplier: number;
 	currencyPerSecond: number;
 }
@@ -20,7 +19,7 @@ interface PrestigeV2 {
 }
 
 export interface UpgradeV2 {
-	id: number;
+	id: string;
 	type: UpgradeTypes;
 	name: string;
 	description: string;
@@ -33,8 +32,8 @@ export interface UpgradeV2 {
 		max: number;
 	};
 	stats: {
-		clickPowerIncrease: number;
-		clickPowerMultiplierIncrease: number;
+		currencyPerClickIncrease: number;
+		currencyPerClickMultiplierIncrease: number;
 		currencyPerSecondIncrease: number;
 	};
 }
@@ -54,7 +53,6 @@ export const initialGameStateV2: GameStateV2 = {
 		currencyBalance: 0,
 		purchasePower: 1,
 		currencyPerClick: 1,
-		addedCurrencyPerClick: 0,
 		currencyPerClickMultiplier: 1,
 		currencyPerSecond: 0,
 	},
