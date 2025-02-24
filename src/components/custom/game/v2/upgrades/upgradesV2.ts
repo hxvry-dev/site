@@ -1,6 +1,6 @@
-import { UpgradeV2 } from './v2AtomFactoryUpgrades';
+import { Upgrade } from './v2AtomFactoryUpgrades';
 
-export const UpgradesV2: Record<string, UpgradeV2> = {
+export const Upgrades: Record<string, Upgrade> = {
 	forceful_clicking: {
 		id: 'forceful_clicking',
 		type: 'base',
@@ -35,7 +35,7 @@ export const UpgradesV2: Record<string, UpgradeV2> = {
 	},
 };
 
-export const PrestigeUpgradesV2: Record<string, UpgradeV2> = {
+export const PrestigeUpgrades: Record<string, Upgrade> = {
 	better_keyboard: {
 		id: 'better_keyboard',
 		type: 'prestige',
