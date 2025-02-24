@@ -1,9 +1,9 @@
 import { atomWithStorage } from 'jotai/utils';
-import { UpgradesV2, PrestigeUpgradesV2 } from './upgradesV2';
+import { PrestigeUpgrades, Upgrades } from './upgradesV2';
 
 export type UpgradeTypes = 'base' | 'prestige';
 
-interface ResourcesV2 {
+interface Resources {
 	currencyBalance: number;
 	purchasePower: number;
 	currencyPerClick: number;
@@ -11,14 +11,14 @@ interface ResourcesV2 {
 	currencyPerSecond: number;
 }
 
-interface PrestigeV2 {
+interface Prestige {
 	numTimesPrestiged: number;
 	prestigeCost: number;
 	prestigeCostMultiplier: number;
 	prestigePointsBalance: number;
 }
 
-export interface UpgradeV2 {
+export interface Upgrade {
 	id: string;
 	type: UpgradeTypes;
 	name: string;
@@ -38,17 +38,17 @@ export interface UpgradeV2 {
 	};
 }
 
-export interface GameStateV2 {
-	resources: ResourcesV2;
-	upgrades: { base: Record<string, UpgradeV2>; prestige: Record<string, UpgradeV2> };
-	prestige: PrestigeV2;
+export interface GameState {
+	resources: Resources;
+	upgrades: { base: Record<string, Upgrade>; prestige: Record<string, Upgrade> };
+	prestige: Prestige;
 }
 
-const createGameStateV2 = (initialState: GameStateV2) => {
-	return atomWithStorage<GameStateV2>('gameState', initialState);
+const createGameState = (initialState: GameState) => {
+	return atomWithStorage<GameState>('gameState', initialState);
 };
 
-export const initialGameStateV2: GameStateV2 = {
+export const initialGameState: GameState = {
 	resources: {
 		currencyBalance: 0,
 		purchasePower: 1,
@@ -57,8 +57,8 @@ export const initialGameStateV2: GameStateV2 = {
 		currencyPerSecond: 0,
 	},
 	upgrades: {
-		base: UpgradesV2,
-		prestige: PrestigeUpgradesV2,
+		base: Upgrades,
+		prestige: PrestigeUpgrades,
 	},
 	prestige: {
 		numTimesPrestiged: 0,
@@ -68,4 +68,4 @@ export const initialGameStateV2: GameStateV2 = {
 	},
 };
 
-export const gameStateAtomV2 = createGameStateV2(initialGameStateV2);
+export const gameStateAtom = createGameState(initialGameState);
