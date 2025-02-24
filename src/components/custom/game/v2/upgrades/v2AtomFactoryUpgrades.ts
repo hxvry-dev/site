@@ -5,6 +5,7 @@ export type UpgradeTypes = 'base' | 'prestige';
 
 interface Resources {
 	currencyBalance: number;
+	prestigePointsBalance: number;
 	purchasePower: number;
 	currencyPerClick: number;
 	currencyPerClickMultiplier: number;
@@ -15,7 +16,6 @@ interface Prestige {
 	numTimesPrestiged: number;
 	prestigeCost: number;
 	prestigeCostMultiplier: number;
-	prestigePointsBalance: number;
 }
 
 export interface Upgrade {
@@ -51,6 +51,7 @@ const createGameState = (initialState: GameState) => {
 export const initialGameState: GameState = {
 	resources: {
 		currencyBalance: 0,
+		prestigePointsBalance: 0,
 		purchasePower: 1,
 		currencyPerClick: 1,
 		currencyPerClickMultiplier: 1,
@@ -64,7 +65,6 @@ export const initialGameState: GameState = {
 		numTimesPrestiged: 0,
 		prestigeCost: 1e5,
 		prestigeCostMultiplier: 500,
-		prestigePointsBalance: 0,
 	},
 };
 
