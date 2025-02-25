@@ -36,14 +36,14 @@ export const BuyMultiple: FC = () => {
 			...state,
 			resources: {
 				...state.resources,
-				buyPower: v,
+				purchasePower: v,
 			},
 		}));
 	};
 
 	return (
 		<fieldset className="space-y-4">
-			<RadioGroup className="grid grid-cols-4 gap-2" value={gameState.resources.buyPower.toString() || '10'}>
+			<RadioGroup className="grid grid-cols-4 gap-2" value={gameState.resources.purchasePower.toString() || '1'}>
 				{buyMultipleItems.map((item) => (
 					<label
 						key={`${id}-${item.value}`}
