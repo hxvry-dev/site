@@ -1,13 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
-import { gameStateAtom, Upgrade } from '../atomFactory';
+import { gameStateAtom, Upgrade, UpgradeTypes } from '../atomFactory';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Chip } from './Chip';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { getCost } from '../util/util';
-import { UpgradeTypes } from '../v2/upgrades/v2AtomFactoryUpgrades';
 
 interface UpgradeItemProps {
 	upgradeType: UpgradeTypes;
@@ -16,7 +15,8 @@ interface UpgradeItemProps {
 export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const data = gameState.upgrades[upgradeType];
-	const resources = upgradeType === 'base' ? gameState.resources.balance : gameState.prestige.points;
+	const resources =
+		upgradeType === 'base' ? gameState.resources.currencyBalance : gameState.resources.prestigePointsBalance;
 
 	const handleUpgrade = (upgrade: Upgrade) => {
 		setGameState((state) => {
@@ -24,14 +24,16 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 				...state,
 				resources: {
 					...state.resources,
-					balance: resources - getCost(upgrade, gameState),
-					perSecond: state.resources.perSecond + upgrade.currencyPerSecond * state.resources.buyPower,
-					clickPower: state.resources.clickPower + upgrade.clickPowerIncrease * state.resources.buyPower,
-					addedClickPower:
-						state.resources.addedClickPower + upgrade.clickPowerIncrease * state.resources.buyPower,
-					clickPowerMultiplier:
-						state.resources.clickPowerMultiplier +
-						upgrade.clickPowerMultiplierIncrease * state.resources.buyPower,
+					currencyBalance: resources - getCost(upgrade, gameState),
+					currencyPerSecond:
+						state.resources.currencyPerSecond +
+						upgrade.stats.currencyPerSecondIncrease * state.resources.purchasePower,
+					currencyPerClick:
+						state.resources.currencyPerClick +
+						upgrade.stats.currencyPerClickIncrease * state.resources.purchasePower,
+					currencyPerClickMultiplier:
+						state.resources.currencyPerClickMultiplier +
+						upgrade.stats.currencyPerClickMultiplierIncrease * state.resources.purchasePower,
 				},
 				upgrades: {
 					...state.upgrades,
@@ -39,9 +41,14 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 						...state.upgrades[upgradeType],
 						[upgrade.id]: {
 							...upgrade,
-							level: upgrade.level + gameState.resources.buyPower,
-							cost: getCost(upgrade, gameState),
-							firstPurchase: true,
+							cost: {
+								current: getCost(upgrade, state),
+								multiplier: upgrade.cost.multiplier,
+							},
+							level: {
+								...upgrade.level,
+								current: upgrade.level.current + state.resources.purchasePower,
+							},
 						},
 					},
 				},
@@ -61,7 +68,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 										<div>
 											Level:{' '}
 											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{data[key].level} / {data[key].maxLevel}
+												{data[key].level.current} / {data[key].level.max}
 											</span>
 										</div>
 										<div>
@@ -99,14 +106,15 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
 																	+
 																	{(
-																		data[key].clickPowerIncrease *
-																		gameState.resources.buyPower
+																		data[key].stats.currencyPerClickIncrease *
+																		gameState.resources.purchasePower
 																	).toFixed(2)}
 																</div>
 															</TooltipTrigger>
 															<TooltipContent className="bg-background border-2 text-foreground">
 																<div>
-																	Current Bonus: +{gameState.resources.clickPower}{' '}
+																	Current Bonus: +
+																	{gameState.resources.currencyPerClick}{' '}
 																	Currency/Click
 																</div>
 															</TooltipContent>
@@ -120,8 +128,9 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
 																	+
 																	{(
-																		data[key].clickPowerMultiplierIncrease *
-																		gameState.resources.buyPower
+																		data[key].stats
+																			.currencyPerClickMultiplierIncrease *
+																		gameState.resources.purchasePower
 																	).toFixed(2)}
 																	x
 																</div>
@@ -129,8 +138,8 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 															<TooltipContent className="bg-background border-2 text-foreground">
 																<div>
 																	Current Bonus:{' '}
-																	{gameState.resources.clickPowerMultiplier}x Currency
-																	per Click
+																	{gameState.resources.currencyPerClickMultiplier}x
+																	Currency per Click
 																</div>
 															</TooltipContent>
 														</Tooltip>
@@ -143,16 +152,17 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
 																	+
 																	{(
-																		data[key].currencyPerSecond *
-																		gameState.resources.buyPower
+																		data[key].stats.currencyPerSecondIncrease *
+																		gameState.resources.purchasePower
 																	).toFixed(2)}
 																	/s
 																</div>
 															</TooltipTrigger>
 															<TooltipContent className="font-medium bg-background border-2 text-foreground">
 																<div>
-																	Current Bonus: +{gameState.resources.perSecond}{' '}
-																	Currency/per second (Automatically!!){' '}
+																	Current Bonus: +
+																	{gameState.resources.currencyPerSecond} Currency/per
+																	second (Automatically!!){' '}
 																	<span className="spoiler">
 																		this is a rounded value
 																	</span>
@@ -171,7 +181,8 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 					<div className="max-w-fit content-center">
 						<Button
 							disabled={
-								resources < getCost(data[key], gameState) && data[key].level != data[key].maxLevel
+								resources < getCost(data[key], gameState) &&
+								data[key].level.current != data[key].level.max
 							}
 							onClick={() => handleUpgrade(data[key])}
 						>

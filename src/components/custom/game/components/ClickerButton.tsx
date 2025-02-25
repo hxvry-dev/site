@@ -8,13 +8,15 @@ import { Button } from '@/components/ui/button';
 
 export const ClickerButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
-	const clickValue: number = gameState.resources.clickPower * gameState.resources.clickPowerMultiplier;
+	const clickValue: number = gameState.resources.currencyPerClick * gameState.resources.currencyPerClickMultiplier;
 	const handleClick = () => {
 		setGameState((state) => ({
 			...state,
 			resources: {
 				...state.resources,
-				balance: state.resources.balance + state.resources.clickPower * state.resources.clickPowerMultiplier,
+				currencyBalance:
+					state.resources.currencyBalance +
+					state.resources.currencyPerClick * state.resources.currencyPerClickMultiplier,
 			},
 		}));
 	};

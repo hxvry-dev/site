@@ -13,8 +13,8 @@ interface ChipProps {
 
 export const Chip: FC<ChipProps> = ({ upgrade, resources }) => {
 	const [gameState] = useAtom(gameStateAtom);
-	if (resources > getCost(upgrade, gameState)) {
-		if (upgrade.level >= upgrade.maxLevel) {
+	if (resources >= getCost(upgrade, gameState)) {
+		if (upgrade.level.current >= upgrade.level.max) {
 			// Max Level reached
 			return <Badge className={`opacity-85 bg-stone-800 hover:bg-stone-800/90 text-foreground`}>Max Level</Badge>;
 		}
