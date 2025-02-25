@@ -41,7 +41,8 @@ export const Incremental: FC = () => {
 					...state,
 					resources: {
 						...state.resources,
-						balance: state.resources.balance + state.resources.perSecond * elapsedTime,
+						currencyBalance:
+							state.resources.currencyBalance + state.resources.currencyPerSecond * elapsedTime,
 					},
 				};
 			});
