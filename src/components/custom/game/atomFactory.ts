@@ -1,35 +1,41 @@
 import { atomWithStorage } from 'jotai/utils';
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
+export type UpgradeTypes = 'base' | 'prestige';
 
 interface Resources {
-	balance: number;
-	buyPower: number;
-	clickPower: number;
-	addedClickPower: number;
-	clickPowerMultiplier: number;
-	perSecond: number;
+	currencyBalance: number;
+	prestigePointsBalance: number;
+	purchasePower: number;
+	currencyPerClick: number;
+	currencyPerClickMultiplier: number;
+	currencyPerSecond: number;
+}
+
+interface Prestige {
+	numTimesPrestiged: number;
+	prestigeCost: number;
+	prestigeCostMultiplier: number;
 }
 
 export interface Upgrade {
 	id: string;
+	type: UpgradeTypes;
 	name: string;
 	description: string;
-	cost: number;
-	costMult: number;
-	clickPowerIncrease: number;
-	clickPowerMultiplierIncrease: number;
-	level: number;
-	maxLevel: number;
-	currencyPerSecond: number;
-	firstPurchase: boolean;
-}
-
-interface Prestige {
-	count: number;
-	cost: number;
-	prestigeCostMultiplier: number;
-	points: number;
+	cost: {
+		current: number;
+		multiplier: number;
+	};
+	level: {
+		current: number;
+		max: number;
+	};
+	stats: {
+		currencyPerClickIncrease: number;
+		currencyPerClickMultiplierIncrease: number;
+		currencyPerSecondIncrease: number;
+	};
 }
 
 export interface GameState {
@@ -44,22 +50,21 @@ const createGameState = (initialState: GameState) => {
 
 export const initialGameState: GameState = {
 	resources: {
-		balance: 0,
-		buyPower: 1,
-		clickPower: 1,
-		addedClickPower: 0,
-		clickPowerMultiplier: 1,
-		perSecond: 0,
+		currencyBalance: 0,
+		prestigePointsBalance: 0,
+		purchasePower: 1,
+		currencyPerClick: 1,
+		currencyPerClickMultiplier: 1,
+		currencyPerSecond: 0,
 	},
 	upgrades: {
 		base: Upgrades,
 		prestige: PrestigeUpgrades,
 	},
 	prestige: {
-		count: 0,
-		cost: 1e5,
+		numTimesPrestiged: 0,
+		prestigeCost: 1e5,
 		prestigeCostMultiplier: 500,
-		points: 0,
 	},
 };
 
