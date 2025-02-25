@@ -37,7 +37,7 @@ const Projects: FC = () => {
 	return (
 		<>
 			<div className="justify-self-center mt-5 p-5 font-mono border-2 w-fit">My Projects</div>
-			<div className="justify-self-center mt-[-2px] p-5 font-mono border-2 w-fit">
+			<div className="justify-self-center mt-2 p-5 font-mono border-2 w-fit">
 				<div>
 					{ProjectData.map((project) => (
 						<Card key={project.id}>
