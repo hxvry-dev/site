@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { IconBrandGithub } from '@tabler/icons-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
-import { ArrowRightSquare } from 'lucide-react';
 import GithubRepoTable from './GithubRepoTable';
 
 const linkGenerator = (slug: string, desc: string) => {
