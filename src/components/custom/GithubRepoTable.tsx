@@ -40,9 +40,6 @@ const TableStandalone: React.FC<{ repos: Repo[] }> = ({ repos }) => {
 								{repo.language}
 							</Badge>
 						</TableCell>
-						<TableCell>
-							<a href={repo.url!}>Raw</a>
-						</TableCell>
 					</TableRow>
 				))}
 			</TableBody>

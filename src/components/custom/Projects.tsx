@@ -3,6 +3,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { IconBrandGithub } from '@tabler/icons-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { ArrowRightSquare } from 'lucide-react';
+import GithubRepoTable from './GithubRepoTable';
 
 const linkGenerator = (slug: string, desc: string) => {
 	return (
@@ -38,31 +41,37 @@ const Projects: FC = () => {
 		<>
 			<div className="justify-self-center mt-5 p-5 font-mono border-2 w-fit">My Projects</div>
 			<div className="justify-self-center mt-2 p-5 font-mono border-2 w-fit">
-				<div>
-					{ProjectData.map((project) => (
-						<Card key={project.id}>
-							<CardHeader>
-								<CardTitle>{project.name}</CardTitle>
-								<CardDescription>
-									<p className="w-[250px]">{project.description}</p>
-								</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<div className="grid grid-cols-2 gap-0">
-									<div>{project.link}</div>
-									<div>
-										<Button asChild>
-											<NavLink to={project.src} target="_blank">
-												{<IconBrandGithub />} Source
-											</NavLink>
-										</Button>
-									</div>
+				{ProjectData.map((project) => (
+					<Card key={project.id}>
+						<CardHeader>
+							<CardTitle>{project.name}</CardTitle>
+							<CardDescription>
+								<p className="w-[250px]">{project.description}</p>
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<div className="grid grid-cols-2 gap-0">
+								<div>{project.link}</div>
+								<div>
+									<Button asChild>
+										<NavLink to={project.src} target="_blank">
+											{<IconBrandGithub />} Source
+										</NavLink>
+									</Button>
 								</div>
-							</CardContent>
-							<CardFooter></CardFooter>
-						</Card>
-					))}
-				</div>
+							</div>
+						</CardContent>
+						<CardFooter></CardFooter>
+					</Card>
+				))}
+			</div>
+			<div className="justify-self-center w-fit">
+				<Accordion type="single" collapsible>
+					<AccordionItem value="proj-repos">
+						<AccordionTrigger className="justify-center pl-4 pr-4">Project Repositories</AccordionTrigger>
+						<AccordionContent className="w-[550px]">{<GithubRepoTable />}</AccordionContent>
+					</AccordionItem>
+				</Accordion>
 			</div>
 		</>
 	);
