@@ -44,7 +44,7 @@ const Home: React.FC = () => {
 				</Button>
 				<Button asChild size="sm" variant={isMobile ? 'outline' : 'ghost'}>
 					<NavLink to="https://bsky.app/profile/hxvry.com" target="_blank">
-						Bluesky
+						My Bluesky
 					</NavLink>
 				</Button>
 				<Button
@@ -53,9 +53,7 @@ const Home: React.FC = () => {
 					variant={isMobile ? 'outline' : 'ghost'}
 					className={isMobile ? '' : 'col-span-4'}
 				>
-					<NavLink to="/projects" target="_blank">
-						Projects
-					</NavLink>
+					<NavLink to="/projects">Projects</NavLink>
 				</Button>
 			</div>
 			<div className="pt-5 justify-self-center">

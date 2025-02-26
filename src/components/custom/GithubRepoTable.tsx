@@ -40,9 +40,6 @@ const TableStandalone: React.FC<{ repos: Repo[] }> = ({ repos }) => {
 								{repo.language}
 							</Badge>
 						</TableCell>
-						<TableCell>
-							<a href={repo.url!}>Raw</a>
-						</TableCell>
 					</TableRow>
 				))}
 			</TableBody>
@@ -60,7 +57,7 @@ const GithubRepoTable: React.FC = () => {
 		getRepos();
 	}, []);
 	return (
-		<div>
+		<div className="font-mono">
 			<h1>Github Repo Table</h1>
 			<TableStandalone repos={repos} />
 		</div>
