@@ -1,6 +1,7 @@
 import { atomWithStorage } from 'jotai/utils';
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
+import { GameState } from './schema';
 export type UpgradeTypes = 'base' | 'prestige';
 
 interface Resources {
@@ -36,12 +37,6 @@ export interface Upgrade {
 		currencyPerClickMultiplierIncrease: number;
 		currencyPerSecondIncrease: number;
 	};
-}
-
-export interface GameState {
-	resources: Resources;
-	upgrades: { base: Record<string, Upgrade>; prestige: Record<string, Upgrade> };
-	prestige: Prestige;
 }
 
 const createGameState = (initialState: GameState) => {
