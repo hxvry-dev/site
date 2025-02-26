@@ -1,6 +1,6 @@
-import { Upgrade } from './atomFactory';
+import { zUpgrade } from './schema';
 
-export const Upgrades: Record<string, Upgrade> = {
+export const Upgrades: Record<string, zUpgrade> = {
 	forceful_clicking: {
 		id: 'forceful_clicking',
 		type: 'base',
@@ -35,7 +35,7 @@ export const Upgrades: Record<string, Upgrade> = {
 	},
 };
 
-export const PrestigeUpgrades: Record<string, Upgrade> = {
+export const PrestigeUpgrades: Record<string, zUpgrade> = {
 	better_keyboard: {
 		id: 'better_keyboard',
 		type: 'prestige',
