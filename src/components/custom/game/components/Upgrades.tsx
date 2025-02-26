@@ -1,15 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
-import { gameStateAtom, Upgrade, UpgradeTypes } from '../atomFactory';
+import { gameStateAtom } from '../atomFactory';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Chip } from './Chip';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { getCost } from '../util/util';
+import { zUpgrade } from '../schema';
 
 interface UpgradeItemProps {
-	upgradeType: UpgradeTypes;
+	upgradeType: 'base' | 'prestige';
 }
 
 export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
@@ -18,7 +19,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	const resources =
 		upgradeType === 'base' ? gameState.resources.currencyBalance : gameState.resources.prestigePointsBalance;
 
-	const handleUpgrade = (upgrade: Upgrade) => {
+	const handleUpgrade = (upgrade: zUpgrade) => {
 		setGameState((state) => {
 			return {
 				...state,
