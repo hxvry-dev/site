@@ -57,7 +57,7 @@ const GithubRepoTable: React.FC = () => {
 		getRepos();
 	}, []);
 	return (
-		<div>
+		<div className="font-mono">
 			<h1>Github Repo Table</h1>
 			<TableStandalone repos={repos} />
 		</div>

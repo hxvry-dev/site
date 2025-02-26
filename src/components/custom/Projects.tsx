@@ -5,11 +5,10 @@ import { Button } from '../ui/button';
 import { IconBrandGithub } from '@tabler/icons-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import GithubRepoTable from './GithubRepoTable';
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 
 const linkGenerator = (slug: string, desc: string) => {
 	return (
-		<Button asChild>
+		<Button asChild variant="secondary">
 			<NavLink to={`${slug}`}>{desc}</NavLink>
 		</Button>
 	);
@@ -49,14 +48,14 @@ const Projects: FC = () => {
 	return (
 		<>
 			<div className="justify-self-center mt-5 p-5 font-mono border-2 w-fit">My Projects</div>
-			<div className="mt-2 p-5 font-mono border-2 w-fit grid grid-cols-3 grid-rows-3 gap-5 justify-self-center">
+			<div className="mt-2 p-5 border-2 font-mono w-fit grid grid-flow-col gap-5 justify-self-center max-w-[1280px]">
 				{ProjectData.map((project) => (
 					<Card key={project.id}>
 						<CardHeader>
 							<CardTitle>{project.name}</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="overflow-scroll whitespace-normal border p-3 max-h-[150px] min-w-[410px] content-center">
+							<div className="overflow-scroll whitespace-normal border p-3 h-[150px] content-center">
 								<p>{project.description}</p>
 							</div>
 						</CardContent>
@@ -64,7 +63,7 @@ const Projects: FC = () => {
 							<div className="grid grid-cols-2 gap-5">
 								<div>{project.link}</div>
 								<div>
-									<Button asChild>
+									<Button asChild variant="link">
 										<NavLink to={project.src} target="_blank">
 											{<IconBrandGithub />} Source
 										</NavLink>
@@ -75,7 +74,7 @@ const Projects: FC = () => {
 					</Card>
 				))}
 			</div>
-			<div className="justify-self-center w-fit">
+			<div className="justify-self-center w-fit font-mono">
 				<Accordion type="single" collapsible>
 					<AccordionItem value="proj-repos">
 						<AccordionTrigger className="justify-center pl-4 pr-4">Project Repositories</AccordionTrigger>
