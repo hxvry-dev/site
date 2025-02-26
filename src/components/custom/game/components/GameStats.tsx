@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
 import { FC } from 'react';
 import { gameStateAtom } from '../atomFactory';
+import { newPrestigePoints } from '../util/util';
 
 interface StatsProps {}
 
@@ -8,26 +9,38 @@ export const GameStats: FC<StatsProps> = () => {
 	const [gameState] = useAtom(gameStateAtom);
 	return (
 		<div className="mt-4 p-5 border-2 font-mono justify-self-center grid grid-cols-2 gap-4">
-			<div className="grid grid-cols-[max-content_max-content] gap-2 px-5">
-				<div className="border-b-2 w-fit italic">Resources: </div>
-				<div className="border-b-2 font-bold">{gameState.resources.currencyBalance.toFixed(2)}</div>
-				<div className="border-b-2 w-fit italic">Current Click Power: </div>
-				<div className="border-b-2 font-bold">+{gameState.resources.currencyPerClick.toFixed(2)}</div>
-				<div className="border-b-2 w-fit italic pr-5">Current Click Power Multiplier: </div>
-				<div className="border-b-2 font-bold">{gameState.resources.currencyPerClickMultiplier.toFixed(2)}x</div>
-				<div className="border-b-2 w-fit italic">Currency Per Second: </div>
-				<div className="border-b-2 font-bold">{gameState.resources.currencyPerSecond.toFixed(2)}</div>
+			<div className="grid grid-cols-[max-content_max-content] gap-x-4 gap-y-2 mt-4">
+				<div className="text-sm border-b-2 italic w-fit">Resources: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					{gameState.resources.currencyBalance.toFixed(2)}
+				</div>
+				<div className="text-sm border-b-2 italic w-fit">Current Click Power: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					+{gameState.resources.currencyPerClick.toFixed(2)}
+				</div>
+				<div className="text-sm border-b-2 italic w-fit">Current Click Power Multiplier:</div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					{gameState.resources.currencyPerClickMultiplier.toFixed(2)}x
+				</div>
+				<div className="text-sm border-b-2 italic w-fit">Currency Per Second: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					{gameState.resources.currencyPerSecond.toFixed(2)}
+				</div>
 			</div>
-			<div className="grid grid-cols-[max-content_max-content] gap-2 px-5">
-				<div className="border-b-2 w-fit italic">Prestige Points: </div>
-				<div className="border-b-2 font-bold">{gameState.resources.prestigePointsBalance}</div>
-				<div className="border-b-2 w-fit italic">Cost to Prestige: </div>
-				<div className="border-b-2 font-bold">{gameState.prestige.prestigeCost}</div>
-				<div className="border-b-2 w-fit italic">Prestige Cost Multiplier: </div>
-				<div className="border-b-2 font-bold">{gameState.prestige.prestigeCostMultiplier}</div>
-				<div className="border-b-2 w-fit italic"># of successful prestiges: </div>
-				<div className="border-b-2 font-bold">{gameState.prestige.numTimesPrestiged}</div>
+			<div className="grid grid-cols-[max-content_max-content] gap-x-4 gap-y-2 mt-4">
+				<div className="text-sm border-b-2 italic w-fit">Prestige Points: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					{gameState.resources.prestigePointsBalance}
+				</div>
+				<div className="text-sm border-b-2 italic w-fit">Prestige Points Gained on Next Prestige: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">{newPrestigePoints(gameState)}</div>
+				<div className="text-sm border-b-2 italic w-fit">Cost to Prestige: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					{gameState.prestige.prestigeCost}
+				</div>
 			</div>
 		</div>
 	);
 };
+
+//max-w-[250px] overflow-scroll
