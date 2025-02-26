@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const zRecordUpgradeSchema = z
+export const zUpgradeSchema = z
 	.object({
 		id: z.string().nonempty(),
 		type: z.enum(['base', 'prestige']),
@@ -18,11 +18,12 @@ const zRecordUpgradeSchema = z
 		}),
 	})
 	.strict();
-const zRecordUpgradeRecord = z.record(z.string(), zRecordUpgradeSchema);
-export type zRecordUpgrade = z.infer<typeof zRecordUpgradeRecord>;
+const zRecordUpgrade = z.record(z.string(), zUpgradeSchema);
+export type zUpgrade = z.infer<typeof zUpgradeSchema>;
+export type zRecordUpgrade = z.infer<typeof zRecordUpgrade>;
 
 export type GameState = z.infer<typeof zGameStateSchema>;
-const zGameStateSchema = z
+export const zGameStateSchema = z
 	.object({
 		resources: z.object({
 			currencyBalance: z.number().nonnegative(),
@@ -38,8 +39,8 @@ const zGameStateSchema = z
 			prestigeCostMultiplier: z.number().nonnegative(),
 		}),
 		upgrades: z.object({
-			base: zRecordUpgradeRecord,
-			prestige: zRecordUpgradeRecord,
+			base: zRecordUpgrade,
+			prestige: zRecordUpgrade,
 		}),
 	})
 	.strict();

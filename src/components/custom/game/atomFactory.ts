@@ -1,47 +1,9 @@
-import { atomWithStorage } from 'jotai/utils';
+import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as withStorageValidator } from 'jotai/utils';
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
-import { GameState } from './schema';
-export type UpgradeTypes = 'base' | 'prestige';
+import { GameState, zGameStateSchema } from './schema';
 
-interface Resources {
-	currencyBalance: number;
-	prestigePointsBalance: number;
-	purchasePower: number;
-	currencyPerClick: number;
-	currencyPerClickMultiplier: number;
-	currencyPerSecond: number;
-}
-
-interface Prestige {
-	numTimesPrestiged: number;
-	prestigeCost: number;
-	prestigeCostMultiplier: number;
-}
-
-export interface Upgrade {
-	id: string;
-	type: UpgradeTypes;
-	name: string;
-	description: string;
-	cost: {
-		current: number;
-		multiplier: number;
-	};
-	level: {
-		current: number;
-		max: number;
-	};
-	stats: {
-		currencyPerClickIncrease: number;
-		currencyPerClickMultiplierIncrease: number;
-		currencyPerSecondIncrease: number;
-	};
-}
-
-const createGameState = (initialState: GameState) => {
-	return atomWithStorage<GameState>('gameState', initialState);
-};
+const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
 export const initialGameState: GameState = {
 	resources: {
@@ -61,6 +23,10 @@ export const initialGameState: GameState = {
 		prestigeCost: 1e5,
 		prestigeCostMultiplier: 500,
 	},
+};
+
+const createGameState = (initialState: GameState) => {
+	return atomWithStorage('gameState', initialState, withStorageValidator(isGameState)(createJSONStorage()));
 };
 
 export const gameStateAtom = createGameState(initialGameState);
