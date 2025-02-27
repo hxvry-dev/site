@@ -9,6 +9,7 @@ import App from './App.tsx';
 
 import './index.css';
 import './index.css';
+import { Toaster } from './components/ui/toaster.tsx';
 
 createRoot(document.getElementById('root')!).render(
 	<ThemeProvider>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
 			<BrowserRouter>
 				<Provider>
 					<App />
+					<Toaster />
 				</Provider>
 			</BrowserRouter>
 		</StrictMode>
