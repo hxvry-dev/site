@@ -112,7 +112,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 																	).toFixed(2)}
 																</div>
 															</TooltipTrigger>
-															<TooltipContent className="bg-background border-2 text-foreground">
+															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
 																<div>
 																	Current Bonus: +
 																	{gameState.resources.currencyPerClick}{' '}
@@ -136,7 +136,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 																	x
 																</div>
 															</TooltipTrigger>
-															<TooltipContent className="bg-background border-2 text-foreground">
+															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
 																<div>
 																	Current Bonus:{' '}
 																	{gameState.resources.currencyPerClickMultiplier}x

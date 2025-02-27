@@ -25,9 +25,30 @@ export const initialGameState: GameState = {
 	},
 };
 
+export const debugGameState: GameState = {
+	resources: {
+		currencyBalance: 1e4,
+		prestigePointsBalance: 10,
+		purchasePower: 1,
+		currencyPerClick: 1,
+		currencyPerClickMultiplier: 5,
+		currencyPerSecond: 10,
+	},
+	upgrades: {
+		base: Upgrades,
+		prestige: PrestigeUpgrades,
+	},
+	prestige: {
+		numTimesPrestiged: 0,
+		prestigeCost: 1e5,
+		prestigeCostMultiplier: 500,
+	},
+};
+
 const createGameState = (initialState: GameState) => {
 	return atomWithStorage('gameState', initialState, withStorageValidator(isGameState)(createJSONStorage()));
 };
 
 export const gameStateAtom = createGameState(initialGameState);
 export const toggleAtom = atomWithStorage('upgradesOpen', true);
+export const debugModeAtom = atomWithStorage('debugMode', false);
