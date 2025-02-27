@@ -41,7 +41,7 @@ export const PrestigeUpgrades: Record<string, zUpgrade> = {
 		type: 'prestige',
 		name: 'Better Keyboard',
 		description: `You splurged and bought the newest mechanical keyboard you could find... Let's see if it helps!`,
-		cost: { current: 100, multiplier: 5 },
+		cost: { current: 1, multiplier: 5 },
 		level: {
 			current: 0,
 			max: 5,
@@ -57,7 +57,7 @@ export const PrestigeUpgrades: Record<string, zUpgrade> = {
 		type: 'prestige',
 		name: 'Accidental Mutation',
 		description: `You woke up with a few extra fingers today...`,
-		cost: { current: 200, multiplier: 5 },
+		cost: { current: 5, multiplier: 5 },
 		level: {
 			current: 0,
 			max: 5,
