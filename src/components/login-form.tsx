@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { FormEvent, useState } from 'react';
 import supabase from '@/db/supabase';
 import { useNavigate } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();
@@ -18,21 +19,42 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
-		await supabase().auth.signInWithPassword({
-			email: email,
-			password: password,
-		});
+		await supabase()
+			.auth.signInWithPassword({
+				email: email,
+				password: password,
+			})
+			.then(() =>
+				toast({
+					title: 'Signed In!',
+				}),
+			)
+			.catch(() =>
+				toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' }),
+			);
 		nav('/incremental');
 	}
 
 	async function handleSignup(e: FormEvent) {
 		e.preventDefault();
-		await supabase().auth.signUp({
-			email: email,
-			password: password,
-		});
+		await supabase()
+			.auth.signUp({
+				email: email,
+				password: password,
+				options: {
+					emailRedirectTo: 'https://hxvry.com/authed',
+				},
+			})
+			.then(() =>
+				toast({
+					title: 'Thanks for Signing Up!',
+					description: 'Please verify your email to be able to sign into your account!',
+				}),
+			)
+			.catch(() =>
+				toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' }),
+			);
 		setSignupFlow(false);
-		nav('/incremental');
 	}
 
 	const handleSignupFlow = () => {
