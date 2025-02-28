@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upgrades } from './Upgrades';
 import { GameStats } from './GameStats';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { EnterDebug } from './enterDebug';
+import { EnterDebug } from './DebugMode';
 
 export const Incremental: FC = () => {
 	const [_, setGameState] = useAtom(gameStateAtom);
