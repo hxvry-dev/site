@@ -4,24 +4,47 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { supabase } from '@/App';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
-async function handleLogin(email: string, password: string) {
-	await supabase.auth.signInWithPassword({
-		email: email,
-		password: password,
-	});
-}
+import { FormEvent, useState } from 'react';
+import { toast } from '@/hooks/use-toast';
+import supabase from '@/db/supabase';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+	async function handleLogin(e: FormEvent) {
+		e.preventDefault();
+		await supabase().auth.signInWithPassword({
+			email: email,
+			password: password,
+		});
+	}
+
+	async function handleSignup(e: FormEvent) {
+		e.preventDefault();
+		await supabase().auth.signUp({
+			email: email,
+			password: password,
+		});
+		setSignupFlow(false);
+		setEmail(email);
+		setPassword(password);
+		setConfirmPassword('');
+		toast({
+			title: 'Thanks for signing up!',
+		});
+	}
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const [signupFlow, setSignupFlow] = useState(false);
+
+	const handleSignupFlow = () => {
+		setSignupFlow((prev) => !prev);
+	};
 
 	return (
 		<div className={cn('flex flex-col gap-6', className)} {...props}>
-			<form onSubmit={async () => handleLogin(email, password)}>
+			<form onSubmit={!signupFlow ? handleLogin : handleSignup}>
 				<div className="flex flex-col gap-6">
 					<div className="flex flex-col items-center gap-2">
 						<a href="#" className="flex flex-col items-center gap-2 font-medium">
@@ -31,36 +54,77 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 							<span className="sr-only">Idle Game</span>
 						</a>
 						<h1 className="text-xl font-bold">Welcome to the Game!</h1>
-						<div className="text-center text-sm">
-							Don&apos;t have an account?{' '}
-							<NavLink to="/signup" className="underline underline-offset-4">
-								Sign up
-							</NavLink>
-						</div>
+						{!signupFlow ? (
+							<div className="text-center text-sm cursor-pointer">
+								Don&apos;t have an account?{' '}
+								<a onClick={() => handleSignupFlow()} className="underline underline-offset-4">
+									Sign up
+								</a>
+							</div>
+						) : (
+							<></>
+						)}
 					</div>
-					<div className="flex flex-col gap-6">
-						<div className="grid gap-3">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								type="email"
-								placeholder="m@example.com"
-								onChange={(e) => setEmail(e.target.value)}
-								required
-							/>
-							<Label htmlFor="password">Password</Label>
-							<Input
-								id="password"
-								type="password"
-								placeholder="password123"
-								onChange={(e) => setPassword(e.target.value)}
-								required
-							/>
+					{!signupFlow ? (
+						<div className="flex flex-col gap-6">
+							<div className="grid gap-3">
+								<Label htmlFor="email">Email</Label>
+								<Input
+									id="email"
+									type="email"
+									placeholder="m@example.com"
+									onChange={(e) => setEmail(e.target.value)}
+									required
+								/>
+								<Label htmlFor="password">Password</Label>
+								<Input
+									id="password"
+									type="password"
+									placeholder="password123"
+									onChange={(e) => setPassword(e.target.value)}
+									required
+								/>
+							</div>
+							<Button type="submit" className="w-full">
+								Login
+							</Button>
 						</div>
-						<Button type="submit" className="w-full">
-							Login
-						</Button>
-					</div>
+					) : (
+						<div className="flex flex-col gap-6">
+							<div className="grid gap-3">
+								<Label htmlFor="email">Email</Label>
+								<Input
+									id="email"
+									type="email"
+									placeholder="m@example.com"
+									onChange={(e) => setEmail(e.target.value)}
+									required
+								/>
+								<Label htmlFor="password">Password</Label>
+								<Input
+									id="password"
+									type="password"
+									placeholder="password123"
+									onChange={(e) => setPassword(e.target.value)}
+									required
+								/>
+								<Label htmlFor="password">Password</Label>
+								<Input
+									id="confirm-password"
+									type="password"
+									placeholder="Confirm Password..."
+									onChange={(e) => setConfirmPassword(e.target.value)}
+									required
+								/>
+							</div>
+							<div>
+								<Button type="submit" className="w-full" disabled={!(password === confirmPassword)}>
+									Sign Up
+								</Button>
+								{password !== confirmPassword ? <small>Passwords need to match!</small> : <></>}
+							</div>
+						</div>
+					)}
 				</div>
 			</form>
 		</div>
