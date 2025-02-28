@@ -7,6 +7,7 @@ import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
 import Resume from './components/custom/Resume';
 import Projects from './components/custom/Projects';
+import Authed from './components/custom/Authed';
 
 const App: FC = () => {
 	return (
@@ -14,6 +15,7 @@ const App: FC = () => {
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="/authed" element={<Authed />} />
 				<Route path="/resume" element={<Resume />} />
 				<Route path="/projects" element={<Projects />} />
 				<Route path="/incremental" element={<Incremental />} />
