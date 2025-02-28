@@ -18,10 +18,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { EnterDebug } from './DebugMode';
 import { Session } from '@supabase/supabase-js';
 import { LoginForm } from '@/components/login-form';
-import { supabase } from '@/App';
+import supabase from '@/db/supabase';
 
 async function handleSignOut() {
-	await supabase.auth.signOut();
+	await supabase().auth.signOut();
 }
 
 export const Incremental: FC = () => {
@@ -88,13 +88,15 @@ export const Incremental: FC = () => {
 	}, [setGameState]);
 
 	useEffect(() => {
-		supabase.auth.getSession().then(({ data: { session } }) => {
-			return setSession(session);
-		});
+		supabase()
+			.auth.getSession()
+			.then(({ data: { session } }) => {
+				return setSession(session);
+			});
 
 		const {
 			data: { subscription },
-		} = supabase.auth.onAuthStateChange((_event, session) => {
+		} = supabase().auth.onAuthStateChange((_event, session) => {
 			return setSession(session);
 		});
 

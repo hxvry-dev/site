@@ -5,16 +5,24 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FormEvent, useState } from 'react';
-import { toast } from '@/hooks/use-toast';
 import supabase from '@/db/supabase';
+import { useNavigate } from 'react-router-dom';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+	const nav = useNavigate();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const [signupFlow, setSignupFlow] = useState(false);
+
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
 		await supabase().auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
+		nav('/incremental');
 	}
 
 	async function handleSignup(e: FormEvent) {
@@ -24,19 +32,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 			password: password,
 		});
 		setSignupFlow(false);
-		setEmail(email);
-		setPassword(password);
-		setConfirmPassword('');
-		toast({
-			title: 'Thanks for signing up!',
-		});
+		nav('/incremental');
 	}
-
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-
-	const [signupFlow, setSignupFlow] = useState(false);
 
 	const handleSignupFlow = () => {
 		setSignupFlow((prev) => !prev);
@@ -118,6 +115,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 								/>
 							</div>
 							<div>
+								{signupFlow ? (
+									<div className="text-center text-sm cursor-pointer my-2">
+										Back to{' '}
+										<a onClick={() => handleSignupFlow()} className="underline underline-offset-4">
+											Login
+										</a>
+									</div>
+								) : (
+									<></>
+								)}
 								<Button type="submit" className="w-full" disabled={!(password === confirmPassword)}>
 									Sign Up
 								</Button>
