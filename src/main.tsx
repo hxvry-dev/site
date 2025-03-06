@@ -8,7 +8,6 @@ import { ThemeProvider } from './components/theme-provider.tsx';
 import App from './App.tsx';
 
 import './index.css';
-import './index.css';
 import { Toaster } from './components/ui/toaster.tsx';
 
 createRoot(document.getElementById('root')!).render(
