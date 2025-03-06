@@ -56,6 +56,10 @@ export const Incremental: FC = () => {
 	};
 
 	useEffect(() => {
+		document.title = 'Idle Game';
+	}, []);
+
+	useEffect(() => {
 		const updateResources = () => {
 			const now = Date.now();
 			const elapsedTime = (now - lastUpdateRef.current) / 1000; // convert to seconds

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
@@ -45,6 +45,9 @@ const ProjectData: ProjectDataProps[] = [
 ];
 
 const Projects: FC = () => {
+	useEffect(() => {
+		document.title = `The Projects Page`;
+	});
 	return (
 		<>
 			<div className="justify-self-center mt-5 p-5 font-mono border-2 w-fit">My Projects</div>
