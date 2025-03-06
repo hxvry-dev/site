@@ -26,8 +26,10 @@ export type GameState = z.infer<typeof zGameStateSchema>;
 export const zGameStateSchema = z
 	.object({
 		resources: z.object({
-			currencyBalance: z.number().nonnegative(),
-			prestigePointsBalance: z.number().nonnegative(),
+			currencyBalance: z.object({
+				main: z.number().nonnegative(),
+				prestige: z.number().nonnegative(),
+			}),
 			purchasePower: z.number().nonnegative(),
 			currencyPerClick: z.number().nonnegative(),
 			currencyPerClickMultiplier: z.number().nonnegative(),
