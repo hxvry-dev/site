@@ -14,9 +14,12 @@ export const ClickerButton: FC = () => {
 			...state,
 			resources: {
 				...state.resources,
-				currencyBalance:
-					state.resources.currencyBalance +
-					state.resources.currencyPerClick * state.resources.currencyPerClickMultiplier,
+				currencyBalance: {
+					...state.resources.currencyBalance,
+					main:
+						state.resources.currencyBalance.main +
+						state.resources.currencyPerClick * state.resources.currencyPerClickMultiplier,
+				},
 			},
 		}));
 	};
