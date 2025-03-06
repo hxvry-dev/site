@@ -11,12 +11,15 @@ export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 
 	const handlePrestige = () => {
-		if (gameState.resources.prestigePointsBalance >= 0 && newPrestigePoints(gameState) >= 1) {
+		if (gameState.resources.currencyBalance.prestige >= 0 && newPrestigePoints(gameState) >= 1) {
 			return setGameState((state) => ({
 				...state,
 				resources: {
 					...initialGameState.resources,
-					prestigePointsBalance: gameState.resources.prestigePointsBalance + newPrestigePoints(gameState),
+					currencyBalance: {
+						...initialGameState.resources.currencyBalance,
+						prestige: gameState.resources.currencyBalance.prestige + newPrestigePoints(gameState),
+					},
 				},
 				upgrades: {
 					...state.upgrades,

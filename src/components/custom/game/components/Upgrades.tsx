@@ -17,15 +17,29 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const data = gameState.upgrades[upgradeType];
 	const resources =
-		upgradeType === 'base' ? gameState.resources.currencyBalance : gameState.resources.prestigePointsBalance;
+		upgradeType === 'base'
+			? gameState.resources.currencyBalance.main
+			: gameState.resources.currencyBalance.prestige;
 
 	const handleUpgrade = (upgrade: zUpgrade) => {
+		let balance;
+		if (upgrade.type === 'base') {
+			balance = {
+				...gameState.resources.currencyBalance,
+				main: gameState.resources.currencyBalance.main - getCost(upgrade, gameState),
+			};
+		} else {
+			balance = {
+				...gameState.resources.currencyBalance,
+				prestige: gameState.resources.currencyBalance.prestige - getCost(upgrade, gameState),
+			};
+		}
 		setGameState((state) => {
 			return {
 				...state,
 				resources: {
 					...state.resources,
-					currencyBalance: resources - getCost(upgrade, gameState),
+					currencyBalance: balance,
 					currencyPerSecond:
 						state.resources.currencyPerSecond +
 						upgrade.stats.currencyPerSecondIncrease * state.resources.purchasePower,

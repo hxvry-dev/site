@@ -15,5 +15,5 @@ export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 };
 
 export const newPrestigePoints = (gameState: GameState) => {
-	return Math.floor(gameState.resources.currencyBalance / gameState.prestige.prestigeCost);
+	return Math.floor(gameState.resources.currencyBalance.main / gameState.prestige.prestigeCost);
 };

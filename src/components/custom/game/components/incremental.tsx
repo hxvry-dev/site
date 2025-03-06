@@ -42,8 +42,10 @@ export const Incremental: FC = () => {
 				...initialGameState,
 				resources: {
 					...initialGameState.resources,
-					currencyBalance: state.resources.currencyBalance,
-					prestigePointsBalance: state.resources.prestigePointsBalance,
+					currencyBalance: {
+						main: state.resources.currencyBalance.main,
+						prestige: state.resources.currencyBalance.prestige,
+					},
 				},
 				upgrades: {
 					...initialGameState.upgrades,
@@ -75,8 +77,11 @@ export const Incremental: FC = () => {
 					...state,
 					resources: {
 						...state.resources,
-						currencyBalance:
-							state.resources.currencyBalance + state.resources.currencyPerSecond * elapsedTime,
+						currencyBalance: {
+							...state.resources.currencyBalance,
+							main:
+								state.resources.currencyBalance.main + state.resources.currencyPerSecond * elapsedTime,
+						},
 					},
 				};
 			});

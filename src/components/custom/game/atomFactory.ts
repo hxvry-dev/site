@@ -7,8 +7,10 @@ const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g
 
 export const initialGameState: GameState = {
 	resources: {
-		currencyBalance: 0,
-		prestigePointsBalance: 0,
+		currencyBalance: {
+			main: 0,
+			prestige: 0,
+		},
 		purchasePower: 1,
 		currencyPerClick: 1,
 		currencyPerClickMultiplier: 1,
@@ -27,8 +29,10 @@ export const initialGameState: GameState = {
 
 export const debugGameState: GameState = {
 	resources: {
-		currencyBalance: 1e4,
-		prestigePointsBalance: 10,
+		currencyBalance: {
+			main: 1e4,
+			prestige: 10,
+		},
 		purchasePower: 1,
 		currencyPerClick: 1,
 		currencyPerClickMultiplier: 5,

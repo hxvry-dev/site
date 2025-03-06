@@ -12,7 +12,7 @@ export const GameStats: FC<StatsProps> = () => {
 			<div className="grid grid-cols-[max-content_max-content] gap-x-4 gap-y-2 mt-4">
 				<div className="text-sm border-b-2 italic w-fit">Resources: </div>
 				<div className="text-sm border-b-2 font-bold content-center w-fit">
-					{gameState.resources.currencyBalance.toFixed(2)}
+					{gameState.resources.currencyBalance.main.toFixed(2)}
 				</div>
 				<div className="text-sm border-b-2 italic w-fit">Current Click Power: </div>
 				<div className="text-sm border-b-2 font-bold content-center w-fit">
@@ -30,7 +30,7 @@ export const GameStats: FC<StatsProps> = () => {
 			<div className="grid grid-cols-[max-content_max-content] gap-x-4 gap-y-2 mt-4">
 				<div className="text-sm border-b-2 italic w-fit">Prestige Points: </div>
 				<div className="text-sm border-b-2 font-bold content-center w-fit">
-					{gameState.resources.prestigePointsBalance}
+					{gameState.resources.currencyBalance.prestige}
 				</div>
 				<div className="text-sm border-b-2 italic w-fit">Prestige Points Gained on Next Prestige: </div>
 				<div className="text-sm border-b-2 font-bold content-center w-fit">{newPrestigePoints(gameState)}</div>
