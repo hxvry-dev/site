@@ -19,41 +19,44 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
-		await supabase()
-			.auth.signInWithPassword({
-				email: email,
-				password: password,
-			})
-			.then(() =>
-				toast({
-					title: 'Signed In!',
-				}),
-			)
-			.catch(() =>
-				toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' }),
-			);
+		const { data, error } = await supabase().auth.signInWithPassword({
+			email: email,
+			password: password,
+		});
+		if (error) {
+			console.error(`There was a problem logging you in... Error code: ${error.code}`, error.message);
+			toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' });
+		} else {
+			toast({
+				title: 'Signed In!',
+			});
+			console.log(data);
+		}
 		nav('/incremental');
 	}
 
 	async function handleSignup(e: FormEvent) {
 		e.preventDefault();
-		await supabase()
-			.auth.signUp({
-				email: email,
-				password: password,
-				options: {
-					emailRedirectTo: 'https://hxvry.com/authed',
-				},
-			})
-			.then(() =>
-				toast({
-					title: 'Thanks for Signing Up!',
-					description: 'Please verify your email to be able to sign into your account!',
-				}),
-			)
-			.catch(() =>
-				toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' }),
+		const { data, error } = await supabase().auth.signUp({
+			email: email,
+			password: password,
+			options: {
+				emailRedirectTo: 'https://hxvry.com/authed',
+			},
+		});
+		if (error) {
+			console.error(
+				`There was a problem signing you up... Please check back later. Error code: ${error.code}`,
+				error.message,
 			);
+			toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' });
+		} else {
+			toast({
+				title: 'Thanks for Signing Up!',
+				description: 'Please verify your email to be able to sign into your account!',
+			});
+			console.log(data.user?.id);
+		}
 		setSignupFlow(false);
 	}
 
