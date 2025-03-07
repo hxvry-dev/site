@@ -2,14 +2,9 @@ import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as wi
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 import { GameState, zGameStateSchema } from './schema';
-import supabase from '@/db/supabase';
+import { getDbUserFromSession } from '@/db/functions';
 
-const { data, error } = await supabase().auth.getSession();
-const user = data.session?.user;
-if (error) {
-	console.error('Error grabbing session info', error);
-}
-console.log(user);
+console.log('User Session', getDbUserFromSession);
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
