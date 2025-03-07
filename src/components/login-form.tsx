@@ -75,7 +75,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 							</div>
 							<span className="sr-only">Idle Game</span>
 						</a>
-						<h1 className="text-xl font-bold">Welcome to the Game!</h1>
+						<h1 className="text-xl font-bold">Welcome {!signupFlow ? 'back ' : ''} to the Game!</h1>
 						{!signupFlow ? (
 							<div className="text-center text-sm cursor-pointer">
 								Don&apos;t have an account?{' '}
