@@ -19,11 +19,13 @@ import { EnterDebug } from './DebugMode';
 import { Session } from '@supabase/supabase-js';
 import { LoginForm } from '@/components/login-form';
 import supabase from '@/db/supabase';
-import { userUpgrades, getUpgradesFromDB } from '@/db/functions';
+import { userUpgrades, getUpgradesFromDB, loadUserGameStateFromDB, noAuthGetUserId } from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase().auth.signOut();
 }
+
+const userID = noAuthGetUserId();
 
 export const Incremental: FC = () => {
 	const [session, setSession] = useState<Session | null>(null);
@@ -165,7 +167,7 @@ export const Incremental: FC = () => {
 					<EnterDebug />
 					{debugMode ? (
 						<div className="grid grid-flow-rows gap-4 justify-self-center mt-8 font-mono">
-							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger asChild>
@@ -186,7 +188,7 @@ export const Incremental: FC = () => {
 									</Tooltip>
 								</TooltipProvider>
 							</div>
-							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger asChild>
@@ -206,12 +208,12 @@ export const Incremental: FC = () => {
 									</Tooltip>
 								</TooltipProvider>
 							</div>
-							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger asChild>
 											<Button
-												onClick={() => userUpgrades()}
+												onClick={() => userUpgrades(userID!)}
 												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
 											>
 												Get User Upgrades
@@ -220,7 +222,7 @@ export const Incremental: FC = () => {
 									</Tooltip>
 								</TooltipProvider>
 							</div>
-							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger asChild>
@@ -234,7 +236,21 @@ export const Incremental: FC = () => {
 									</Tooltip>
 								</TooltipProvider>
 							</div>
-							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												onClick={() => loadUserGameStateFromDB(userID!)}
+												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
+											>
+												Load User Game State from DB
+											</Button>
+										</TooltipTrigger>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger asChild>
