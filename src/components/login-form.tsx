@@ -19,7 +19,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
-		const { data, error } = await supabase().auth.signInWithPassword({
+		const { error } = await supabase().auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
@@ -30,14 +30,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 			toast({
 				title: 'Signed In!',
 			});
-			console.log(data);
 		}
 		nav('/incremental');
 	}
 
 	async function handleSignup(e: FormEvent) {
 		e.preventDefault();
-		const { data, error } = await supabase().auth.signUp({
+		const { error } = await supabase().auth.signUp({
 			email: email,
 			password: password,
 			options: {
@@ -55,7 +54,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 				title: 'Thanks for Signing Up!',
 				description: 'Please verify your email to be able to sign into your account!',
 			});
-			console.log(data.user?.id);
 		}
 		setSignupFlow(false);
 	}

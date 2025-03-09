@@ -19,6 +19,7 @@ import { EnterDebug } from './DebugMode';
 import { Session } from '@supabase/supabase-js';
 import { LoginForm } from '@/components/login-form';
 import supabase from '@/db/supabase';
+import { userUpgrades, getUpgradesFromDB } from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase().auth.signOut();
@@ -202,6 +203,34 @@ export const Incremental: FC = () => {
 												not reset the resource balance(s) you have gained.
 											</p>
 										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												onClick={() => userUpgrades()}
+												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
+											>
+												Get User Upgrades
+											</Button>
+										</TooltipTrigger>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							<div className="max-w-[250px] justify-self-center font-mono overflow-auto">
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												onClick={() => getUpgradesFromDB()}
+												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
+											>
+												Get Upgrades From DB
+											</Button>
+										</TooltipTrigger>
 									</Tooltip>
 								</TooltipProvider>
 							</div>

@@ -2,9 +2,6 @@ import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as wi
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 import { GameState, zGameStateSchema } from './schema';
-import { getDbUserFromSession } from '@/db/functions';
-
-console.log('User Session', getDbUserFromSession);
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
