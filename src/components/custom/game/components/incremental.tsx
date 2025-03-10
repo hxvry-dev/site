@@ -19,7 +19,14 @@ import { EnterDebug } from './DebugMode';
 import { Session } from '@supabase/supabase-js';
 import { LoginForm } from '@/components/login-form';
 import supabase from '@/db/supabase';
-import { userUpgrades, getUpgradesFromDB, loadUserGameStateFromDB, noAuthGetUserId } from '@/db/functions';
+import {
+	userUpgrades,
+	getUpgradesFromDB,
+	loadUserGameStateFromDB,
+	noAuthGetUserId,
+	getBaseUpgradesFromDB,
+	getPrestigeUpgradesFromDB,
+} from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase().auth.signOut();
@@ -245,6 +252,34 @@ export const Incremental: FC = () => {
 												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
 											>
 												Load User Game State from DB
+											</Button>
+										</TooltipTrigger>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												onClick={() => getBaseUpgradesFromDB()}
+												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
+											>
+												Get Base Upgrades from DB
+											</Button>
+										</TooltipTrigger>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												onClick={() => getPrestigeUpgradesFromDB()}
+												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
+											>
+												Get Prestige Upgrades from DB
 											</Button>
 										</TooltipTrigger>
 									</Tooltip>

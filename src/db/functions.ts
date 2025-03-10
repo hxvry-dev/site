@@ -1,7 +1,5 @@
 import { Session } from '@supabase/supabase-js';
 import supabase from './supabase';
-import { zUpgrade } from '@/components/custom/game/schema';
-
 /**
  * Assumes you're already signed in.
  * @returns The user ID
@@ -24,6 +22,7 @@ export const userUpgrades = async (userID: string) => {
 		console.error(`There was a problem grabbing your upgrades... Error code: ${error.code}`, error.message);
 	} else {
 		console.log(data);
+		return data;
 	}
 };
 
@@ -33,6 +32,7 @@ export const loadUserGameStateFromDB = async (userID: string) => {
 		console.error(`There was a problem grabbing your Game State... Error code: ${error.code}`, error.message);
 	} else {
 		console.log(data);
+		return data;
 	}
 };
 
@@ -41,11 +41,34 @@ export const getUpgradesFromDB = async () => {
 	if (error) {
 		console.error(`There was a problem grabbing the upgrades... Error code: ${error.code}`, error.message);
 	} else {
-		console.log(data);
+		for (const upgrade of data) {
+			console.log(upgrade);
+		}
 	}
 };
 
-export const onUpgradeAddToUserUpgrades = async (upgrade: zUpgrade, userID: string) => {
+export const getBaseUpgradesFromDB = async () => {
+	const { data, error } = await supabase().from('upgrades').select('*').eq('upgrade_type', 'base');
+	if (error) {
+		console.error(`There was a problem grabbing base upgrades... Error code: ${error.code}`, error.message);
+	} else {
+		console.log(data);
+		return data;
+	}
+};
+
+export const getPrestigeUpgradesFromDB = async () => {
+	const { data, error } = await supabase().from('upgrades').select('*').eq('upgrade_type', 'prestige');
+	if (error) {
+		console.error(`There was a problem grabbing prestige upgrades... Error code: ${error.code}`, error.message);
+	} else {
+		console.log(data);
+		return data;
+	}
+};
+
+/*
+export const onUpgradeAddToUserUpgrades = async (upgrade: something, userID: string) => {
 	const { data, error } = await supabase()
 		.from('user_upgrades')
 		.insert([
@@ -61,5 +84,7 @@ export const onUpgradeAddToUserUpgrades = async (upgrade: zUpgrade, userID: stri
 		console.error('Error adding user upgrade:', error);
 	} else {
 		console.log('User upgrade added successfully:', data);
+		return data;
 	}
 };
+*/
