@@ -36,7 +36,7 @@ export const loadUserGameStateFromDB = async (userID: string) => {
 	}
 };
 
-export const getUpgradesFromDB = async () => {
+export const getUpgradesFromDB = async (): Promise<string[]> => {
 	const { data, error } = await supabase().from('upgrades').select('*');
 	if (error) {
 		console.error(`There was a problem grabbing the upgrades... Error code: ${error.code}`, error.message);
@@ -44,7 +44,9 @@ export const getUpgradesFromDB = async () => {
 		for (const upgrade of data) {
 			console.log(upgrade);
 		}
+		return data;
 	}
+	return [];
 };
 
 export const getBaseUpgradesFromDB = async () => {
