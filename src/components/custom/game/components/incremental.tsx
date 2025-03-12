@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
+import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom, userIdAtom } from '../atomFactory';
 
 import { ClickerButton } from './ClickerButton';
 import { PrestigeButton } from './PrestigeButton';
@@ -19,26 +19,20 @@ import { EnterDebug } from './DebugMode';
 import { Session } from '@supabase/supabase-js';
 import { LoginForm } from '@/components/login-form';
 import supabase from '@/db/supabase';
-import {
-	userUpgrades,
-	getUpgradesFromDB,
-	loadUserGameStateFromDB,
-	noAuthGetUserId,
-	getBaseUpgradesFromDB,
-	getPrestigeUpgradesFromDB,
-} from '@/db/functions';
+import { userUpgrades, getUpgradesFromDB, loadUserFromDB } from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase().auth.signOut();
 }
-
-const userID = noAuthGetUserId();
 
 export const Incremental: FC = () => {
 	const [session, setSession] = useState<Session | null>(null);
 	const [_, setGameState] = useAtom(gameStateAtom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
+
+	const [userID, setUserID] = useAtom(userIdAtom);
+
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
 
@@ -110,6 +104,8 @@ export const Incremental: FC = () => {
 		supabase()
 			.auth.getSession()
 			.then(({ data: { session } }) => {
+				const userID = session?.user.id!;
+				setUserID(userID);
 				return setSession(session);
 			});
 
@@ -248,38 +244,10 @@ export const Incremental: FC = () => {
 									<Tooltip>
 										<TooltipTrigger asChild>
 											<Button
-												onClick={() => loadUserGameStateFromDB(userID!)}
+												onClick={() => loadUserFromDB(userID!)}
 												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
 											>
 												Load User Game State from DB
-											</Button>
-										</TooltipTrigger>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => getBaseUpgradesFromDB()}
-												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
-											>
-												Get Base Upgrades from DB
-											</Button>
-										</TooltipTrigger>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => getPrestigeUpgradesFromDB()}
-												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
-											>
-												Get Prestige Upgrades from DB
 											</Button>
 										</TooltipTrigger>
 									</Tooltip>

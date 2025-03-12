@@ -1,92 +1,45 @@
-import { Session } from '@supabase/supabase-js';
 import supabase from './supabase';
-/**
- * Assumes you're already signed in.
- * @returns The user ID
- */
-export const noAuthGetUserId = () => {
-	for (let i = 0; i < localStorage.length; i++) {
-		let key = localStorage.key(i);
-		if (key && key.startsWith('sb-')) {
-			const session: Session = JSON.parse(localStorage.getItem(key)!);
-			if (session) {
-				return session.user.id;
-			}
-		}
+import { Tables } from './api';
+import { useAtom } from 'jotai';
+import { userIdAtom } from '@/components/custom/game/atomFactory';
+
+export const getUserID = async (): Promise<void> => {
+	const [_, setUserID] = useAtom(userIdAtom);
+	const user = await supabase().auth.getUser();
+	if (user) {
+		setUserID(user.data.user?.id!);
 	}
 };
 
-export const userUpgrades = async (userID: string) => {
+export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrades'>[]> => {
 	const { data, error } = await supabase().from('user_upgrades').select('*').eq('user_id', userID);
 	if (error) {
 		console.error(`There was a problem grabbing your upgrades... Error code: ${error.code}`, error.message);
 	} else {
 		console.log(data);
-		return data;
+		return data as Tables<'user_upgrades'>[];
 	}
+	return [];
 };
 
-export const loadUserGameStateFromDB = async (userID: string) => {
+export const loadUserFromDB = async (userID: string): Promise<Tables<'users'>[]> => {
 	const { data, error } = await supabase().from('users').select('*').eq('user_id', userID);
 	if (error) {
 		console.error(`There was a problem grabbing your Game State... Error code: ${error.code}`, error.message);
 	} else {
 		console.log(data);
-		return data;
-	}
-};
-
-export const getUpgradesFromDB = async (): Promise<string[]> => {
-	const { data, error } = await supabase().from('upgrades').select('*');
-	if (error) {
-		console.error(`There was a problem grabbing the upgrades... Error code: ${error.code}`, error.message);
-	} else {
-		for (const upgrade of data) {
-			console.log(upgrade);
-		}
-		return data;
+		return data as Tables<'users'>[];
 	}
 	return [];
 };
 
-export const getBaseUpgradesFromDB = async () => {
-	const { data, error } = await supabase().from('upgrades').select('*').eq('upgrade_type', 'base');
+export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
+	const { data, error } = await supabase().from('upgrades').select('*');
 	if (error) {
-		console.error(`There was a problem grabbing base upgrades... Error code: ${error.code}`, error.message);
+		console.error(`There was a problem grabbing the upgrades... Error code: ${error.code}`, error.message);
 	} else {
 		console.log(data);
-		return data;
+		return data as Tables<'upgrades'>[];
 	}
+	return [];
 };
-
-export const getPrestigeUpgradesFromDB = async () => {
-	const { data, error } = await supabase().from('upgrades').select('*').eq('upgrade_type', 'prestige');
-	if (error) {
-		console.error(`There was a problem grabbing prestige upgrades... Error code: ${error.code}`, error.message);
-	} else {
-		console.log(data);
-		return data;
-	}
-};
-
-/*
-export const onUpgradeAddToUserUpgrades = async (upgrade: something, userID: string) => {
-	const { data, error } = await supabase()
-		.from('user_upgrades')
-		.insert([
-			{
-				user_id: userID,
-				upgrade_id: upgrade.id,
-				level_current: upgrade.level.current,
-				purchased_at: new Date().toISOString(),
-			},
-		]);
-
-	if (error) {
-		console.error('Error adding user upgrade:', error);
-	} else {
-		console.log('User upgrade added successfully:', data);
-		return data;
-	}
-};
-*/

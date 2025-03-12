@@ -2,6 +2,7 @@ import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as wi
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 import { GameState, zGameStateSchema } from './schema';
+import { atom } from 'jotai';
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
@@ -56,3 +57,4 @@ const createGameState = (initialState: GameState) => {
 export const gameStateAtom = createGameState(initialGameState);
 export const toggleAtom = atomWithStorage('upgradesOpen', true);
 export const debugModeAtom = atomWithStorage('debugMode', false);
+export const userIdAtom = atom<string>('');
