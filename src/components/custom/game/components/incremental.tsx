@@ -2,7 +2,20 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom, userIdAtom } from '../atomFactory';
+import {
+	DbGameState,
+	dbUpgrade,
+	DbUserUpgrades,
+	debugGameState,
+	debugModeAtom,
+	gameStateAtom,
+	initialGameState,
+	toggleAtom,
+	upgradesAtom,
+	userAtom,
+	userIdAtom,
+	userUpgradesAtom,
+} from '../atomFactory';
 
 import { ClickerButton } from './ClickerButton';
 import { PrestigeButton } from './PrestigeButton';
@@ -32,6 +45,9 @@ export const Incremental: FC = () => {
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
 
 	const [userID, setUserID] = useAtom(userIdAtom);
+	const [upgrades, setUpgrades] = useAtom(upgradesAtom);
+	const [user, setUser] = useAtom(userAtom);
+	const [_userUpgrades, setUserUpgrades] = useAtom(userUpgradesAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -103,9 +119,12 @@ export const Incremental: FC = () => {
 	useEffect(() => {
 		supabase()
 			.auth.getSession()
-			.then(({ data: { session } }) => {
+			.then(async ({ data: { session } }) => {
 				const userID = session?.user.id!;
 				setUserID(userID);
+				setUpgrades((await getUpgradesFromDB()) as dbUpgrade[]);
+				setUser((await loadUserFromDB(userID!)) as DbGameState[]);
+				setUserUpgrades((await userUpgrades(userID!)) as DbUserUpgrades[]);
 				return setSession(session);
 			});
 
@@ -208,48 +227,6 @@ export const Incremental: FC = () => {
 												not reset the resource balance(s) you have gained.
 											</p>
 										</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => userUpgrades(userID!)}
-												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
-											>
-												Get User Upgrades
-											</Button>
-										</TooltipTrigger>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => getUpgradesFromDB()}
-												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
-											>
-												Get Upgrades From DB
-											</Button>
-										</TooltipTrigger>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => loadUserFromDB(userID!)}
-												className="opacity-85 bg-accent hover:bg-accent/90 text-foreground"
-											>
-												Load User Game State from DB
-											</Button>
-										</TooltipTrigger>
 									</Tooltip>
 								</TooltipProvider>
 							</div>

@@ -16,7 +16,7 @@ export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrade
 	if (error) {
 		console.error(`There was a problem grabbing your upgrades... Error code: ${error.code}`, error.message);
 	} else {
-		console.log(data);
+		console.log('Loaded User Upgrades from DB!');
 		return data as Tables<'user_upgrades'>[];
 	}
 	return [];
@@ -27,7 +27,7 @@ export const loadUserFromDB = async (userID: string): Promise<Tables<'users'>[]>
 	if (error) {
 		console.error(`There was a problem grabbing your Game State... Error code: ${error.code}`, error.message);
 	} else {
-		console.log(data);
+		console.log('Loaded User from DB!');
 		return data as Tables<'users'>[];
 	}
 	return [];
@@ -38,7 +38,7 @@ export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
 	if (error) {
 		console.error(`There was a problem grabbing the upgrades... Error code: ${error.code}`, error.message);
 	} else {
-		console.log(data);
+		console.log('Loaded Upgrades from DB!');
 		return data as Tables<'upgrades'>[];
 	}
 	return [];
