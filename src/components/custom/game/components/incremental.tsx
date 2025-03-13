@@ -44,9 +44,9 @@ export const Incremental: FC = () => {
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
 
-	const [userID, setUserID] = useAtom(userIdAtom);
-	const [upgrades, setUpgrades] = useAtom(upgradesAtom);
-	const [user, setUser] = useAtom(userAtom);
+	const [, setUserID] = useAtom(userIdAtom);
+	const [, setUpgrades] = useAtom(upgradesAtom);
+	const [, setUser] = useAtom(userAtom);
 	const [_userUpgrades, setUserUpgrades] = useAtom(userUpgradesAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);

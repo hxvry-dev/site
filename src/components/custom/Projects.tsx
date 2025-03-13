@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, JSX, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../ui/button';
