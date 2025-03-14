@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
+import { Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
 import {
@@ -13,24 +14,23 @@ import {
 	userIdAtom,
 	userUpgradesAtom,
 } from '../atomFactory';
-
-import { ClickerButton } from './ClickerButton';
-import { PrestigeButton } from './PrestigeButton';
-
-import { Button } from '@/components/ui/button';
-import { Version } from './version';
-import { PrestigeBar } from './PrestigeBar';
-import { BuyMultiple } from './BuyMultiple';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Upgrades } from './Upgrades';
-import { GameStats } from './GameStats';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { EnterDebug } from './DebugMode';
-import { Session } from '@supabase/supabase-js';
-import { LoginForm } from '@/components/login-form';
-import supabase from '@/db/supabase';
-import { userUpgrades, getUpgradesFromDB, loadUserFromDB } from '@/db/functions';
 import { DbGameState, DbUpgrade, DbUserUpgrades } from '../schema';
+
+import { BuyMultiple } from './BuyMultiple';
+import { ClickerButton } from './ClickerButton';
+import { EnterDebug } from './DebugMode';
+import { GameStats } from './GameStats';
+import { PrestigeBar } from './PrestigeBar';
+import { PrestigeButton } from './PrestigeButton';
+import { Upgrades } from './Upgrades';
+import { Version } from './version';
+
+import { LoginForm } from '@/components/login-form';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { getUpgradesFromDB, loadUserFromDB, userUpgrades } from '@/db/functions';
+import supabase from '@/db/supabase';
 
 async function handleSignOut() {
 	await supabase().auth.signOut();
@@ -38,7 +38,7 @@ async function handleSignOut() {
 
 export const Incremental: FC = () => {
 	const [session, setSession] = useState<Session | null>(null);
-	const [_, setGameState] = useAtom(gameStateAtom);
+	const [, setGameState] = useAtom(gameStateAtom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
 
@@ -118,12 +118,14 @@ export const Incremental: FC = () => {
 		supabase()
 			.auth.getSession()
 			.then(async ({ data: { session } }) => {
-				const userID = session?.user.id!;
-				setUserID(userID);
-				setUpgrades((await getUpgradesFromDB()) as DbUpgrade[]);
-				setUser((await loadUserFromDB(userID!)) as DbGameState[]);
-				setUserUpgrades((await userUpgrades(userID!)) as DbUserUpgrades[]);
-				console.log(_userUpgrades);
+				if (session) {
+					const userID = session.user.id;
+					setUserID(userID);
+					setUpgrades((await getUpgradesFromDB()) as DbUpgrade[]);
+					setUser((await loadUserFromDB(userID!)) as DbGameState[]);
+					setUserUpgrades((await userUpgrades(userID!)) as DbUserUpgrades[]);
+					console.log(_userUpgrades);
+				}
 				return setSession(session);
 			});
 
@@ -134,6 +136,7 @@ export const Incremental: FC = () => {
 		});
 
 		return () => subscription.unsubscribe();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

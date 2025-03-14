@@ -1,16 +1,7 @@
-import supabase from './supabase';
 import { Tables } from './api';
-import { useAtom } from 'jotai';
-import { userIdAtom } from '@/components/custom/game/atomFactory';
-import { DbUpgrade } from '@/components/custom/game/schema';
+import supabase from './supabase';
 
-export const getUserID = async (): Promise<void> => {
-	const [_, setUserID] = useAtom(userIdAtom);
-	const user = await supabase().auth.getUser();
-	if (user) {
-		setUserID(user.data.user?.id!);
-	}
-};
+import { DbUpgrade } from '@/components/custom/game/schema';
 
 export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrades'>[]> => {
 	const { data, error } = await supabase().from('user_upgrades').select('*').eq('user_id', userID);

@@ -1,9 +1,12 @@
 import { FC, JSX, useEffect } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { NavLink } from 'react-router-dom';
-import { Button } from '../ui/button';
+
 import { IconBrandGithub } from '@tabler/icons-react';
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
+
 import GithubRepoTable from './GithubRepoTable';
 
 const linkGenerator = (slug: string, desc: string) => {

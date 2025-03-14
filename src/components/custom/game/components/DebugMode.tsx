@@ -1,15 +1,18 @@
+import { FC, useState } from 'react';
+
+import { useAtom } from 'jotai';
+import { Eye, EyeClosed } from 'lucide-react';
+
+import { debugModeAtom } from '../atomFactory';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, EyeClosed } from 'lucide-react';
-import { FC, useState } from 'react';
-import { debugModeAtom } from '../atomFactory';
-import { useAtom } from 'jotai';
 import { useToast } from '@/hooks/use-toast';
 
 export const EnterDebug: FC = () => {
 	const { toast } = useToast();
 	const [showPassword, setShowPassword] = useState(false);
-	const [_, setDebugMode] = useAtom(debugModeAtom);
+	const [, setDebugMode] = useAtom(debugModeAtom);
 
 	const handleShowPassword = () => setShowPassword(!showPassword);
 

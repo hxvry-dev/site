@@ -1,13 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { useAtom } from 'jotai';
 import { FC } from 'react';
+
+import { useAtom } from 'jotai';
+
 import { gameStateAtom, upgradesAtom, userIdAtom } from '../atomFactory';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Chip } from './Chip';
-import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { getCost } from '../util/util';
 import { DbUpgrade, zUpgrade } from '../schema';
+import { getCost } from '../util/util';
+
+import { Chip } from './Chip';
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tooltip, TooltipContent,TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { purchaseUserUpgrade } from '@/db/functions';
 
 interface UpgradeItemProps {

@@ -1,13 +1,14 @@
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { GalleryVerticalEnd } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FormEvent, useState } from 'react';
 import supabase from '@/db/supabase';
-import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();

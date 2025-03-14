@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { Button } from '../ui/button';
 import { NavLink } from 'react-router-dom';
+
+import { Button } from '../ui/button';
 
 const Authed: FC = () => {
 	return (

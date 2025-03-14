@@ -1,11 +1,12 @@
 import { FC } from 'react';
 
+import { useAtom } from 'jotai';
+
 import { gameStateAtom } from '../atomFactory';
+import { zUpgrade } from '../schema';
+import { getCost } from '../util/util';
 
 import { Badge } from '@/components/ui/badge';
-import { useAtom } from 'jotai';
-import { getCost } from '../util/util';
-import { zUpgrade } from '../schema';
 
 interface ChipProps {
 	upgrade: zUpgrade;

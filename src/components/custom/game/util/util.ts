@@ -1,4 +1,4 @@
-import { zUpgrade, GameState } from '../schema';
+import { GameState,zUpgrade } from '../schema';
 
 export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 	let cost = upgrade.cost.current;

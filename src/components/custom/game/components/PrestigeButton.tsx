@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { useAtom } from 'jotai';
 
 import { gameStateAtom, initialGameState } from '../atomFactory';
+import { newPrestigePoints } from '../util/util';
 
 import { Button } from '@/components/ui/button';
-import { newPrestigePoints } from '../util/util';
 
 export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);

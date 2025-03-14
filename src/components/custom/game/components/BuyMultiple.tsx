@@ -1,7 +1,10 @@
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useAtom } from 'jotai';
 import { FC, useId } from 'react';
+
+import { useAtom } from 'jotai';
+
 import { gameStateAtom } from '../atomFactory';
+
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 export const BuyMultiple: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const id = useId();

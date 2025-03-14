@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import Authed from './components/custom/Authed';
 import Incremental from './components/custom/game/components/incremental';
 import Home from './components/custom/Home';
 import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
-import Resume from './components/custom/Resume';
 import Projects from './components/custom/Projects';
-import Authed from './components/custom/Authed';
+import Resume from './components/custom/Resume';
 
 const App: FC = () => {
 	return (
