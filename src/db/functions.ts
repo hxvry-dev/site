@@ -1,5 +1,5 @@
 import supabase from './supabase';
-import { Tables, TablesInsert } from './api';
+import { Tables } from './api';
 import { useAtom } from 'jotai';
 import { userIdAtom } from '@/components/custom/game/atomFactory';
 import { DbUpgrade } from '@/components/custom/game/schema';

@@ -3,7 +3,6 @@ import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as wi
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 import { DbGameState, DbUpgrade, DbUserUpgrades, GameState, zGameStateSchema } from './schema';
 import { atom } from 'jotai';
-import { Database } from '@/db/api';
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
