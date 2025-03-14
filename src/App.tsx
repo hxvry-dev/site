@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Authed from './components/custom/Authed';
@@ -13,14 +13,18 @@ const App: FC = () => {
 	return (
 		<>
 			<Navbar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/authed" element={<Authed />} />
-				<Route path="/resume" element={<Resume />} />
-				<Route path="/projects" element={<Projects />} />
-				<Route path="/incremental" element={<Incremental />} />
-				<Route path="*" element={<NotFound />} />
-			</Routes>
+			<Suspense fallback={<NotFound />}>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/authed" element={<Authed />} />
+					<Route path="/resume" element={<Resume />} />
+					<Route path="/projects" element={<Projects />} />
+
+					<Route path="/incremental" element={<Incremental />} />
+
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+			</Suspense>
 		</>
 	);
 };
