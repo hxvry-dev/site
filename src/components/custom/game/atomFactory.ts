@@ -1,7 +1,7 @@
 import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as withStorageValidator } from 'jotai/utils';
 
 import { PrestigeUpgrades, Upgrades } from './upgrades';
-import { GameState, zGameStateSchema } from './schema';
+import { DbGameState, DbUpgrade, DbUserUpgrades, GameState, zGameStateSchema } from './schema';
 import { atom } from 'jotai';
 import { Database } from '@/db/api';
 
@@ -61,29 +61,6 @@ export const debugModeAtom = atomWithStorage('debugMode', false);
 
 export const userIdAtom = atom<string>('');
 
-export type dbUpgrade = {
-	upgrade_id: string;
-	upgrade_type: Database['public']['Enums']['upgrade_types'];
-	upgrade_name: string;
-	upgrade_desc: string;
-	cost: number;
-	cost_mult: number;
-	level_max: number;
-	cpc_inc: number;
-	cpc_mult_inc: number;
-	currency_per_second_inc: number;
-};
-export type DbGameState = {
-	currency_balance: number;
-	prestige_points_balance: number;
-	num_times_prestiged: number;
-	prestige_cost: number;
-};
-export type DbUserUpgrades = {
-	upgrade_id: string;
-	level_current: number;
-	purchased_at: string;
-};
-export const upgradesAtom = atom<dbUpgrade[]>([]);
+export const upgradesAtom = atom<DbUpgrade[]>([]);
 export const userAtom = atom<DbGameState[]>([]);
 export const userUpgradesAtom = atom<DbUserUpgrades[]>([]);

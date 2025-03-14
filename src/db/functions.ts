@@ -1,7 +1,8 @@
 import supabase from './supabase';
-import { Tables } from './api';
+import { Tables, TablesInsert } from './api';
 import { useAtom } from 'jotai';
 import { userIdAtom } from '@/components/custom/game/atomFactory';
+import { DbUpgrade } from '@/components/custom/game/schema';
 
 export const getUserID = async (): Promise<void> => {
 	const [_, setUserID] = useAtom(userIdAtom);
@@ -42,4 +43,24 @@ export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
 		return data as Tables<'upgrades'>[];
 	}
 	return [];
+};
+
+export const purchaseUserUpgrade = async (
+	userID: string,
+	upgrade: DbUpgrade,
+	upgradeLevel: number,
+): Promise<{ data?: null; success: boolean }> => {
+	const { data, error } = await supabase()
+		.from('user_upgrades')
+		.insert([{ user_id: userID, upgrade_id: upgrade.upgrade_id, level_current: upgradeLevel }]);
+	if (error) {
+		console.error(
+			`There was a problem purchasing an upgrade with ID ${upgrade.upgrade_id}... Error code: ${error.code}`,
+			error.message,
+		);
+	} else {
+		console.log('Successfully Purchased Upgrade!', data);
+		return { data: null, success: true };
+	}
+	return { success: false };
 };

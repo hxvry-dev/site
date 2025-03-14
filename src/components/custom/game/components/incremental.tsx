@@ -3,9 +3,6 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 
 import {
-	DbGameState,
-	dbUpgrade,
-	DbUserUpgrades,
 	debugGameState,
 	debugModeAtom,
 	gameStateAtom,
@@ -33,6 +30,7 @@ import { Session } from '@supabase/supabase-js';
 import { LoginForm } from '@/components/login-form';
 import supabase from '@/db/supabase';
 import { userUpgrades, getUpgradesFromDB, loadUserFromDB } from '@/db/functions';
+import { DbGameState, DbUpgrade, DbUserUpgrades } from '../schema';
 
 async function handleSignOut() {
 	await supabase().auth.signOut();
@@ -122,9 +120,10 @@ export const Incremental: FC = () => {
 			.then(async ({ data: { session } }) => {
 				const userID = session?.user.id!;
 				setUserID(userID);
-				setUpgrades((await getUpgradesFromDB()) as dbUpgrade[]);
+				setUpgrades((await getUpgradesFromDB()) as DbUpgrade[]);
 				setUser((await loadUserFromDB(userID!)) as DbGameState[]);
 				setUserUpgrades((await userUpgrades(userID!)) as DbUserUpgrades[]);
+				console.log(_userUpgrades);
 				return setSession(session);
 			});
 

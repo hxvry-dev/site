@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
-import { gameStateAtom } from '../atomFactory';
+import { gameStateAtom, upgradesAtom, userIdAtom } from '../atomFactory';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Chip } from './Chip';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { getCost } from '../util/util';
-import { zUpgrade } from '../schema';
+import { DbUpgrade, zUpgrade } from '../schema';
+import { purchaseUserUpgrade } from '@/db/functions';
 
 interface UpgradeItemProps {
 	upgradeType: 'base' | 'prestige';
@@ -15,6 +16,8 @@ interface UpgradeItemProps {
 
 export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
+	const [userID] = useAtom(userIdAtom);
+	const [upgrades] = useAtom(upgradesAtom);
 	const data = gameState.upgrades[upgradeType];
 	const resources =
 		upgradeType === 'base'
@@ -193,7 +196,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 							</AccordionItem>
 						</Accordion>
 					</div>
-					<div className="max-w-fit content-center">
+					<div className="grid grid-cols-2 max-w-fit content-center">
 						<Button
 							disabled={
 								resources < getCost(data[key], gameState) &&
@@ -202,6 +205,10 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 							onClick={() => handleUpgrade(data[key])}
 						>
 							Buy Upgrade
+						</Button>
+
+						<Button onClick={() => purchaseUserUpgrade(userID, upgrades[0] as DbUpgrade, 22)}>
+							Buy Upgrade v2 *** DON'T SPAM ***
 						</Button>
 					</div>
 				</div>

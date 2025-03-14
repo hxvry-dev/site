@@ -69,18 +69,21 @@ export type Database = {
 			};
 			user_upgrades: {
 				Row: {
+					id?: string;
 					level_current: number;
 					purchased_at: string;
 					upgrade_id: string;
 					user_id: string;
 				};
 				Insert: {
+					id?: string;
 					level_current?: number;
 					purchased_at?: string;
 					upgrade_id?: string;
 					user_id?: string;
 				};
 				Update: {
+					id?: string;
 					level_current?: number;
 					purchased_at?: string;
 					upgrade_id?: string;
@@ -97,7 +100,7 @@ export type Database = {
 					{
 						foreignKeyName: 'user_upgrades_user_id_fkey';
 						columns: ['user_id'];
-						isOneToOne: true;
+						isOneToOne: false;
 						referencedRelation: 'users';
 						referencedColumns: ['user_id'];
 					},
@@ -118,7 +121,7 @@ export type Database = {
 					num_times_prestiged?: number;
 					prestige_cost?: number;
 					prestige_points_balance?: number;
-					user_id: string;
+					user_id?: string;
 				};
 				Update: {
 					created_at?: string;
