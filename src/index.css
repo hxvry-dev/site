@@ -1,11 +1,9 @@
 @import 'tailwindcss';
 
+@plugin 'tailwindcss-animate';
+
 @custom-variant dark (&:is(.dark *));
 
-@plugin 'tailwindcss-animate';
-:global {
-	color: blue;
-}
 :root {
 	--radius: 0.625rem;
 	--background: oklch(1 0 0);
