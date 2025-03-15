@@ -1,8 +1,6 @@
 import { FC, JSX, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { IconBrandGithub } from '@tabler/icons-react';
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
@@ -16,6 +14,24 @@ const linkGenerator = (slug: string, desc: string) => {
 		</Button>
 	);
 };
+
+function GithubLogo() {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+		</svg>
+	);
+}
 
 interface ProjectDataProps {
 	id: number;
@@ -53,10 +69,10 @@ const Projects: FC = () => {
 	});
 	return (
 		<>
-			<div className="justify-self-center mt-5 p-5 font-mono border-2 w-fit">My Projects</div>
-			<div className="mt-2 p-5 border-2 font-mono w-fit grid grid-flow-col gap-5 justify-self-center max-w-[1280px]">
+			<div className="justify-self-center mt-5 p-5 font-mono w-fit">My Projects</div>
+			<div className="mt-2 p-5 border-2 rounded-xl font-mono w-fit grid grid-flow-col gap-5 justify-self-center max-w-[1280px]">
 				{ProjectData.map((project) => (
-					<Card key={project.id}>
+					<Card key={project.id} className="bg-background">
 						<CardHeader>
 							<CardTitle>{project.name}</CardTitle>
 						</CardHeader>
@@ -71,7 +87,7 @@ const Projects: FC = () => {
 								<div>
 									<Button asChild variant="link">
 										<NavLink to={project.src} target="_blank">
-											{<IconBrandGithub />} Source
+											{<GithubLogo />} Source
 										</NavLink>
 									</Button>
 								</div>

@@ -11,7 +11,7 @@ import { Chip } from './Chip';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tooltip, TooltipContent,TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { purchaseUserUpgrade } from '@/db/functions';
 
 interface UpgradeItemProps {
@@ -84,7 +84,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 					<div>
 						<Accordion type="single" collapsible>
 							<AccordionItem value={key}>
-								<AccordionTrigger>
+								<AccordionTrigger className="hover:bg-muted/50 px-5">
 									<div className="grid grid-cols-4 grid-rows-1 gap-2">
 										<div className="w-[200px]">{data[key].name}</div>
 										<div>
@@ -104,7 +104,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 										</div>
 									</div>
 								</AccordionTrigger>
-								<AccordionContent>
+								<AccordionContent className="pt-5">
 									<div>
 										<legend className="font-mono">Upgrade Description</legend>
 										<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-scroll">
@@ -120,7 +120,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 											</TableRow>
 										</TableHeader>
 										<TableBody>
-											<TableRow className="hover:bg-background">
+											<TableRow>
 												<TableCell>
 													<TooltipProvider>
 														<Tooltip>
@@ -200,7 +200,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 							</AccordionItem>
 						</Accordion>
 					</div>
-					<div className="grid grid-cols-2 max-w-fit content-center">
+					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
 						<Button
 							disabled={
 								resources < getCost(data[key], gameState) &&
@@ -212,7 +212,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 						</Button>
 
 						<Button onClick={() => purchaseUserUpgrade(userID, upgrades[0] as DbUpgrade, 22)}>
-							Buy Upgrade v2 *** DON'T SPAM ***
+							Buy Upgrade v2
 						</Button>
 					</div>
 				</div>

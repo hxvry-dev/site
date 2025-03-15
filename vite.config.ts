@@ -1,19 +1,20 @@
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import { defineConfig } from 'vite';
 
-const ReactCompilerConfig = {
-	/* ... */
-};
-
 export default defineConfig({
-	plugins: [
-		react({
-			babel: {
-				plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
+	plugins: [react(), tailwindcss()],
+	build: {
+		minify: 'terser',
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					react: ['react', 'react-dom', 'react-router-dom'],
+				},
 			},
-		}),
-	],
+		},
+	},
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),

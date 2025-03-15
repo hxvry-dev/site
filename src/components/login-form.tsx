@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import supabase from '@/db/supabase';
-import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();
@@ -26,11 +26,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 		});
 		if (error) {
 			console.error(`There was a problem logging you in... Error code: ${error.code}`, error.message);
-			toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' });
+			toast.error('Something went wrong. Please try again later');
 		} else {
-			toast({
-				title: 'Signed In!',
-			});
+			toast.success('Signed In!');
 		}
 		nav('/incremental');
 	}
@@ -49,12 +47,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 				`There was a problem signing you up... Please check back later. Error code: ${error.code}`,
 				error.message,
 			);
-			toast({ variant: 'destructive', title: 'Something went wrong', description: 'Please try again later' });
+			toast.error('Something went wrong. Please try again later');
 		} else {
-			toast({
-				title: 'Thanks for Signing Up!',
-				description: 'Please verify your email to be able to sign into your account!',
-			});
+			toast.success('Signed Up Successfully!');
 		}
 		setSignupFlow(false);
 	}

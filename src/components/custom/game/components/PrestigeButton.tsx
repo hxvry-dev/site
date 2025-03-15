@@ -36,7 +36,7 @@ export const PrestigeButton: FC = () => {
 	};
 
 	return (
-		<Button onClick={handlePrestige} disabled={newPrestigePoints(gameState) <= 0} className="w-full font-mono">
+		<Button onClick={handlePrestige} disabled={newPrestigePoints(gameState) <= 0} className="flex w-full font-mono">
 			Prestige?
 		</Button>
 	);

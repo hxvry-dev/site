@@ -13,10 +13,9 @@ const UISwitch: React.FC = () => {
 	};
 	return (
 		<Button
-			variant="link"
-			size="navButton"
-			radius="sm"
-			className="w-fit justify-self-end"
+			variant="outline"
+			size="icon"
+			className="w-fit justify-self-end rounded-sm"
 			onClick={() => toggleTheme(theme)}
 		>
 			<Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

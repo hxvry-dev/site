@@ -161,13 +161,17 @@ export const Incremental: FC = () => {
 					</div>
 					<GameStats />
 					<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={!toggle}>
-						<legend className="mb-4 font-mono font-bold justify-self-center">Upgrades</legend>
-						<Tabs defaultValue="base" className="border-2 rounded-sm p-5 justify-items-center">
-							<TabsList className="justify-items-center">
-								<TabsTrigger value="base">Base</TabsTrigger>
-								<TabsTrigger value="prestige">Prestige</TabsTrigger>
+						<legend className="mb-4 font-mono justify-self-center">Upgrades</legend>
+						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
+							<TabsList className="self-center bg-background font-mono">
+								<TabsTrigger value="base" className="rounded-none">
+									Base
+								</TabsTrigger>
+								<TabsTrigger value="prestige" className="rounded-none">
+									Prestige
+								</TabsTrigger>
 							</TabsList>
-							<div className="w-[350px] my-5 grid grid-cols-2 grid-rows-2 gap-5">
+							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-2 gap-5">
 								<ClickerButton />
 								<PrestigeButton />
 								<div className="col-span-2 grid-row-2">{<PrestigeBar />}</div>
