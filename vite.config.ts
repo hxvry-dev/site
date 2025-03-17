@@ -11,11 +11,9 @@ export default defineConfig({
 			output: {
 				manualChunks(id) {
 					if (id.includes('node_modules')) {
-						// Group Radix UI components together
 						if (id.includes('@radix-ui')) {
 							return 'radix-ui';
 						}
-						// Group Tailwind and related plugins
 						if (
 							id.includes('tailwindcss') ||
 							id.includes('@tailwindcss') ||
@@ -24,23 +22,23 @@ export default defineConfig({
 						) {
 							return 'tailwind';
 						}
-						// Group `react-router-dom` in its own chunk
-						if (id.includes('react-router-dom')) {
-							return 'react-router-dom';
+						if (id.includes('react-router-dom') || id.includes('react-dom') || id.includes('react')) {
+							return 'react-utils';
 						}
-						// Group `@supabase/supabase-js` in its own chunk
-						if (id.includes('@supabase/supabase-js')) {
-							return 'supabase';
+						if (id.includes('@supabase')) {
+							return 'supabase-utils';
 						}
-						// Group icon libraries together
 						if (id.includes('lucide-react')) {
 							return 'icons';
 						}
-						// Group utilities and helper libraries
-						if (id.includes('clsx') || id.includes('date-fns') || id.includes('class-variance-authority')) {
+						if (
+							id.includes('clsx') ||
+							id.includes('date-fns') ||
+							id.includes('class-variance-authority') ||
+							id.includes('zod')
+						) {
 							return 'utilities';
 						}
-						// Default vendor chunk for all other dependencies
 						return 'vendor';
 					}
 				},
