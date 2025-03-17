@@ -2,12 +2,12 @@ import { FC, useState } from 'react';
 
 import { useAtom } from 'jotai';
 import { Eye, EyeClosed } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { debugModeAtom } from '../atomFactory';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
 
 export const EnterDebug: FC = () => {
 	const [showPassword, setShowPassword] = useState(false);
