@@ -20,7 +20,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
-		const { error } = await supabase().auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
@@ -35,7 +35,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleSignup(e: FormEvent) {
 		e.preventDefault();
-		const { error } = await supabase().auth.signUp({
+		const { error } = await supabase.auth.signUp({
 			email: email,
 			password: password,
 			options: {
