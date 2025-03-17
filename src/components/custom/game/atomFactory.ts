@@ -1,7 +1,6 @@
-import { atom } from 'jotai';
 import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as withStorageValidator } from 'jotai/utils';
 
-import { DbGameState, DbUpgrade, DbUserUpgrades, GameState, zGameStateSchema } from './schema';
+import { GameState, zGameStateSchema } from './schema';
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
@@ -57,9 +56,3 @@ const createGameState = (initialState: GameState) => {
 export const gameStateAtom = createGameState(initialGameState);
 export const toggleAtom = atomWithStorage('upgradesOpen', true);
 export const debugModeAtom = atomWithStorage('debugMode', false);
-
-export const userIdAtom = atom<string>('');
-
-export const upgradesAtom = atom<DbUpgrade[]>([]);
-export const userAtom = atom<DbGameState[]>([]);
-export const userUpgradesAtom = atom<DbUserUpgrades[]>([]);

@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom, upgradesAtom, userIdAtom } from '../atomFactory';
-import { DbUpgrade, zUpgrade } from '../schema';
+import { gameStateAtom } from '../atomFactory';
+import { zUpgrade } from '../schema';
 import { getCost } from '../util/util';
 
 import { Chip } from './Chip';
@@ -12,7 +12,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { purchaseUserUpgrade } from '@/db/functions';
 
 interface UpgradeItemProps {
 	upgradeType: 'base' | 'prestige';
@@ -20,8 +19,6 @@ interface UpgradeItemProps {
 
 export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
-	const [userID] = useAtom(userIdAtom);
-	const [upgrades] = useAtom(upgradesAtom);
 	const data = gameState.upgrades[upgradeType];
 	const resources =
 		upgradeType === 'base'
@@ -209,10 +206,6 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 							onClick={() => handleUpgrade(data[key])}
 						>
 							Buy Upgrade
-						</Button>
-
-						<Button onClick={() => purchaseUserUpgrade(userID, upgrades[0] as DbUpgrade, 22)}>
-							Buy Upgrade v2
 						</Button>
 					</div>
 				</div>

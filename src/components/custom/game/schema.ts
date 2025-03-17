@@ -46,38 +46,3 @@ export const zGameStateSchema = z
 		}),
 	})
 	.strict();
-
-export type DbUpgrade = z.infer<typeof zDbUpgradeSchema>;
-export const zDbUpgradeSchema = z
-	.object({
-		upgrade_id: z.string().nonempty(),
-		upgrade_type: z.enum(['base', 'prestige', 'temp']),
-		upgrade_name: z.string().nonempty(),
-		upgrade_desc: z.string().nonempty(),
-		cost: z.number().nonnegative(),
-		cost_mult: z.number().nonnegative(),
-		level_max: z.number().nonnegative(),
-		cpc_inc: z.number().nonnegative(),
-		cpc_mult_inc: z.number().nonnegative(),
-		currency_per_second_inc: z.number().nonnegative(),
-	})
-	.strict();
-
-export type DbUserUpgrades = z.infer<typeof zDbUserUpgradesSchema>;
-export const zDbUserUpgradesSchema = z
-	.object({
-		upgrade_id: z.string().nonempty(),
-		level_current: z.number().nonnegative(),
-		purchased_at: z.string().nonempty(),
-	})
-	.strict();
-
-export type DbGameState = z.infer<typeof zDbGameStateSchema>;
-export const zDbGameStateSchema = z
-	.object({
-		currency_balance: z.number().nonnegative(),
-		prestige_points_balance: z.number().nonnegative(),
-		num_times_prestiged: z.number().nonnegative(),
-		prestige_cost: z.number().nonnegative(),
-	})
-	.strict();

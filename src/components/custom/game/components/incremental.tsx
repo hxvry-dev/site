@@ -3,18 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
-import {
-	debugGameState,
-	debugModeAtom,
-	gameStateAtom,
-	initialGameState,
-	toggleAtom,
-	upgradesAtom,
-	userAtom,
-	userIdAtom,
-	userUpgradesAtom,
-} from '../atomFactory';
-import { DbGameState, DbUpgrade, DbUserUpgrades } from '../schema';
+import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
 
 import { BuyMultiple } from './BuyMultiple';
 import { ClickerButton } from './ClickerButton';
@@ -29,11 +18,10 @@ import { LoginForm } from '@/components/login-form';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { getUpgradesFromDB, loadUserFromDB, userUpgrades } from '@/db/functions';
 import supabase from '@/db/supabase';
 
 async function handleSignOut() {
-	await supabase().auth.signOut();
+	await supabase.auth.signOut();
 }
 
 export const Incremental: FC = () => {
@@ -41,11 +29,6 @@ export const Incremental: FC = () => {
 	const [, setGameState] = useAtom(gameStateAtom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
-
-	const [, setUserID] = useAtom(userIdAtom);
-	const [, setUpgrades] = useAtom(upgradesAtom);
-	const [, setUser] = useAtom(userAtom);
-	const [_userUpgrades, setUserUpgrades] = useAtom(userUpgradesAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -115,23 +98,13 @@ export const Incremental: FC = () => {
 	}, [setGameState]);
 
 	useEffect(() => {
-		supabase()
-			.auth.getSession()
-			.then(async ({ data: { session } }) => {
-				if (session) {
-					const userID = session.user.id;
-					setUserID(userID);
-					setUpgrades((await getUpgradesFromDB()) as DbUpgrade[]);
-					setUser((await loadUserFromDB(userID!)) as DbGameState[]);
-					setUserUpgrades((await userUpgrades(userID!)) as DbUserUpgrades[]);
-					console.log(_userUpgrades);
-				}
-				return setSession(session);
-			});
+		supabase.auth.getSession().then(async ({ data: { session } }) => {
+			return setSession(session);
+		});
 
 		const {
 			data: { subscription },
-		} = supabase().auth.onAuthStateChange((_event, session) => {
+		} = supabase.auth.onAuthStateChange((_event, session) => {
 			return setSession(session);
 		});
 
