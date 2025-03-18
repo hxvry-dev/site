@@ -9,25 +9,29 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import supabase from '@/db/supabase';
 import { cn } from '@/lib/utils';
+import { useAtom } from 'jotai';
+import { userIdAtom } from './custom/game/atomFactory';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const [, setUserID] = useAtom(userIdAtom);
 
 	const [signupFlow, setSignupFlow] = useState(false);
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
-		const { error } = await supabase.auth.signInWithPassword({
+		const { data, error } = await supabase.auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
 		if (error) {
 			console.error(`There was a problem logging you in... Error code: ${error.code}`, error.message);
 			toast.error('Something went wrong. Please try again later');
-		} else {
+		} else if (data) {
+			setUserID(data.user.id);
 			toast.success('Signed In!');
 		}
 		nav('/incremental');

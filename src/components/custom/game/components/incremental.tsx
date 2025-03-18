@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
-import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
+import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom, userIdAtom } from '../atomFactory';
 
 import { BuyMultiple } from './BuyMultiple';
 import { ClickerButton } from './ClickerButton';
@@ -29,6 +29,8 @@ export const Incremental: FC = () => {
 	const [, setGameState] = useAtom(gameStateAtom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
+
+	const [userID] = useAtom(userIdAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -109,7 +111,6 @@ export const Incremental: FC = () => {
 		});
 
 		return () => subscription.unsubscribe();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -122,6 +123,12 @@ export const Incremental: FC = () => {
 				</div>
 			) : (
 				<div>
+					<p>
+						lol this is temporary{' '}
+						<p>
+							User ID {`=>`} {userID}
+						</p>
+					</p>
 					<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
 					<div className="justify-self-end pt-0">
 						<Button variant="link" onClick={() => handleSignOut()}>
