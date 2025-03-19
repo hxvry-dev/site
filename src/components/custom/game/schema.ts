@@ -47,38 +47,46 @@ export const zGameStateSchema = z
 	})
 	.strict();
 
-export type GameStateV2 = z.infer<typeof zGameStateV2>;
-export type zUsers = z.infer<typeof zUserSchema>;
-export type zUserUpgrades = z.infer<typeof zUserUpgradesSchema>;
-export type GameUpgrade = z.infer<typeof zGameUpgrade>;
+// V2 Implementation Below
 
-const zUserSchema = z.object({
-	currency_balance: z.number().nonnegative(),
-	prestige_points_balance: z.number().nonnegative(),
-	times_prestiged: z.number().nonnegative(),
-	prestige_cost: z.number().nonnegative(),
-});
-const zUserUpgradesSchema = z.object({
-	upgrade_id: z.string().nonempty(),
-	level_max: z.number().nonnegative().default(123),
-});
-const zGameUpgrade = z.object({
-	upgrade_id: z.string().nonempty(),
-	upgrade_type: z.string().nonempty(),
+const upgradeTypeEnum = z.enum(['base', 'prestige', 'temp']);
+const gameUpgradeSchema = z.object({
+	upgrade_id: z.string().uuid(),
+	upgrade_type: upgradeTypeEnum,
 	upgrade_name: z.string().nonempty(),
 	upgrade_desc: z.string().nonempty(),
 	cost: z.number().nonnegative(),
 	cost_mult: z.number().nonnegative(),
-	level_max: z.number().nonnegative(),
-	// Currency per click increase
+	level_max: z.number().int().min(0).max(999),
 	cpc_inc: z.number().nonnegative(),
 	cpc_mult_inc: z.number().nonnegative(),
 	currency_per_second_inc: z.number().nonnegative(),
 });
-export const zGameStateV2 = z
+const userUpgradeSchema = z.object({
+	user_id: z.string().uuid(),
+	upgrade_id: z.string().uuid(),
+	level_current: z.number().int().min(0),
+	purchased_at: z.string(),
+	id: z.string().uuid(),
+});
+const userSchema = z.object({
+	user_id: z.string().uuid(),
+	created_at: z.string(),
+	currency_balance: z.number().nonnegative(),
+	prestige_points_balance: z.number().nonnegative(),
+	num_times_prestiged: z.number().nonnegative(),
+	prestige_cost: z.number().nonnegative(),
+});
+
+export type tGameStateV2 = z.infer<typeof GameStateV2>;
+export type tUsers = z.infer<typeof userSchema>;
+export type tUserUpgrades = z.infer<typeof userUpgradeSchema>;
+export type tGameUpgrade = z.infer<typeof gameUpgradeSchema>;
+
+export const GameStateV2 = z
 	.object({
-		user: zUserSchema,
-		userUpgrades: z.array(zUserUpgradesSchema),
-		upgrades: z.array(zGameUpgrade),
+		user: z.array(userSchema),
+		userUpgrades: z.array(userUpgradeSchema),
+		upgrades: z.array(gameUpgradeSchema),
 	})
 	.strict();
