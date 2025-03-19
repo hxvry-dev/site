@@ -1,5 +1,6 @@
+import { GameStateV2, tGameStateV2 } from '@/components/custom/game/schema';
 import { Tables } from './api';
-import supabase from './supabase';
+import supabase from '@/db/supabase';
 
 export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrades'>[]> => {
 	const { data, error } = await supabase.from('user_upgrades').select('*').eq('user_id', userID);
@@ -34,24 +35,31 @@ export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
 	return [];
 };
 
-/* 
-export const purchaseUserUpgrade = async (
-	userID: string,
-	upgrade: { upgrade_id: string },
-	upgradeLevel: number,
-): Promise<Tables<'user_upgrades'>[]> => {
-	const { data, error } = await supabase
-		.from('user_upgrades')
-		.insert({ user_id: userID, upgrade_id: upgrade.upgrade_id, level_current: upgradeLevel });
-	if (error) {
-		console.error(
-			`There was a problem purchasing an upgrade with ID ${upgrade.upgrade_id}... Error code: ${error.code}`,
-			error.message,
-		);
-	} else if (data) {
-		console.log('Successfully Purchased Upgrade!', data);
-		return data as Tables<'user_upgrades'>[];
+export const fetchAndValidateGameState = async (userID: string) => {
+	try {
+		const { data: gameUpgrades, error: upgradesError } = await supabase.from('upgrades').select('*');
+		if (upgradesError) throw upgradesError;
+
+		const { data: userUpgrades, error: userUpgradesError } = await supabase
+			.from('user_upgrades')
+			.select('*')
+			.eq('user_id', userID);
+		if (userUpgradesError) throw userUpgradesError;
+
+		const { data: users, error: usersError } = await supabase.from('users').select('*').eq('user_id', userID);
+		if (usersError) throw usersError;
+
+		const gameStateV2: tGameStateV2 = {
+			user: users,
+			userUpgrades: userUpgrades,
+			upgrades: gameUpgrades,
+		};
+
+		const validated = GameStateV2.safeParse(gameStateV2);
+		if (validated.success) {
+			return gameStateV2;
+		}
+	} catch (error) {
+		console.error(`An error occurred. Please try again later. \nError: ${JSON.stringify(error)}`);
 	}
-	return [];
 };
-*/
