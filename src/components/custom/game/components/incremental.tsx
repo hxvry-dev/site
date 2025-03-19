@@ -135,10 +135,6 @@ export const Incremental: FC = () => {
 				</div>
 			) : (
 				<div>
-					lol this is temporary{' '}
-					<p>
-						User ID {`=>`} {userID}
-					</p>
 					<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
 					<div className="justify-self-end pt-0">
 						<Button variant="link" onClick={() => handleSignOut()}>
