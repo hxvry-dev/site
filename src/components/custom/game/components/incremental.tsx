@@ -103,7 +103,7 @@ export const Incremental: FC = () => {
 	useEffect(() => {
 		supabase.auth
 			.getSession()
-			.then(async ({ data: { session } }) => {
+			.then(({ data: { session } }) => {
 				if (session) {
 					setUserID(session.user.id);
 					fetchAndValidateGameState(session.user.id).then((state) => {
