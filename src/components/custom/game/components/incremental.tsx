@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import supabase from '@/db/supabase';
+import { fetchAndValidateGameState } from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase.auth.signOut();
@@ -30,7 +31,7 @@ export const Incremental: FC = () => {
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
 
-	const [userID] = useAtom(userIdAtom);
+	const [userID, setUserID] = useAtom(userIdAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -100,9 +101,20 @@ export const Incremental: FC = () => {
 	}, [setGameState]);
 
 	useEffect(() => {
-		supabase.auth.getSession().then(async ({ data: { session } }) => {
-			return setSession(session);
-		});
+		supabase.auth
+			.getSession()
+			.then(async ({ data: { session } }) => {
+				if (session) {
+					setUserID(session.user.id);
+					fetchAndValidateGameState(session.user.id).then((state) => {
+						console.log(state);
+					});
+				}
+				return setSession(session);
+			})
+			.catch((error) => {
+				console.error('Failed to fetch game state:', error);
+			});
 
 		const {
 			data: { subscription },
@@ -123,11 +135,9 @@ export const Incremental: FC = () => {
 				</div>
 			) : (
 				<div>
+					lol this is temporary{' '}
 					<p>
-						lol this is temporary{' '}
-						<p>
-							User ID {`=>`} {userID}
-						</p>
+						User ID {`=>`} {userID}
 					</p>
 					<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
 					<div className="justify-self-end pt-0">
