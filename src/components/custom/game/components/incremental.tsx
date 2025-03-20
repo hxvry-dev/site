@@ -3,7 +3,15 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
-import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom, userIdAtom } from '../atomFactory';
+import {
+	debugGameState,
+	debugModeAtom,
+	gameStateAtom,
+	gameStateV2Atom,
+	initialGameState,
+	toggleAtom,
+	userIdAtom,
+} from '../atomFactory';
 
 import { BuyMultiple } from './BuyMultiple';
 import { ClickerButton } from './ClickerButton';
@@ -28,10 +36,11 @@ async function handleSignOut() {
 export const Incremental: FC = () => {
 	const [session, setSession] = useState<Session | null>(null);
 	const [, setGameState] = useAtom(gameStateAtom);
+	const [, setGameStateV2] = useAtom(gameStateV2Atom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
 
-	const [userID, setUserID] = useAtom(userIdAtom);
+	const [, setUserID] = useAtom(userIdAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -72,11 +81,6 @@ export const Incremental: FC = () => {
 			lastUpdateRef.current = now;
 
 			setGameState((state) => {
-				if (!state.resources) {
-					console.error('Resources are undefined', state);
-					return state;
-				}
-
 				return {
 					...state,
 					resources: {
@@ -103,12 +107,11 @@ export const Incremental: FC = () => {
 	useEffect(() => {
 		supabase.auth
 			.getSession()
-			.then(({ data: { session } }) => {
+			.then(async ({ data: { session } }) => {
 				if (session) {
 					setUserID(session.user.id);
-					fetchAndValidateGameState(session.user.id).then((state) => {
-						console.log(state);
-					});
+					const gsv2 = await fetchAndValidateGameState(session.user.id);
+					setGameStateV2(gsv2);
 				}
 				return setSession(session);
 			})

@@ -22,9 +22,6 @@ export default defineConfig({
 						) {
 							return 'tailwind';
 						}
-						if (id.includes('react-router-dom') || id.includes('react-dom') || id.includes('react')) {
-							return 'react-utils';
-						}
 						if (id.includes('@supabase')) {
 							return 'supabase-utils';
 						}
