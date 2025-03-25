@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 
 import GithubRepoTable from './GithubRepoTable';
+import { Badge } from '../ui/badge';
 
 const linkGenerator = (slug: string, desc: string) => {
 	return (
@@ -50,7 +51,7 @@ const ProjectData: ProjectDataProps[] = [
 			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has 2 upgrades and a Prestige system implemented, with plans to expand upgrades further in the future. The code is available on my GitHub.',
 		link: linkGenerator('/incremental', 'Idle Game'),
 		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game',
-		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI'],
+		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
 	},
 	{
 		id: 1,
@@ -59,7 +60,7 @@ const ProjectData: ProjectDataProps[] = [
 			'A collection of my TypeScript-based scripts for Bitburner. Some of the code was taken from other repositories, and I tried to credit the author(s) when possible.',
 		link: linkGenerator('https://github.com/hxvry-dev/bitburner-scripts', 'Bitburner Scripts'),
 		src: 'https://github.com/hxvry-dev/bitburner-scripts',
-		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI'],
+		tools: ['TypeScript', 'Vite'],
 	},
 ];
 
@@ -79,6 +80,14 @@ const Projects: FC = () => {
 						<CardContent>
 							<div className="overflow-scroll whitespace-normal border p-3 h-[150px] content-center">
 								<p>{project.description}</p>
+							</div>
+							<div className="pt-5 justify-self-center grid grid-flow-col gap-2">
+								<legend>Tools Used:</legend>
+								{project.tools.map((tool) => (
+									<Badge className="bg-accent text-white hover:bg-accent hover:text-white">
+										{tool}
+									</Badge>
+								))}
 							</div>
 						</CardContent>
 						<CardFooter>
