@@ -63,3 +63,30 @@ export const fetchAndValidateGameState = async (userID: string) => {
 		console.error(`An error occurred. Please try again later. \nError: ${JSON.stringify(error)}`);
 	}
 };
+
+export const syncGameState = async (userID: string, gameState: tGameStateV2) => {
+	try {
+		if (!userID) return;
+		const { data: userInfoData, error: userInfoError } = await supabase
+			.from('users')
+			.upsert(gameState.user)
+			.single();
+		const { data: gameStateData, error: gameStateError } = await supabase
+			.from('user_upgrades')
+			.upsert(gameState.userUpgrades)
+			.single();
+
+		if (userInfoError) {
+			throw userInfoError;
+		} else {
+			console.log(`Synced User's Game info with Supabase! ${userInfoData}`);
+		}
+		if (gameStateError) {
+			throw gameStateError;
+		} else {
+			console.log(`Synced User's Game State info with Supabase! ${gameStateData}`);
+		}
+	} catch (error) {
+		console.error(`Error syncing with Supabase: ${error}`);
+	}
+};

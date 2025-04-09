@@ -27,7 +27,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import supabase from '@/db/supabase';
-import { fetchAndValidateGameState } from '@/db/functions';
+import { fetchAndValidateGameState, syncGameState } from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase.auth.signOut();
@@ -36,11 +36,11 @@ async function handleSignOut() {
 export const Incremental: FC = () => {
 	const [session, setSession] = useState<Session | null>(null);
 	const [, setGameState] = useAtom(gameStateAtom);
-	const [, setGameStateV2] = useAtom(gameStateV2Atom);
+	const [gameState, setGameStateV2] = useAtom(gameStateV2Atom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
 
-	const [, setUserID] = useAtom(userIdAtom);
+	const [userID, setUserID] = useAtom(userIdAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -71,10 +71,6 @@ export const Incremental: FC = () => {
 	};
 
 	useEffect(() => {
-		document.title = 'Idle Game';
-	}, []);
-
-	useEffect(() => {
 		const updateResources = () => {
 			const now = Date.now();
 			const elapsedTime = (now - lastUpdateRef.current) / 1000; // convert to seconds
@@ -93,6 +89,9 @@ export const Incremental: FC = () => {
 					},
 				};
 			});
+			if (now - lastUpdateRef.current >= 300000) {
+				syncGameState(userID, gameState!);
+			}
 		};
 
 		intervalRef.current = setInterval(updateResources, 1000 / 60);
@@ -105,6 +104,7 @@ export const Incremental: FC = () => {
 	}, [setGameState]);
 
 	useEffect(() => {
+		document.title = 'Idle Game';
 		supabase.auth
 			.getSession()
 			.then(async ({ data: { session } }) => {
