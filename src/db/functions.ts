@@ -69,22 +69,25 @@ export const syncGameState = async (userID: string, gameState: tGameStateV2) => 
 		if (!userID) return;
 		const { data: userInfoData, error: userInfoError } = await supabase
 			.from('users')
-			.upsert(gameState.user)
-			.single();
-		const { data: gameStateData, error: gameStateError } = await supabase
-			.from('user_upgrades')
-			.upsert(gameState.userUpgrades)
-			.single();
+			.update(gameState.user)
+			.eq('user_id', userID)
+			.select();
 
 		if (userInfoError) {
 			throw userInfoError;
 		} else {
 			console.log(`Synced User's Game info with Supabase! ${userInfoData}`);
 		}
-		if (gameStateError) {
-			throw gameStateError;
-		} else {
-			console.log(`Synced User's Game State info with Supabase! ${gameStateData}`);
+
+		if (gameState.userUpgrades.length < 0) {
+			const { data: gameStateData, error: gameStateError } = await supabase.from('user_upgrades').upsert({
+				...gameState.userUpgrades,
+			});
+			if (gameStateError) {
+				throw gameStateError;
+			} else {
+				console.log(`Synced User's Game State info with Supabase! ${gameStateData}`);
+			}
 		}
 	} catch (error) {
 		console.error(`Error syncing with Supabase: ${error}`);

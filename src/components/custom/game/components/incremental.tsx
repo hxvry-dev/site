@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import supabase from '@/db/supabase';
 import { fetchAndValidateGameState, syncGameState } from '@/db/functions';
+import { toast } from 'sonner';
 
 async function handleSignOut() {
 	await supabase.auth.signOut();
@@ -90,7 +91,8 @@ export const Incremental: FC = () => {
 				};
 			});
 			if (now - lastUpdateRef.current >= 300000) {
-				syncGameState(userID, gameState!);
+				//syncGameState(userID, gameState!);
+				toast.success('Saved Game!');
 			}
 		};
 
@@ -243,6 +245,28 @@ export const Incremental: FC = () => {
 											<p>
 												This button leaves the debug mode. If you would like to come back, just
 												put the password back in :&#41;
+											</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												onClick={() => {
+													syncGameState(userID, gameState!);
+												}}
+												className="opacity-85 bg-yellow-600 hover:bg-yellow-600/90 text-foreground"
+											>
+												Save Game Manually
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
+											<p>
+												This button will trigger the save mechanic manually. Please do not spam
+												this.
 											</p>
 										</TooltipContent>
 									</Tooltip>
