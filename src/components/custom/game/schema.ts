@@ -85,7 +85,7 @@ export type tGameUpgrade = z.infer<typeof gameUpgradeSchema>;
 
 export const GameStateV2 = z
 	.object({
-		user: z.array(userSchema),
+		user: userSchema,
 		userUpgrades: z.array(userUpgradeSchema),
 		upgrades: z.array(gameUpgradeSchema),
 	})
