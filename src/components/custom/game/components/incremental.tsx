@@ -72,6 +72,15 @@ export const Incremental: FC = () => {
 	};
 
 	useEffect(() => {
+		const interval = setInterval(() => {
+			//syncGameState(userID, gameState);
+			console.log(`User ID: ${userID}\n\nGame State: ${gameState}`);
+			toast.success('Saved Game!');
+		}, 300000);
+		return () => clearInterval(interval);
+	}, []);
+
+	useEffect(() => {
 		const updateResources = () => {
 			const now = Date.now();
 			const elapsedTime = (now - lastUpdateRef.current) / 1000; // convert to seconds
@@ -90,10 +99,6 @@ export const Incremental: FC = () => {
 					},
 				};
 			});
-			if (now - lastUpdateRef.current >= 300000) {
-				//syncGameState(userID, gameState!);
-				toast.success('Saved Game!');
-			}
 		};
 
 		intervalRef.current = setInterval(updateResources, 1000 / 60);
@@ -245,28 +250,6 @@ export const Incremental: FC = () => {
 											<p>
 												This button leaves the debug mode. If you would like to come back, just
 												put the password back in :&#41;
-											</p>
-										</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => {
-													syncGameState(userID, gameState!);
-												}}
-												className="opacity-85 bg-yellow-600 hover:bg-yellow-600/90 text-foreground"
-											>
-												Save Game Manually
-											</Button>
-										</TooltipTrigger>
-										<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
-											<p>
-												This button will trigger the save mechanic manually. Please do not spam
-												this.
 											</p>
 										</TooltipContent>
 									</Tooltip>

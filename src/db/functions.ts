@@ -46,7 +46,11 @@ export const fetchAndValidateGameState = async (userID: string) => {
 			.eq('user_id', userID);
 		if (userUpgradesError) throw userUpgradesError;
 
-		const { data: users, error: usersError } = await supabase.from('users').select('*').eq('user_id', userID);
+		const { data: users, error: usersError } = await supabase
+			.from('users')
+			.select('*')
+			.eq('user_id', userID)
+			.single();
 		if (usersError) throw usersError;
 
 		const gameStateV2: tGameStateV2 = {
