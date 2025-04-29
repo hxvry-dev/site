@@ -50,52 +50,19 @@ export const Incremental: FC = () => {
 		setToggle((prev) => !prev);
 	};
 
-	const handleReset = () => {
-		setGameState((state) => {
-			return {
-				...initialGameState,
-				resources: {
-					...initialGameState.resources,
-					currencyBalance: {
-						main: state.resources.currencyBalance.main,
-						prestige: state.resources.currencyBalance.prestige,
-					},
-				},
-				upgrades: {
-					...initialGameState.upgrades,
-				},
-				prestige: {
-					...initialGameState.prestige,
-				},
-			};
-		});
-	};
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			//syncGameState(userID, gameState);
-			console.log(`User ID: ${userID}\n\nGame State: ${gameState}`);
-			toast.success('Saved Game!');
-		}, 300000);
-		return () => clearInterval(interval);
-	}, []);
-
 	useEffect(() => {
 		const updateResources = () => {
 			const now = Date.now();
 			const elapsedTime = (now - lastUpdateRef.current) / 1000; // convert to seconds
 			lastUpdateRef.current = now;
 
-			setGameState((state) => {
+			setGameStateV2((state) => {
+				if (!state) return;
 				return {
 					...state,
-					resources: {
-						...state.resources,
-						currencyBalance: {
-							...state.resources.currencyBalance,
-							main:
-								state.resources.currencyBalance.main + state.resources.currencyPerSecond * elapsedTime,
-						},
+					user: {
+						...state.user,
+						currency_balance: state.user.currency_balance + state.user.currency_per_second * elapsedTime,
 					},
 				};
 			});
@@ -133,6 +100,15 @@ export const Incremental: FC = () => {
 		});
 
 		return () => subscription.unsubscribe();
+	}, []);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			//syncGameState(userID, gameState);
+			console.log(`User ID: ${userID}\n\nGame State: ${gameState}`);
+			toast.success('Saved Game!');
+		}, 300000);
+		return () => clearInterval(interval);
 	}, []);
 
 	return (
@@ -208,26 +184,6 @@ export const Incremental: FC = () => {
 											that makes live debugging and testing easier. Please note that this change
 											is destructive as of now, and will require a full state reset to be able to
 											play the game again. This <b>will</b> be changed in a future update.
-										</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
-							</div>
-							<div className="max-w-[300px] justify-self-center font-mono overflow-auto">
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												onClick={() => handleReset()}
-												className="opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground"
-											>
-												Reset Upgrades?
-											</Button>
-										</TooltipTrigger>
-										<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
-											<p>
-												This button will reset the upgrades that you&apos;ve purchased, but will
-												not reset the resource balance(s) you have gained.
-											</p>
 										</TooltipContent>
 									</Tooltip>
 								</TooltipProvider>

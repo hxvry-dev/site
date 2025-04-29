@@ -73,6 +73,7 @@ const userSchema = z.object({
 	user_id: z.string().uuid(),
 	created_at: z.string(),
 	currency_balance: z.number().nonnegative(),
+	currency_per_second: z.number().nonnegative(),
 	prestige_points_balance: z.number().nonnegative(),
 	num_times_prestiged: z.number().nonnegative(),
 	prestige_cost: z.number().nonnegative(),
