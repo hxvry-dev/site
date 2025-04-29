@@ -3,15 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
-import {
-	debugGameState,
-	debugModeAtom,
-	gameStateAtom,
-	gameStateV2Atom,
-	initialGameState,
-	toggleAtom,
-	userIdAtom,
-} from '../atomFactory';
+import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
 
 import { BuyMultiple } from './BuyMultiple';
 import { ClickerButton } from './ClickerButton';
@@ -27,8 +19,6 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import supabase from '@/db/supabase';
-import { fetchAndValidateGameState, syncGameState } from '@/db/functions';
-import { toast } from 'sonner';
 
 async function handleSignOut() {
 	await supabase.auth.signOut();
@@ -37,11 +27,8 @@ async function handleSignOut() {
 export const Incremental: FC = () => {
 	const [session, setSession] = useState<Session | null>(null);
 	const [, setGameState] = useAtom(gameStateAtom);
-	const [gameState, setGameStateV2] = useAtom(gameStateV2Atom);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const [debugMode, setDebugMode] = useAtom(debugModeAtom);
-
-	const [userID, setUserID] = useAtom(userIdAtom);
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
@@ -56,13 +43,16 @@ export const Incremental: FC = () => {
 			const elapsedTime = (now - lastUpdateRef.current) / 1000; // convert to seconds
 			lastUpdateRef.current = now;
 
-			setGameStateV2((state) => {
-				if (!state) return;
+			setGameState((state) => {
 				return {
 					...state,
-					user: {
-						...state.user,
-						currency_balance: state.user.currency_balance + state.user.currency_per_second * elapsedTime,
+					resources: {
+						...state.resources,
+						currencyBalance: {
+							...state.resources.currencyBalance,
+							main:
+								state.resources.currencyBalance.main + state.resources.currencyPerSecond * elapsedTime,
+						},
 					},
 				};
 			});
@@ -82,11 +72,6 @@ export const Incremental: FC = () => {
 		supabase.auth
 			.getSession()
 			.then(async ({ data: { session } }) => {
-				if (session) {
-					setUserID(session.user.id);
-					const gsv2 = await fetchAndValidateGameState(session.user.id);
-					setGameStateV2(gsv2);
-				}
 				return setSession(session);
 			})
 			.catch((error) => {
@@ -100,15 +85,6 @@ export const Incremental: FC = () => {
 		});
 
 		return () => subscription.unsubscribe();
-	}, []);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			//syncGameState(userID, gameState);
-			console.log(`User ID: ${userID}\n\nGame State: ${gameState}`);
-			toast.success('Saved Game!');
-		}, 300000);
-		return () => clearInterval(interval);
 	}, []);
 
 	return (
