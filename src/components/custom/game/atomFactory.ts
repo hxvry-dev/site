@@ -58,5 +58,7 @@ export const gameStateAtom = createGameState(initialGameState);
 export const toggleAtom = atomWithStorage('upgradesOpen', true);
 export const debugModeAtom = atomWithStorage('debugMode', false);
 
+// V2 Here
+
 export const userIdAtom = atom<string>('');
 export const gameStateV2Atom = atom<tGameStateV2>();
