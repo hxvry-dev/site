@@ -67,6 +67,7 @@ const userUpgradeSchema = z.object({
 	upgrade_id: z.string().uuid(),
 	level_current: z.number().int().min(0),
 	purchased_at: z.string(),
+	prestige_num: z.number(),
 	id: z.string().uuid(),
 });
 const userSchema = z.object({
