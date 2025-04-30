@@ -12,6 +12,9 @@ const resetUser = (user: tUser, gameState: tGameStateV2) => {
 		...user,
 		currency_balance: 0,
 		prestige_points_balance: handleNewPrestigePoints(gameState),
+		num_times_prestiged: gameState.user.num_times_prestiged + 1,
+		prestige_cost: gameState.user.prestige_cost * gameState.user.prestige_cost_mult,
+		prestige_cost_mult: gameState.user.prestige_cost_mult * 1.01,
 	};
 	return result;
 };
@@ -22,7 +25,7 @@ const defaultGameStateV2: tGameStateV2 = {
 	upgrades: await getUpgradesFromDB(),
 };
 
-const handlePrestige = (gameState: tGameStateV2): void => {
+const handlePrestigeV2 = async (gameState: tGameStateV2): Promise<void> => {
 	if (gameState.user.prestige_points_balance >= 0 && handleNewPrestigePoints(gameState) >= 1) {
 		return setGameState((state) => {
 			if (!state) return;
@@ -39,18 +42,18 @@ const handleNewPrestigePoints = (gameState: tGameStateV2): number => {
 
 const handleUpgrade = () => {};
 
-const handleToggle = () => {};
-
 const handleClickerButtonClick = () => {};
 
 const handleBuyMultipleButtonClick = () => {};
 
+const updateResources = () => {};
+
 export {
-	handlePrestige,
+	handlePrestigeV2,
 	handleNewPrestigePoints,
 	handleUpgrade,
-	handleToggle,
 	handleClickerButtonClick,
 	handleBuyMultipleButtonClick,
 	resetUser,
+	updateResources,
 };

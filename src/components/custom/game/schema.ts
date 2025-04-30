@@ -62,9 +62,10 @@ export const GameStateV2 = z.object({
 		created_at: z.string(),
 		currency_balance: z.number().nonnegative(),
 		currency_per_second: z.number().nonnegative(),
-		prestige_points_balance: z.number().nonnegative(),
 		num_times_prestiged: z.number().nonnegative(),
 		prestige_cost: z.number().nonnegative(),
+		prestige_cost_mult: z.number().nonnegative(),
+		prestige_points_balance: z.number().nonnegative(),
 	}),
 	userUpgrades: z.array(
 		z.object({

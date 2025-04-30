@@ -116,6 +116,7 @@ export type Database = {
 					currency_per_second: number;
 					num_times_prestiged: number;
 					prestige_cost: number;
+					prestige_cost_mult: number;
 					prestige_points_balance: number;
 					user_id: string;
 				};
@@ -125,6 +126,7 @@ export type Database = {
 					currency_per_second?: number;
 					num_times_prestiged?: number;
 					prestige_cost?: number;
+					prestige_cost_mult?: number;
 					prestige_points_balance?: number;
 					user_id?: string;
 				};
@@ -134,6 +136,7 @@ export type Database = {
 					currency_per_second?: number;
 					num_times_prestiged?: number;
 					prestige_cost?: number;
+					prestige_cost_mult?: number;
 					prestige_points_balance?: number;
 					user_id?: string;
 				};
