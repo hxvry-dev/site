@@ -13,15 +13,15 @@ export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrade
 	return [];
 };
 
-export const loadUserFromDB = async (userID: string): Promise<Tables<'users'>[]> => {
-	const { data, error } = await supabase.from('users').select('*').eq('user_id', userID);
+export const loadUserFromDB = async (userID: string): Promise<Tables<'users'>> => {
+	const { data, error } = await supabase.from('users').select('*').eq('user_id', userID).single();
 	if (error) {
 		console.error(`There was a problem grabbing your Game State... Error code: ${error.code}`, error.message);
 	} else if (data) {
 		console.log('Loaded User from DB!');
-		return data as Tables<'users'>[];
+		return data as Tables<'users'>;
 	}
-	return [];
+	return data;
 };
 
 export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
