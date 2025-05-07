@@ -1,4 +1,4 @@
-import { GameStateV2, tGameStateV2 } from '@/components/custom/game/schema';
+import { GameStateV2 } from '@/components/custom/game/schema';
 import { Tables } from './api';
 import supabase from '@/db/supabase';
 
@@ -53,7 +53,7 @@ export const fetchAndValidateGameState = async (userID: string) => {
 			.single();
 		if (usersError) throw usersError;
 
-		const gameStateV2: tGameStateV2 = {
+		const gameStateV2: GameStateV2 = {
 			user: users,
 			userUpgrades: userUpgrades,
 			upgrades: gameUpgrades,
@@ -68,7 +68,7 @@ export const fetchAndValidateGameState = async (userID: string) => {
 	}
 };
 
-export const syncGameState = async (userID: string, gameState: tGameStateV2) => {
+export const syncGameState = async (userID: string, gameState: GameStateV2) => {
 	try {
 		if (!userID) return;
 		const { data: userInfoData, error: userInfoError } = await supabase
