@@ -41,6 +41,7 @@ export default defineConfig({
 				},
 			},
 		},
+		target: 'ES2022',
 	},
 	resolve: {
 		alias: {
