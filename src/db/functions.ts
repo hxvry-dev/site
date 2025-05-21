@@ -2,7 +2,15 @@ import { GameStateV2 } from '@/components/custom/game/schema';
 import { Tables } from './api';
 import supabase from '@/db/supabase';
 
-export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrades'>[]> => {
+const getUserID = async () => {
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	return user!.id;
+};
+
+export const userUpgrades = async (): Promise<Tables<'user_upgrades'>[]> => {
+	const userID = await getUserID();
 	const { data, error } = await supabase.from('user_upgrades').select('*').eq('user_id', userID);
 	if (error) {
 		console.error(`There was a problem grabbing your upgrades... Error code: ${error.code}`, error.message);
@@ -13,7 +21,9 @@ export const userUpgrades = async (userID: string): Promise<Tables<'user_upgrade
 	return [];
 };
 
-export const loadUserFromDB = async (userID: string): Promise<Tables<'users'>> => {
+export const loadUserFromDB = async (): Promise<Tables<'users'>> => {
+	const userID = await getUserID();
+	console.log(userID);
 	const { data, error } = await supabase.from('users').select('*').eq('user_id', userID).single();
 	if (error) {
 		console.error(`There was a problem grabbing your Game State... Error code: ${error.code}`, error.message);
@@ -35,7 +45,8 @@ export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
 	return [];
 };
 
-export const fetchAndValidateGameState = async (userID: string) => {
+export const fetchAndValidateGameState = async () => {
+	const userID = await getUserID();
 	try {
 		const { data: gameUpgrades, error: upgradesError } = await supabase.from('upgrades').select('*');
 		if (upgradesError) throw upgradesError;
@@ -68,7 +79,8 @@ export const fetchAndValidateGameState = async (userID: string) => {
 	}
 };
 
-export const syncGameState = async (userID: string, gameState: GameStateV2) => {
+export const syncGameState = async (gameState: GameStateV2) => {
+	const userID = await getUserID();
 	try {
 		if (!userID) return;
 		const { data: userInfoData, error: userInfoError } = await supabase

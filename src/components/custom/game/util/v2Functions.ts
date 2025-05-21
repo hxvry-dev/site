@@ -1,11 +1,7 @@
-import { useAtom } from 'jotai';
-import { gameStateV2Atom, userIdAtom } from '../atomFactory';
 import { GameStateV2, Upgrade, User, UserUpgrade } from '../schema';
-import { getUpgradesFromDB, loadUserFromDB, userUpgrades } from '@/db/functions';
 import supabase from '@/db/supabase';
-
-const [gameState, setGameState] = useAtom(gameStateV2Atom);
-const [userID] = useAtom(userIdAtom);
+import { useAtom } from 'jotai';
+import { gameStateV2Atom } from '../atomFactory';
 
 const resetUser = (user: User, gameState: GameStateV2): User => {
 	let result: User;
@@ -20,18 +16,12 @@ const resetUser = (user: User, gameState: GameStateV2): User => {
 	return result;
 };
 
-const defaultGameStateV2: GameStateV2 = {
-	user: resetUser(await loadUserFromDB(userID), gameState!),
-	userUpgrades: await userUpgrades(userID),
-	upgrades: await getUpgradesFromDB(),
-};
-
-const handlePrestigeV2 = async (gameState: GameStateV2): Promise<void> => {
+const handlePrestigeV2 = (): void => {
+	const [gameState, setGameState] = useAtom(gameStateV2Atom);
 	if (gameState.user.prestige_points_balance >= 0 && handleNewPrestigePoints(gameState) >= 1) {
-		return setGameState((state) => {
-			if (!state) return;
+		setGameState((state) => {
 			return {
-				...defaultGameStateV2,
+				...state,
 			};
 		});
 	}

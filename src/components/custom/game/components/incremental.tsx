@@ -3,7 +3,14 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
-import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
+import {
+	debugGameState,
+	debugModeAtom,
+	gameStateAtom,
+	gameStateV2Atom,
+	initialGameState,
+	toggleAtom,
+} from '../atomFactory';
 
 import { BuyMultiple } from './BuyMultiple';
 import { ClickerButton } from './ClickerButton';
@@ -19,6 +26,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import supabase from '@/db/supabase';
+import { fetchAndValidateGameState } from '@/db/functions';
 
 async function handleSignOut() {
 	await supabase.auth.signOut();
@@ -32,6 +40,8 @@ export const Incremental: FC = () => {
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
+
+	const [gameStateV2, setGameStateV2] = useAtom(gameStateV2Atom);
 
 	const handleToggle = () => {
 		setToggle((prev) => !prev);
@@ -72,6 +82,9 @@ export const Incremental: FC = () => {
 		supabase.auth
 			.getSession()
 			.then(async ({ data: { session } }) => {
+				const gsv2 = await fetchAndValidateGameState();
+				if (!gsv2) return;
+				setGameStateV2(gsv2);
 				return setSession(session);
 			})
 			.catch((error) => {
@@ -193,6 +206,7 @@ export const Incremental: FC = () => {
 					)}
 					<div className="mt-8">
 						<Version />
+						<div>{JSON.stringify(gameStateV2)}</div>
 					</div>
 				</div>
 			)}

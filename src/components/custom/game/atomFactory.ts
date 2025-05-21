@@ -3,6 +3,7 @@ import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as wi
 import { GameState, GameStateV2, zGameStateSchema } from './schema';
 import { PrestigeUpgrades, Upgrades } from './upgrades';
 import { atom } from 'jotai';
+import { loadUserFromDB, userUpgrades, getUpgradesFromDB } from '@/db/functions';
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
@@ -61,4 +62,18 @@ export const debugModeAtom = atomWithStorage('debugMode', false);
 // V2 Here
 
 export const userIdAtom = atom<string>('');
-export const gameStateV2Atom = atom<GameStateV2>();
+
+const defaultGameStateV2 = async (): Promise<GameStateV2> => {
+	const [user, user_upgrades, upgrades] = await Promise.all([loadUserFromDB(), userUpgrades(), getUpgradesFromDB()]);
+	const gsv2: GameStateV2 = {
+		user: user,
+		userUpgrades: user_upgrades,
+		upgrades: upgrades,
+	};
+	return gsv2 as GameStateV2;
+};
+const createGameStateV2 = (initialState: GameStateV2) => {
+	return atom(initialState);
+};
+
+export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
