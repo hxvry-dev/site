@@ -61,6 +61,7 @@ export const debugModeAtom = atomWithStorage('debugMode', false);
 
 // V2 Here
 
+export const purchasePowerAtom = atom<number>(1);
 export const userIdAtom = atom<string>('');
 
 const defaultGameStateV2 = async (): Promise<GameStateV2> => {
