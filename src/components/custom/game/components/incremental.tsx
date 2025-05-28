@@ -47,7 +47,7 @@ export const Incremental: FC = () => {
 		setToggle((prev) => !prev);
 	};
 
-	useEffect(() => {
+	/*useEffect(() => {
 		const updateResources = () => {
 			const now = Date.now();
 			const elapsedTime = (now - lastUpdateRef.current) / 1000; // convert to seconds
@@ -75,7 +75,34 @@ export const Incremental: FC = () => {
 				clearInterval(intervalRef.current);
 			}
 		};
-	}, [setGameState]);
+	}, [setGameState]);*/
+
+	// V2
+
+	useEffect(() => {
+		const updateResources = () => {
+			const now = Date.now();
+			const elapsedTime = (now - lastUpdateRef.current) / 1000;
+			lastUpdateRef.current = now;
+
+			setGameStateV2((state) => {
+				return {
+					...state,
+					user: {
+						...state.user,
+						currency_balance: state.user.currency_balance + state.user.currency_per_second * elapsedTime,
+					},
+				};
+			});
+		};
+		intervalRef.current = setInterval(updateResources, 1000 / 60);
+
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+			}
+		};
+	}, [setGameStateV2]);
 
 	useEffect(() => {
 		document.title = 'Idle Game';
