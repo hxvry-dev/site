@@ -82,6 +82,8 @@ export const UserSchema = z.object({
 	created_at: z.string(),
 	currency_balance: z.number().nonnegative(),
 	currency_per_second: z.number().nonnegative(),
+	currency_per_click: z.number().nonnegative(),
+	currency_per_click_mult: z.number().nonnegative(),
 	num_times_prestiged: z.number().nonnegative(),
 	prestige_cost: z.number().nonnegative(),
 	prestige_cost_mult: z.number().nonnegative(),

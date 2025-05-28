@@ -113,6 +113,8 @@ export type Database = {
 				Row: {
 					created_at: string;
 					currency_balance: number;
+					currency_per_click: number;
+					currency_per_click_mult: number;
 					currency_per_second: number;
 					num_times_prestiged: number;
 					prestige_cost: number;
@@ -123,6 +125,8 @@ export type Database = {
 				Insert: {
 					created_at?: string;
 					currency_balance?: number;
+					currency_per_click?: number;
+					currency_per_click_mult?: number;
 					currency_per_second?: number;
 					num_times_prestiged?: number;
 					prestige_cost?: number;
@@ -133,6 +137,8 @@ export type Database = {
 				Update: {
 					created_at?: string;
 					currency_balance?: number;
+					currency_per_click?: number;
+					currency_per_click_mult?: number;
 					currency_per_second?: number;
 					num_times_prestiged?: number;
 					prestige_cost?: number;
