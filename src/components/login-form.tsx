@@ -34,7 +34,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 			setUserID(data.user.id);
 			toast.success('Signed In!');
 		}
-		nav('/incremental');
+		nav('/incremental/v2');
 	}
 
 	async function handleSignup(e: FormEvent) {
