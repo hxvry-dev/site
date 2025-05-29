@@ -8,9 +8,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card
 import GithubRepoTable from './GithubRepoTable';
 import { Badge } from '../ui/badge';
 
-const linkGenerator = (slug: string, desc: string) => {
+const linkGenerator = (slug: string, desc: string, key?: string) => {
 	return (
-		<Button asChild variant="secondary">
+		<Button asChild variant="secondary" key={key}>
 			<NavLink to={`${slug}`}>{desc}</NavLink>
 		</Button>
 	);
@@ -25,9 +25,6 @@ function GithubLogo() {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
 		>
 			<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
 		</svg>
@@ -38,7 +35,7 @@ interface ProjectDataProps {
 	id: number;
 	name: string;
 	description: string;
-	link: JSX.Element | string;
+	link: Array<JSX.Element | string>;
 	src: string;
 	tools: Array<string>;
 }
@@ -49,7 +46,10 @@ const ProjectData: ProjectDataProps[] = [
 		name: 'Idle Game [BETA]',
 		description:
 			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has 2 upgrades and a Prestige system implemented, with plans to expand upgrades further in the future. The code is available on my GitHub.',
-		link: linkGenerator('/incremental', 'Idle Game'),
+		link: [
+			linkGenerator('/incremental', 'Idle Game', `v1`),
+			linkGenerator('/incremental/v2', 'Idle Game V2 [WIP]', `v2`),
+		],
 		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game',
 		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
 	},
@@ -58,7 +58,7 @@ const ProjectData: ProjectDataProps[] = [
 		name: 'Bitburner Scripts',
 		description:
 			'A collection of my TypeScript-based scripts for Bitburner. Some of the code was taken from other repositories, and I tried to credit the author(s) when possible.',
-		link: linkGenerator('https://github.com/hxvry-dev/bitburner-scripts', 'Bitburner Scripts'),
+		link: [linkGenerator('https://github.com/hxvry-dev/bitburner-scripts', 'Bitburner Scripts', `bb`)],
 		src: 'https://github.com/hxvry-dev/bitburner-scripts',
 		tools: ['TypeScript', 'Vite'],
 	},
