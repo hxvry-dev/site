@@ -2,11 +2,13 @@ import { GameStateV2 } from '@/components/custom/game/schema';
 import { Tables } from './api';
 import supabase from '@/db/supabase';
 
-const getUserID = async () => {
+export const getUserID = async (): Promise<string | undefined> => {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
-	return user!.id;
+	if (user) {
+		return user.id;
+	}
 };
 
 export const userUpgrades = async (): Promise<Tables<'user_upgrades'>[]> => {
@@ -109,3 +111,5 @@ export const syncGameState = async (gameState: GameStateV2) => {
 		console.error(`Error syncing with Supabase: ${error}`);
 	}
 };
+
+export const upsertUserUpgrade = async () => {};
