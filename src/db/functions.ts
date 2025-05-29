@@ -1,6 +1,6 @@
 import { GameStateV2 } from '@/components/custom/game/schema';
 import { Tables } from './api';
-import supabase from '@/db/supabase';
+import { supabase } from '@/components/custom/game/components/IncrementalV2';
 
 export const getUserID = async (): Promise<string | undefined> => {
 	const {
@@ -11,8 +11,9 @@ export const getUserID = async (): Promise<string | undefined> => {
 	}
 };
 
-export const userUpgrades = async (): Promise<Tables<'user_upgrades'>[]> => {
+export const userUpgrades = async (): Promise<Tables<'user_upgrades'>[] | undefined> => {
 	const userID = await getUserID();
+	if (!userID) return;
 	const { data, error } = await supabase.from('user_upgrades').select('*').eq('user_id', userID);
 	if (error) {
 		console.error(`There was a problem grabbing your upgrades... Error code: ${error.code}`, error.message);
@@ -23,8 +24,9 @@ export const userUpgrades = async (): Promise<Tables<'user_upgrades'>[]> => {
 	return [];
 };
 
-export const loadUserFromDB = async (): Promise<Tables<'users'>> => {
+export const loadUserFromDB = async (): Promise<Tables<'users'> | undefined> => {
 	const userID = await getUserID();
+	if (!userID) return;
 	console.log(userID);
 	const { data, error } = await supabase.from('users').select('*').eq('user_id', userID).single();
 	if (error) {
@@ -36,7 +38,10 @@ export const loadUserFromDB = async (): Promise<Tables<'users'>> => {
 	return data;
 };
 
-export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
+export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[] | undefined> => {
+	await supabase.auth.getUser().then(async ({ data: { user } }) => {
+		if (!user) return;
+	});
 	const { data, error } = await supabase.from('upgrades').select('*');
 	if (error) {
 		console.error(`There was a problem grabbing the upgrades... Error code: ${error.code}`, error.message);
@@ -47,8 +52,9 @@ export const getUpgradesFromDB = async (): Promise<Tables<'upgrades'>[]> => {
 	return [];
 };
 
-export const fetchAndValidateGameState = async () => {
+export const fetchAndValidateGameState = async (): Promise<GameStateV2 | undefined> => {
 	const userID = await getUserID();
+	if (!userID) return;
 	try {
 		const { data: gameUpgrades, error: upgradesError } = await supabase.from('upgrades').select('*');
 		if (upgradesError) throw upgradesError;
@@ -81,8 +87,9 @@ export const fetchAndValidateGameState = async () => {
 	}
 };
 
-export const syncGameState = async (gameState: GameStateV2) => {
+export const syncGameState = async (gameState: GameStateV2): Promise<GameStateV2 | undefined> => {
 	const userID = await getUserID();
+	if (!userID) return;
 	try {
 		if (!userID) return;
 		const { data: userInfoData, error: userInfoError } = await supabase

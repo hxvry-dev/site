@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { Session } from '@supabase/supabase-js';
+import { createClient, Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
 import { gameStateV2Atom, toggleAtom } from '../atomFactory';
@@ -16,15 +16,22 @@ import { Version } from './version';
 import { LoginForm } from '@/components/login-form';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import supabase from '@/db/supabase';
 import { fetchAndValidateGameState } from '@/db/functions';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-async function handleSignOut() {
-	await supabase.auth.signOut();
-}
+export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY, {
+	auth: {
+		persistSession: true,
+	},
+});
 
-export const IncrementalV2: FC = () => {
+const IncrementalV2: FC = () => {
+	const nav = useNavigate();
+	async function handleSignOut() {
+		await supabase.auth.signOut();
+		nav('/');
+	}
+
 	const [gameStateV2, setGameStateV2] = useAtom(gameStateV2Atom);
 	const [session, setSession] = useState<Session | null>(null);
 	const [toggle, setToggle] = useAtom(toggleAtom);
@@ -37,32 +44,7 @@ export const IncrementalV2: FC = () => {
 	};
 
 	useEffect(() => {
-		const updateResources = () => {
-			const now = Date.now();
-			const elapsedTime = (now - lastUpdateRef.current) / 1000;
-			lastUpdateRef.current = now;
-
-			setGameStateV2((state) => {
-				return {
-					...state,
-					user: {
-						...state.user,
-						currency_balance: state.user.currency_balance + state.user.currency_per_second * elapsedTime,
-					},
-				};
-			});
-		};
-		intervalRef.current = setInterval(updateResources, 1000 / 60);
-
-		return () => {
-			if (intervalRef.current) {
-				clearInterval(intervalRef.current);
-			}
-		};
-	}, [setGameStateV2]);
-
-	useEffect(() => {
-		document.title = 'Idle Game';
+		document.title = 'Idle Game (V2)';
 		supabase.auth
 			.getSession()
 			.then(async ({ data: { session } }) => {
@@ -84,6 +66,32 @@ export const IncrementalV2: FC = () => {
 
 		return () => subscription.unsubscribe();
 	}, []);
+
+	useEffect(() => {
+		const updateResources = () => {
+			const now = Date.now();
+			const elapsedTime = (now - lastUpdateRef.current) / 1000;
+			lastUpdateRef.current = now;
+
+			setGameStateV2((state) => {
+				if (!session) return state;
+				return {
+					...state,
+					user: {
+						...state.user,
+						currency_balance: state.user.currency_balance + state.user.currency_per_second * elapsedTime,
+					},
+				};
+			});
+		};
+		intervalRef.current = setInterval(updateResources, 1000 / 60);
+
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+			}
+		};
+	}, [setGameStateV2]);
 
 	return (
 		<>

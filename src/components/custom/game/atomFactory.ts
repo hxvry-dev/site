@@ -62,14 +62,13 @@ export const debugModeAtom = atomWithStorage('debugMode', false);
 // V2 Here
 
 export const purchasePowerAtom = atom<number>(1);
-export const userIdAtom = atom<string>('');
 
 const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 	const [user, user_upgrades, upgrades] = await Promise.all([loadUserFromDB(), userUpgrades(), getUpgradesFromDB()]);
 	const gsv2: GameStateV2 = {
-		user: user,
-		userUpgrades: user_upgrades,
-		upgrades: upgrades,
+		user: user!,
+		userUpgrades: user_upgrades!,
+		upgrades: upgrades!,
 	};
 	return gsv2 as GameStateV2;
 };

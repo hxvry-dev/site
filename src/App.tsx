@@ -1,4 +1,4 @@
-import { FC, Suspense } from 'react';
+import { FC, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Authed from './components/custom/Authed';
@@ -8,7 +8,7 @@ import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
 import Projects from './components/custom/Projects';
 import Resume from './components/custom/Resume';
-import IncrementalV2 from './components/custom/game/components/IncrementalV2';
+const IncrementalV2 = lazy(() => import('./components/custom/game/components/IncrementalV2'));
 
 const App: FC = () => {
 	return (

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { GalleryVerticalEnd } from 'lucide-react';
 import { toast } from 'sonner';
@@ -7,17 +7,19 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import supabase from '@/db/supabase';
 import { cn } from '@/lib/utils';
+import { supabase } from './custom/game/components/IncrementalV2';
+import { fetchAndValidateGameState } from '@/db/functions';
 import { useAtom } from 'jotai';
-import { userIdAtom } from './custom/game/atomFactory';
+import { gameStateV2Atom } from './custom/game/atomFactory';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [, setUserID] = useAtom(userIdAtom);
+
+	const [, setGameStateV2] = useAtom(gameStateV2Atom);
 
 	const [signupFlow, setSignupFlow] = useState(false);
 
@@ -31,7 +33,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 			console.error(`There was a problem logging you in... Error code: ${error.code}`, error.message);
 			toast.error('Something went wrong. Please try again later');
 		} else if (data) {
-			setUserID(data.user.id);
+			const gsv2 = await fetchAndValidateGameState();
+			if (!gsv2) return;
+			setGameStateV2(gsv2);
 			toast.success('Signed In!');
 		}
 		nav('/incremental/v2');
@@ -107,6 +111,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 							</div>
 							<Button type="submit" className="w-full">
 								Login
+							</Button>
+							<Button variant="link" asChild>
+								<NavLink to="/incremental">Load V1</NavLink>
 							</Button>
 						</div>
 					) : (
