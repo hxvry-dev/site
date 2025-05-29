@@ -1,4 +1,4 @@
-import { GameState,zUpgrade } from '../schema';
+import { GameState, GameStateV2, zUpgrade } from '../schema';
 
 export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 	let cost = upgrade.cost.current;
@@ -16,4 +16,8 @@ export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 
 export const newPrestigePoints = (gameState: GameState) => {
 	return Math.floor(gameState.resources.currencyBalance.main / gameState.prestige.prestigeCost);
+};
+
+export const handleNewPrestigePoints = (gameState: GameStateV2) => {
+	return Math.floor(gameState.user.currency_balance / gameState.user.prestige_cost);
 };

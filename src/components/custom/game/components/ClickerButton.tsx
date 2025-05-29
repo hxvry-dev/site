@@ -26,6 +26,14 @@ export const ClickerButton: FC = () => {
 
 	// V2 Here
 
+	return (
+		<Button onClick={handleClick} className="flex w-full font-mono">
+			Click me! (+{clickValue.toFixed(2)})
+		</Button>
+	);
+};
+
+export const ClickerButtonV2: FC = () => {
 	const [gameStateV2, setGameStateV2] = useAtom(gameStateV2Atom);
 	const clickValueV2: number = gameStateV2.user.currency_per_click * gameStateV2.user.currency_per_click_mult;
 
@@ -44,13 +52,8 @@ export const ClickerButton: FC = () => {
 	};
 
 	return (
-		<div>
-			<Button onClick={handleClick} className="flex w-full font-mono">
-				Click me! (+{clickValue.toFixed(2)})
-			</Button>
-			<Button onClick={handleClickV2} className="flex w-full font-mono">
-				v2 Click Me! (+{clickValueV2.toFixed(2)})
-			</Button>
-		</div>
+		<Button onClick={handleClickV2} className="flex w-full font-mono">
+			Click Me! (+{clickValueV2.toFixed(2)})
+		</Button>
 	);
 };
