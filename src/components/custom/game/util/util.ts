@@ -1,4 +1,5 @@
-import { GameState, GameStateV2, zUpgrade } from '../schema';
+import { calculateLevel } from '@/db/functions';
+import { GameState, GameStateV2, Upgrade, zUpgrade } from '../schema';
 
 export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 	let cost = upgrade.cost.current;
@@ -9,6 +10,19 @@ export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 	} else {
 		for (let i = 1; i < numUpgrades; i++) {
 			cost *= upgrade.cost.multiplier;
+		}
+	}
+	return cost;
+};
+
+export const getCostV2 = async (upgrade: Upgrade, purchasePower: number): Promise<number> => {
+	let cost = upgrade.cost;
+	if (purchasePower === 1 && (await calculateLevel(upgrade.upgrade_id))! > 0) {
+		cost *= upgrade.cost_mult;
+		return cost;
+	} else {
+		for (let i = 1; i < purchasePower; i++) {
+			cost *= upgrade.cost_mult;
 		}
 	}
 	return cost;
