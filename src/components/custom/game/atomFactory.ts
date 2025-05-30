@@ -75,5 +75,5 @@ const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 const createGameStateV2 = (initialState: GameStateV2) => {
 	return atom(initialState);
 };
-
+export const fetchDefaultGameStateV2: GameStateV2 = await defaultGameStateV2();
 export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());

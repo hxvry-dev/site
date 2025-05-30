@@ -3,13 +3,13 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { createClient, Session } from '@supabase/supabase-js';
 import { useAtom } from 'jotai';
 
-import { gameStateV2Atom, toggleAtom } from '../atomFactory';
+import { gameStateV2Atom, fetchDefaultGameStateV2, toggleAtom } from '../atomFactory';
 
 import { BuyMultiple } from './BuyMultiple';
-import { ClickerButton } from './ClickerButton';
-import { GameStats } from './GameStats';
+import { ClickerButtonV2 } from './ClickerButton';
+import { GameStatsV2 } from './GameStats';
 import { PrestigeBar } from './PrestigeBar';
-import { PrestigeButton } from './PrestigeButton';
+import { PrestigeButtonV2 } from './PrestigeButton';
 import { Upgrades } from './Upgrades';
 import { Version } from './version';
 
@@ -116,7 +116,7 @@ const IncrementalV2: FC = () => {
 						<p className="justify-self-center mb-5">Buy Multiple Upgrades!</p>
 						<BuyMultiple />
 					</div>
-					<GameStats />
+					<GameStatsV2 />
 					<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={!toggle}>
 						<legend className="mb-4 font-mono justify-self-center">Upgrades</legend>
 						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
@@ -129,8 +129,8 @@ const IncrementalV2: FC = () => {
 								</TabsTrigger>
 							</TabsList>
 							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-2 gap-5">
-								<ClickerButton />
-								<PrestigeButton />
+								<ClickerButtonV2 />
+								<PrestigeButtonV2 initialState={fetchDefaultGameStateV2} />
 								<div className="col-span-2 grid-row-2">{<PrestigeBar />}</div>
 							</div>
 							<TabsContent value="base">{<Upgrades upgradeType="base" />}</TabsContent>
