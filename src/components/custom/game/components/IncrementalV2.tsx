@@ -5,10 +5,10 @@ import { useAtom } from 'jotai';
 
 import { gameStateV2Atom, fetchDefaultGameStateV2, toggleAtom } from '../atomFactory';
 
-import { BuyMultiple } from './BuyMultiple';
+import { BuyMultipleV2 } from './BuyMultiple';
 import { ClickerButtonV2 } from './ClickerButton';
 import { GameStatsV2 } from './GameStats';
-import { PrestigeBar } from './PrestigeBar';
+import { PrestigeBarV2 } from './PrestigeBar';
 import { PrestigeButtonV2 } from './PrestigeButton';
 import { Upgrades } from './Upgrades';
 import { Version } from './version';
@@ -114,7 +114,7 @@ const IncrementalV2: FC = () => {
 					</div>
 					<div className="justify-self-center font-mono">
 						<p className="justify-self-center mb-5">Buy Multiple Upgrades!</p>
-						<BuyMultiple />
+						<BuyMultipleV2 />
 					</div>
 					<GameStatsV2 />
 					<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={!toggle}>
@@ -131,7 +131,7 @@ const IncrementalV2: FC = () => {
 							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-2 gap-5">
 								<ClickerButtonV2 />
 								<PrestigeButtonV2 initialState={fetchDefaultGameStateV2} />
-								<div className="col-span-2 grid-row-2">{<PrestigeBar />}</div>
+								<div className="col-span-2 grid-row-2">{<PrestigeBarV2 />}</div>
 							</div>
 							<TabsContent value="base">{<Upgrades upgradeType="base" />}</TabsContent>
 							<TabsContent value="prestige">{<Upgrades upgradeType="prestige" />}</TabsContent>
