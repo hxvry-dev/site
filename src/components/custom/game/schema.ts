@@ -49,7 +49,7 @@ export const zGameStateSchema = z
 
 // V2 Implementation Below
 
-const upgradeTypeEnum = z.enum(['base', 'prestige', 'temp']);
+const upgradeTypeEnum = z.enum(['base', 'prestige']);
 
 export const UserUpgradeSchema = z.object({
 	user_id: z.string().uuid(),

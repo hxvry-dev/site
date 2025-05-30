@@ -156,7 +156,7 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Enums: {
-			upgrade_types: 'base' | 'prestige' | 'temp';
+			upgrade_types: 'base' | 'prestige';
 		};
 		CompositeTypes: {
 			[_ in never]: never;
