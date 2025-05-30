@@ -1,4 +1,4 @@
-import { GameStateV2 } from '@/components/custom/game/schema';
+import { GameStateV2, Upgrade, UserUpgrade } from '@/components/custom/game/schema';
 import { Tables } from './api';
 import { supabase } from '@/components/custom/game/components/IncrementalV2';
 
@@ -119,4 +119,50 @@ export const syncGameState = async (gameState: GameStateV2): Promise<GameStateV2
 	}
 };
 
-export const upsertUserUpgrade = async () => {};
+export const calculateLevel = async (upgradeID: string): Promise<number | null> => {
+	try {
+		const { data, error } = await supabase
+			.from('user_upgrades')
+			.select('max(level_current)')
+			.eq('upgrade_id', upgradeID)
+			.single();
+		if (error) {
+			console.error(`Error fetching user upgrades: ${error.code}`, error.message);
+			return null;
+		}
+		const maxLevel = data.max.map((upgrade) => parseInt(upgrade.level_current))[0];
+		return maxLevel || null;
+	} catch (error) {
+		console.error('An unexpected error occurred:', error);
+		return null;
+	}
+};
+
+export const upsertUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2) => {
+	const userID: string | undefined = await getUserID();
+	if (!userID) return;
+	return await supabase.from('user_upgrades').upsert({
+		level_current: await calculateLevel(upgrade.upgrade_id),
+		prestige_num: gameState.user.num_times_prestiged,
+		upgrade_id: upgrade.upgrade_id,
+		user_id: userID,
+	});
+};
+
+export const purchaseUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2) => {
+	let result: Array<UserUpgrade> = [];
+	const userID = await getUserID();
+	const levels = gameState.userUpgrades
+		.filter((u) => u.user_id === userID && u.upgrade_id === upgrade.upgrade_id)
+		.map((u) => u.level_current);
+	const current_level = Math.max(...levels);
+
+	result.push({
+		level_current: current_level,
+		prestige_num: gameState.user.num_times_prestiged,
+		upgrade_id: upgrade.upgrade_id,
+		user_id: userID!,
+	});
+
+	return result;
+};
