@@ -2,9 +2,10 @@ import { FC, useId } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom, purchasePowerAtom } from '../atomFactory';
+import { gameStateAtom } from '../atomFactory';
 
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { purchasePowerAtom } from './IncrementalV2';
 export const BuyMultiple: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const id = useId();

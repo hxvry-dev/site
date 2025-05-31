@@ -1,16 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { createClient, Session } from '@supabase/supabase-js';
-import { useAtom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 
-import { gameStateV2Atom, fetchDefaultGameStateV2, toggleAtom } from '../atomFactory';
+import { toggleAtom } from '../atomFactory';
 
 import { BuyMultipleV2 } from './BuyMultiple';
 import { ClickerButtonV2 } from './ClickerButton';
 import { GameStatsV2 } from './GameStats';
 import { PrestigeBarV2 } from './PrestigeBar';
 import { PrestigeButtonV2 } from './PrestigeButton';
-import { Upgrades } from './Upgrades';
 import { Version } from './version';
 
 import { LoginForm } from '@/components/login-form';
@@ -18,21 +17,30 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAndValidateGameState } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { UpgradesV2 } from './UpgradesV2';
+import { GameStateV2 } from '../schema';
 
-export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY, {
-	auth: {
-		persistSession: true,
-	},
-});
+export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY);
+
+export const purchasePowerAtom = atom<number>(1);
+
+const defaultGameStateV2 = async (): Promise<GameStateV2> => {
+	const data = await fetchAndValidateGameState();
+	const gsv2: GameStateV2 = {
+		user: data!.user,
+		userUpgrades: data!.userUpgrades,
+		upgrades: data!.upgrades,
+	};
+	return gsv2 as GameStateV2;
+};
+const createGameStateV2 = (initialState: GameStateV2) => {
+	return atom(initialState);
+};
+export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
 
 const IncrementalV2: FC = () => {
 	const nav = useNavigate();
-	async function handleSignOut() {
-		await supabase.auth.signOut();
-		nav('/');
-	}
-
-	const [gameStateV2, setGameStateV2] = useAtom(gameStateV2Atom);
+	const [gameState, setGameState] = useAtom(gameStateV2Atom);
 	const [session, setSession] = useState<Session | null>(null);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 
@@ -51,7 +59,7 @@ const IncrementalV2: FC = () => {
 				if (!session) return;
 				const gsv2 = await fetchAndValidateGameState();
 				if (!gsv2) return;
-				setGameStateV2(gsv2);
+				setGameState(gsv2);
 				return setSession(session);
 			})
 			.catch((error) => {
@@ -73,7 +81,7 @@ const IncrementalV2: FC = () => {
 			const elapsedTime = (now - lastUpdateRef.current) / 1000;
 			lastUpdateRef.current = now;
 
-			setGameStateV2((state) => {
+			setGameState((state) => {
 				if (!session) return state;
 				return {
 					...state,
@@ -91,7 +99,7 @@ const IncrementalV2: FC = () => {
 				clearInterval(intervalRef.current);
 			}
 		};
-	}, [setGameStateV2]);
+	}, [setGameState]);
 
 	return (
 		<>
@@ -105,7 +113,13 @@ const IncrementalV2: FC = () => {
 				<div>
 					<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
 					<div className="justify-self-end pt-0">
-						<Button variant="link" onClick={() => handleSignOut()}>
+						<Button
+							variant="link"
+							onClick={async () => {
+								await supabase.auth.signOut();
+								nav('/');
+							}}
+						>
 							Sign Out
 						</Button>
 						<Button variant="link" asChild>
@@ -130,11 +144,11 @@ const IncrementalV2: FC = () => {
 							</TabsList>
 							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-2 gap-5">
 								<ClickerButtonV2 />
-								<PrestigeButtonV2 initialState={fetchDefaultGameStateV2} />
+								<PrestigeButtonV2 initialState={gameState} />
 								<div className="col-span-2 grid-row-2">{<PrestigeBarV2 />}</div>
 							</div>
-							<TabsContent value="base">{<Upgrades upgradeType="base" />}</TabsContent>
-							<TabsContent value="prestige">{<Upgrades upgradeType="prestige" />}</TabsContent>
+							<TabsContent value="base">{<UpgradesV2 upgradeType="base" />}</TabsContent>
+							<TabsContent value="prestige">{<UpgradesV2 upgradeType="prestige" />}</TabsContent>
 						</Tabs>
 					</div>
 					<div className="justify-self-center font-mono">
@@ -151,7 +165,7 @@ const IncrementalV2: FC = () => {
 					</div>
 					<div className="mt-8">
 						<Version />
-						<div>{JSON.stringify(gameStateV2)}</div>
+						<div>{JSON.stringify(gameState)}</div>
 					</div>
 				</div>
 			)}

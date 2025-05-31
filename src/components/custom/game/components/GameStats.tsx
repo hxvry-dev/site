@@ -2,8 +2,9 @@ import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom, gameStateV2Atom } from '../atomFactory';
+import { gameStateAtom } from '../atomFactory';
 import { handleNewPrestigePoints, newPrestigePoints } from '../util/util';
+import { gameStateV2Atom } from './IncrementalV2';
 
 export const GameStats: FC = () => {
 	const [gameState] = useAtom(gameStateAtom);

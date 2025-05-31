@@ -2,11 +2,12 @@ import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom, gameStateV2Atom, initialGameState } from '../atomFactory';
+import { gameStateAtom, initialGameState } from '../atomFactory';
 import { handleNewPrestigePoints, newPrestigePoints } from '../util/util';
 
 import { Button } from '@/components/ui/button';
 import { GameStateV2 } from '../schema';
+import { gameStateV2Atom } from './IncrementalV2';
 
 export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -59,6 +60,7 @@ export const PrestigeButtonV2: FC<PrestigeButtonV2Props> = ({ initialState }) =>
 					...state,
 					user: {
 						...initialState.user,
+						currency_balance: 0,
 						prestige_points_balance:
 							gameState.user.prestige_points_balance + handleNewPrestigePoints(gameState),
 						num_times_prestiged: gameState.user.num_times_prestiged + 1,

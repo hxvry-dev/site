@@ -8,10 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { supabase } from './custom/game/components/IncrementalV2';
+import { gameStateV2Atom, supabase } from './custom/game/components/IncrementalV2';
 import { fetchAndValidateGameState } from '@/db/functions';
 import { useAtom } from 'jotai';
-import { gameStateV2Atom } from './custom/game/atomFactory';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();

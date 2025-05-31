@@ -1,4 +1,4 @@
-import { calculateLevel } from '@/db/functions';
+import { calculateLocalLevel } from '@/db/functions';
 import { GameState, GameStateV2, Upgrade, zUpgrade } from '../schema';
 
 export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
@@ -15,9 +15,9 @@ export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 	return cost;
 };
 
-export const getCostV2 = async (upgrade: Upgrade, purchasePower: number): Promise<number> => {
+export const getCostV2 = (upgrade: Upgrade, purchasePower: number, gameState: GameStateV2): number => {
 	let cost = upgrade.cost;
-	if (purchasePower === 1 && (await calculateLevel(upgrade.upgrade_id))! > 0) {
+	if (purchasePower === 1 && calculateLocalLevel(upgrade, gameState)! > 0) {
 		cost *= upgrade.cost_mult;
 		return cost;
 	} else {
