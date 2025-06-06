@@ -2,7 +2,7 @@ import { FC, useId } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { Chip } from './Chip';
+import { Chip, ChipV2 } from './Chip';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
@@ -29,6 +29,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 	for (let keys of data) {
 		costs[keys.upgrade_id] = getCostV2(keys, purchasePower, gameState);
 	}
+	const handleUpgrade = () => {};
 	return (
 		<div>
 			{data.map((upgrade) => (
@@ -51,40 +52,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 												{costs[upgrade.upgrade_id]}
 											</span>
 										</div>
-									</div>
-								</AccordionTrigger>
-							</AccordionItem>
-						</Accordion>
-					</div>
-				</div>
-			))}
-		</div>
-	);
-	const handleUpgrade = () => {};
-	/*return (
-		<div>
-			{Object.keys(data).map((key) => (
-				<div className="flex grid-flow-col gap-5 font-mono" key={key}>
-					<div>
-						<Accordion type="single" collapsible>
-							<AccordionItem value={key}>
-								<AccordionTrigger className="hover:bg-muted/50 px-5">
-									<div className="grid grid-cols-4 grid-rows-1 gap-2">
-										<div className="w-[200px]">{data[key].name}</div>
 										<div>
-											Level:{' '}
-											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{data[key].level.current} / {data[key].level.max}
-											</span>
-										</div>
-										<div>
-											Cost:{' '}
-											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{getCost(data[key], gameState).toFixed(2)}
-											</span>
-										</div>
-										<div>
-											<Chip upgrade={data[key]} resources={resources} />
+											<ChipV2 upgrade={upgrade} resources={gameState.user.currency_balance} />
 										</div>
 									</div>
 								</AccordionTrigger>
@@ -92,7 +61,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 									<div>
 										<legend className="font-mono">Upgrade Description</legend>
 										<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-scroll">
-											{data[key].description}
+											{upgrade.upgrade_desc}
 										</div>
 									</div>
 									<Table>
@@ -110,17 +79,12 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<Tooltip>
 															<TooltipTrigger asChild>
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-																	+
-																	{(
-																		data[key].stats.currencyPerClickIncrease *
-																		gameState.resources.purchasePower
-																	).toFixed(2)}
+																	+{(upgrade.cpc_inc * purchasePower).toFixed(2)}
 																</div>
 															</TooltipTrigger>
-															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
+															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																<div>
-																	Current Bonus: +
-																	{gameState.resources.currencyPerClick}{' '}
+																	Current Bonus: +{gameState.user.currency_per_click}{' '}
 																	Currency/Click
 																</div>
 															</TooltipContent>
@@ -132,20 +96,15 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<Tooltip>
 															<TooltipTrigger asChild>
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-																	+
-																	{(
-																		data[key].stats
-																			.currencyPerClickMultiplierIncrease *
-																		gameState.resources.purchasePower
-																	).toFixed(2)}
+																	+{(upgrade.cpc_mult_inc * purchasePower).toFixed(2)}
 																	x
 																</div>
 															</TooltipTrigger>
-															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
+															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																<div>
 																	Current Bonus:{' '}
-																	{gameState.resources.currencyPerClickMultiplier}x
-																	Currency per Click
+																	{gameState.user.currency_per_click_mult}x Currency
+																	per Click
 																</div>
 															</TooltipContent>
 														</Tooltip>
@@ -156,19 +115,14 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<Tooltip>
 															<TooltipTrigger asChild>
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-																	+
-																	{(
-																		data[key].stats.currencyPerSecondIncrease *
-																		gameState.resources.purchasePower
-																	).toFixed(2)}
+																	+{(upgrade.cpc_inc * purchasePower).toFixed(2)}
 																	/s
 																</div>
 															</TooltipTrigger>
 															<TooltipContent className="font-medium bg-background border-2 text-foreground">
 																<div>
-																	Current Bonus: +
-																	{gameState.resources.currencyPerSecond} Currency/per
-																	second (Automatically!!){' '}
+																	Current Bonus: +{gameState.user.currency_per_second}{' '}
+																	Currency/s{' '}
 																	<span className="spoiler">
 																		this is a rounded value
 																	</span>
@@ -184,19 +138,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 							</AccordionItem>
 						</Accordion>
 					</div>
-					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
-						<Button
-							disabled={
-								resources < getCost(data[key], gameState) &&
-								data[key].level.current != data[key].level.max
-							}
-							onClick={() => handleUpgrade(data[key])}
-						>
-							Buy Upgrade
-						</Button>
-					</div>
 				</div>
 			))}
 		</div>
-	);*/
+	);
 };
