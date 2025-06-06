@@ -53,26 +53,22 @@ const IncrementalV2: FC = () => {
 
 	useEffect(() => {
 		document.title = 'Idle Game (V2)';
-		supabase.auth
-			.getSession()
-			.then(async ({ data: { session } }) => {
-				if (!session) return;
-				const gsv2 = await fetchAndValidateGameState();
-				if (!gsv2) return;
-				setGameState(gsv2);
-				return setSession(session);
-			})
-			.catch((error) => {
-				console.error('Failed to fetch game state:', error);
-			});
 
-		const {
-			data: { subscription },
-		} = supabase.auth.onAuthStateChange((_event, session) => {
-			return setSession(session);
+		const fetchSession = async () => {
+			const {
+				data: { session },
+			} = await supabase.auth.getSession();
+			setSession(session);
+		};
+		fetchSession();
+		// Listen for changes in authentication state
+		const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+			setSession(session);
 		});
-
-		return () => subscription.unsubscribe();
+		// Cleanup subscription on unmount
+		return () => {
+			authListener.subscription?.unsubscribe();
+		};
 	}, []);
 
 	useEffect(() => {
@@ -80,9 +76,7 @@ const IncrementalV2: FC = () => {
 			const now = Date.now();
 			const elapsedTime = (now - lastUpdateRef.current) / 1000;
 			lastUpdateRef.current = now;
-
 			setGameState((state) => {
-				if (!session) return state;
 				return {
 					...state,
 					user: {
