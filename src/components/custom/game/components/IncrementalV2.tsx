@@ -59,6 +59,9 @@ const IncrementalV2: FC = () => {
 				data: { session },
 			} = await supabase.auth.getSession();
 			setSession(session);
+			const gsv2 = await fetchAndValidateGameState();
+			if (!gsv2) return;
+			setGameState(gsv2);
 		};
 		fetchSession();
 		// Listen for changes in authentication state

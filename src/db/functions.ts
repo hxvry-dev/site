@@ -7,12 +7,14 @@ export const getUserID = async (): Promise<string | undefined> => {
 	} = await supabase.auth.getUser();
 	if (user) {
 		sessionStorage.setItem('user_id', user.id);
+		sessionStorage.setItem('user_gotten', 'true');
 		return user.id;
 	}
 };
 
 export const fetchAndValidateGameState = async (): Promise<GameStateV2 | undefined> => {
-	const userID = await getUserID();
+	const userID =
+		sessionStorage.getItem('user_gotten') === 'true' ? sessionStorage.getItem('user_id') : await getUserID();
 	if (!userID) return;
 	try {
 		const { data: gameUpgrades, error: upgradesError } = await supabase.from('upgrades').select('*');
@@ -48,7 +50,8 @@ export const fetchAndValidateGameState = async (): Promise<GameStateV2 | undefin
 };
 
 export const syncGameState = async (gameState: GameStateV2): Promise<GameStateV2 | undefined> => {
-	const userID = await getUserID();
+	const userID =
+		sessionStorage.getItem('user_gotten') === 'true' ? sessionStorage.getItem('user_id') : await getUserID();
 	if (!userID) return;
 	try {
 		if (!userID) return;
@@ -88,7 +91,8 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): n
 };
 
 export const upsertUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2) => {
-	const userID: string | undefined = await getUserID();
+	const userID =
+		sessionStorage.getItem('user_gotten') === 'true' ? sessionStorage.getItem('user_id') : await getUserID();
 	if (!userID) return;
 	return await supabase.from('user_upgrades').upsert({
 		level_current: calculateLocalLevel(upgrade, gameState),
@@ -100,7 +104,8 @@ export const upsertUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2
 
 export const purchaseUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2) => {
 	let result: Array<UserUpgrade> = [];
-	const userID = await getUserID();
+	const userID =
+		sessionStorage.getItem('user_gotten') === 'true' ? sessionStorage.getItem('user_id') : await getUserID();
 	const current_level: number = calculateLocalLevel(upgrade, gameState);
 
 	result.push({
