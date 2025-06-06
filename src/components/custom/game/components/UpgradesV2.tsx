@@ -1,8 +1,8 @@
-import { FC, useId } from 'react';
+import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { Chip, ChipV2 } from './Chip';
+import { ChipV2 } from './Chip';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,7 @@ interface Cost {
 }
 
 export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
-	const [gameState, setGameState] = useAtom(gameStateV2Atom);
+	const [gameState] = useAtom(gameStateV2Atom);
 	const [purchasePower] = useAtom(purchasePowerAtom);
 	const data: Upgrades = gameState.upgrades.filter((u) => u.upgrade_type === upgradeType);
 	const resources: number =
