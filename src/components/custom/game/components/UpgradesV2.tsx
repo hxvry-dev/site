@@ -12,6 +12,7 @@ import { Upgrades } from '../schema';
 import { calculateLocalLevel } from '@/db/functions';
 import { getCostV2 } from '../util/util';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
+import { toast } from 'sonner';
 
 interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
@@ -25,11 +26,15 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateV2Atom);
 	const [purchasePower] = useAtom(purchasePowerAtom);
 	const data: Upgrades = gameState.upgrades.filter((u) => u.upgrade_type === upgradeType);
+	const resources: number =
+		upgradeType === 'base' ? gameState.user.currency_balance : gameState.user.prestige_points_balance;
 	const costs: Cost = {};
 	for (let keys of data) {
 		costs[keys.upgrade_id] = getCostV2(keys, purchasePower, gameState);
 	}
-	const handleUpgrade = () => {};
+	const handleUpgrade = () => {
+		return toast.success('Hello World from Handle Upgrade!');
+	};
 	return (
 		<div>
 			{data.map((upgrade) => (
@@ -49,7 +54,9 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 										<div>
 											Cost:{' '}
 											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{costs[upgrade.upgrade_id]}
+												{costs[upgrade.upgrade_id].toLocaleString('en-us', {
+													maximumFractionDigits: 2,
+												})}
 											</span>
 										</div>
 										<div>
@@ -115,7 +122,10 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<Tooltip>
 															<TooltipTrigger asChild>
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-																	+{(upgrade.cpc_inc * purchasePower).toFixed(2)}
+																	+
+																	{(
+																		upgrade.currency_per_second_inc * purchasePower
+																	).toFixed(2)}
 																	/s
 																</div>
 															</TooltipTrigger>
@@ -137,6 +147,17 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 								</AccordionContent>
 							</AccordionItem>
 						</Accordion>
+					</div>
+					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
+						<Button
+							disabled={
+								resources < getCostV2(upgrade, purchasePower, gameState) &&
+								calculateLocalLevel(upgrade, gameState) != upgrade.level_max
+							}
+							onClick={() => handleUpgrade()}
+						>
+							Buy Upgrade
+						</Button>
 					</div>
 				</div>
 			))}

@@ -22,7 +22,7 @@ export const getCostV2 = (upgrade: Upgrade, purchasePower: number, gameState: Ga
 		return cost;
 	} else {
 		for (let i = 1; i < purchasePower; i++) {
-			cost *= upgrade.cost_mult;
+			cost *= 0.85 * upgrade.cost_mult;
 		}
 	}
 	return cost;
