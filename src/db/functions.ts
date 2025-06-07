@@ -86,7 +86,7 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): n
 	const levels = gameState.userUpgrades
 		.filter((u) => u.upgrade_id === upgrade.upgrade_id)
 		.map((u) => u.level_current);
-	const current_level = Math.max(...levels);
+	const current_level = Math.max(...levels, 0);
 	return current_level;
 };
 
