@@ -8,7 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Upgrades } from '../schema';
+import { Upgrade, Upgrades, UserUpgrade } from '../schema';
 import { calculateLocalLevel } from '@/db/functions';
 import { getCostV2 } from '../util/util';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
@@ -22,8 +22,13 @@ interface Cost {
 	[key: string]: number;
 }
 
+const userID: string | void | null =
+	sessionStorage.getItem('user_gotten') === 'true'
+		? sessionStorage.getItem('user_id')
+		: console.log('userID not defined.');
+
 export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
-	const [gameState] = useAtom(gameStateV2Atom);
+	const [gameState, setGameState] = useAtom(gameStateV2Atom);
 	const [purchasePower] = useAtom(purchasePowerAtom);
 	const data: Upgrades = gameState.upgrades.filter((u) => u.upgrade_type === upgradeType);
 	const resources: number =
@@ -32,8 +37,33 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 	for (let keys of data) {
 		costs[keys.upgrade_id] = getCostV2(keys, gameState, purchasePower);
 	}
-	const handleUpgrade = () => {
-		return toast.success('Hello World from Handle Upgrade!');
+	const handleUpgrade = (upgrade: Upgrade) => {
+		let result: UserUpgrade;
+		result = {
+			user_id: userID!.toString(),
+			upgrade_id: upgrade.upgrade_id,
+			level_current: calculateLocalLevel(upgrade, gameState) + purchasePower,
+			prestige_num: gameState.user.num_times_prestiged,
+		};
+		costs[upgrade.upgrade_id] = getCostV2(upgrade, gameState, purchasePower);
+		if (costs[upgrade.upgrade_id] >= gameState.user.currency_balance) return;
+		console.log(costs);
+		if (result.user_id === userID) {
+			gameState.userUpgrades.push(result);
+			toast.success('Purchased Upgrade(s)!');
+			console.log(gameState.userUpgrades);
+			setGameState((state) => {
+				return {
+					...state,
+					user: {
+						...state.user,
+						currency_balance: state.user.currency_balance - costs[upgrade.upgrade_id],
+					},
+				};
+			});
+		} else {
+			toast.warning('Purchase failed!');
+		}
 	};
 	return (
 		<div>
@@ -154,7 +184,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 								resources < getCostV2(upgrade, gameState, purchasePower) &&
 								calculateLocalLevel(upgrade, gameState) != upgrade.level_max
 							}
-							onClick={() => handleUpgrade()}
+							onClick={() => handleUpgrade(upgrade)}
 						>
 							Buy Upgrade
 						</Button>
