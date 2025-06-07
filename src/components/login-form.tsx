@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { gameStateV2Atom, supabase } from './custom/game/components/IncrementalV2';
+import { gameStateV2Atom } from './custom/game/components/IncrementalV2';
 import { fetchAndValidateGameState } from '@/db/functions';
 import { useAtom } from 'jotai';
+import { supabase } from '@/db/supabaseClient';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	const nav = useNavigate();
@@ -24,7 +25,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleLogin(e: FormEvent) {
 		e.preventDefault();
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { data, error } = await supabase!.auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
@@ -42,7 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
 	async function handleSignup(e: FormEvent) {
 		e.preventDefault();
-		const { error } = await supabase.auth.signUp({
+		const { error } = await supabase!.auth.signUp({
 			email: email,
 			password: password,
 			options: {

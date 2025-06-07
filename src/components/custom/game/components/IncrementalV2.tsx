@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { createClient, Session } from '@supabase/supabase-js';
+import { Session } from '@supabase/supabase-js';
 import { atom, useAtom } from 'jotai';
 
 import { toggleAtom } from '../atomFactory';
@@ -19,8 +19,7 @@ import { fetchAndValidateGameState } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UpgradesV2 } from './UpgradesV2';
 import { GameStateV2 } from '../schema';
-
-export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY);
+import { supabase } from '@/db/supabaseClient';
 
 export const purchasePowerAtom = atom<number>(1);
 
@@ -33,9 +32,11 @@ const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 	};
 	return gsv2 as GameStateV2;
 };
+
 const createGameStateV2 = (initialState: GameStateV2) => {
 	return atom(initialState);
 };
+
 export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
 
 const IncrementalV2: FC = () => {
@@ -57,18 +58,16 @@ const IncrementalV2: FC = () => {
 		const fetchSession = async () => {
 			const {
 				data: { session },
-			} = await supabase.auth.getSession();
+			} = await supabase!.auth.getSession();
 			setSession(session);
 			const gsv2 = await fetchAndValidateGameState();
 			if (!gsv2) return;
 			setGameState(gsv2);
 		};
 		fetchSession();
-		// Listen for changes in authentication state
-		const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+		const { data: authListener } = supabase!.auth.onAuthStateChange((_event, session) => {
 			setSession(session);
 		});
-		// Cleanup subscription on unmount
 		return () => {
 			authListener.subscription?.unsubscribe();
 		};
@@ -113,7 +112,7 @@ const IncrementalV2: FC = () => {
 						<Button
 							variant="link"
 							onClick={async () => {
-								await supabase.auth.signOut();
+								await supabase!.auth.signOut();
 								nav('/');
 							}}
 						>
