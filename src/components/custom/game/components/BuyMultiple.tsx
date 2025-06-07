@@ -94,8 +94,8 @@ export const BuyMultipleV2: FC = () => {
 			value: 10,
 		},
 		{
-			label: '99x',
-			value: 99,
+			label: '25x',
+			value: 25,
 		},
 	];
 
