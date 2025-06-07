@@ -50,7 +50,7 @@ interface ChipPropsV2 {
 export const ChipV2: FC<ChipPropsV2> = ({ upgrade, resources }) => {
 	const [gameState] = useAtom(gameStateV2Atom);
 	const [pp] = useAtom(purchasePowerAtom);
-	if (resources >= getCostV2(upgrade, pp, gameState)) {
+	if (resources >= getCostV2(upgrade, gameState, pp)) {
 		if (calculateLocalLevel(upgrade, gameState) >= upgrade.level_max) {
 			// Max level
 			return (

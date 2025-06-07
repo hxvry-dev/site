@@ -15,15 +15,16 @@ export const getCost = (upgrade: zUpgrade, gameState: GameState) => {
 	return cost;
 };
 
-export const getCostV2 = (upgrade: Upgrade, purchasePower: number, gameState: GameStateV2): number => {
+export const getCostV2 = (upgrade: Upgrade, gameState: GameStateV2, purchasePower: number): number => {
 	let cost = upgrade.cost;
-	if (purchasePower === 1 && calculateLocalLevel(upgrade, gameState)! > 0) {
-		cost *= upgrade.cost_mult;
+	let current_level: number = calculateLocalLevel(upgrade, gameState);
+	if (current_level === 0 && purchasePower === 1) {
 		return cost;
 	} else {
-		for (let i = 1; i < purchasePower; i++) {
-			cost *= 0.85 * upgrade.cost_mult;
+		for (let i = 0; i < current_level; i++) {
+			cost *= upgrade.cost_mult;
 		}
+		cost = cost * purchasePower;
 	}
 	return cost;
 };

@@ -86,7 +86,7 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): n
 	const levels = gameState.userUpgrades
 		.filter((u) => u.upgrade_id === upgrade.upgrade_id)
 		.map((u) => u.level_current);
-	const current_level = Math.max(...levels, 0);
+	const current_level = Math.max(...levels);
 	return current_level;
 };
 
@@ -100,21 +100,4 @@ export const upsertUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2
 		upgrade_id: upgrade.upgrade_id,
 		user_id: userID,
 	});
-};
-
-export const purchaseUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2) => {
-	let result: Array<UserUpgrade> = [];
-	const userID =
-		sessionStorage.getItem('user_gotten') === 'true' ? sessionStorage.getItem('user_id') : await getUserID();
-	const current_level: number = calculateLocalLevel(upgrade, gameState);
-
-	result.push({
-		level_current: current_level,
-		prestige_num: gameState.user.num_times_prestiged,
-		upgrade_id: upgrade.upgrade_id,
-		user_id: userID!,
-	});
-
-	console.log(result);
-	return result;
 };

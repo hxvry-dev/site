@@ -30,7 +30,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 		upgradeType === 'base' ? gameState.user.currency_balance : gameState.user.prestige_points_balance;
 	const costs: Cost = {};
 	for (let keys of data) {
-		costs[keys.upgrade_id] = getCostV2(keys, purchasePower, gameState);
+		costs[keys.upgrade_id] = getCostV2(keys, gameState, purchasePower);
 	}
 	const handleUpgrade = () => {
 		return toast.success('Hello World from Handle Upgrade!');
@@ -151,7 +151,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
 						<Button
 							disabled={
-								resources < getCostV2(upgrade, purchasePower, gameState) &&
+								resources < getCostV2(upgrade, gameState, purchasePower) &&
 								calculateLocalLevel(upgrade, gameState) != upgrade.level_max
 							}
 							onClick={() => handleUpgrade()}
