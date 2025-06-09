@@ -58,6 +58,11 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 					user: {
 						...state.user,
 						currency_balance: state.user.currency_balance - costs[upgrade.upgrade_id],
+						currency_per_second:
+							state.user.currency_per_second + upgrade.currency_per_second_inc * purchasePower,
+						currency_per_click: state.user.currency_per_click + upgrade.cpc_inc * purchasePower,
+						currency_per_click_mult:
+							state.user.currency_per_click_mult + upgrade.cpc_mult_inc * purchasePower,
 					},
 				};
 			});
