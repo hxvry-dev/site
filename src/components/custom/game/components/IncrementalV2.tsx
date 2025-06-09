@@ -15,11 +15,12 @@ import { Version } from './version';
 import { LoginForm } from '@/components/login-form';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { fetchAndValidateGameState } from '@/db/functions';
+import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UpgradesV2 } from './UpgradesV2';
 import { GameStateV2 } from '../schema';
 import { supabase } from '@/db/supabaseClient';
+import { toast } from 'sonner';
 
 export const purchasePowerAtom = atom<number>(1);
 
@@ -71,6 +72,14 @@ const IncrementalV2: FC = () => {
 		return () => {
 			authListener.subscription?.unsubscribe();
 		};
+	}, []);
+
+	useEffect(() => {
+		const intervalId = setInterval(async () => {
+			await upsertUserUpgrades(gameState.userUpgrades);
+			toast('Game Saved!');
+		}, 500000); // Runs every 500 seconds
+		return () => clearInterval(intervalId);
 	}, []);
 
 	useEffect(() => {

@@ -1,5 +1,6 @@
-import { GameStateV2, Upgrade } from '@/components/custom/game/schema';
+import { GameStateV2, Upgrade, UserUpgrade, UserUpgrades } from '@/components/custom/game/schema';
 import { supabase } from '@/db/supabaseClient';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 
 export const getUserID = async (): Promise<string | undefined> => {
 	const {
@@ -90,7 +91,7 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): n
 	return current_level;
 };
 
-export const upsertUserUpgrade = async (upgrade: Upgrade, gameState: GameStateV2) => {
+export const upsertUserUpgrades = async (upgrade: Upgrade, gameState: GameStateV2) => {
 	const userID =
 		sessionStorage.getItem('user_gotten') === 'true' ? sessionStorage.getItem('user_id') : await getUserID();
 	if (!userID) return;
