@@ -76,7 +76,7 @@ const IncrementalV2: FC = () => {
 
 	useEffect(() => {
 		const intervalId = setInterval(async () => {
-			await upsertUserUpgrades(gameState.userUpgrades);
+			await upsertUserUpgrades();
 			toast('Game Saved!');
 		}, 500000); // Runs every 500 seconds
 		return () => clearInterval(intervalId);
