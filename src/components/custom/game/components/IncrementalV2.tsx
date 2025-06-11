@@ -5,11 +5,6 @@ import { atom, useAtom } from 'jotai';
 
 import { toggleAtom } from '../atomFactory';
 
-import { BuyMultipleV2 } from './BuyMultiple';
-import { ClickerButtonV2 } from './ClickerButton';
-import { GameStatsV2 } from './GameStats';
-import { PrestigeBarV2 } from './PrestigeBar';
-import { PrestigeButtonV2 } from './PrestigeButton';
 import { Version } from './version';
 
 import { LoginForm } from '@/components/login-form';
@@ -21,6 +16,12 @@ import { UpgradesV2 } from './UpgradesV2';
 import { GameStateV2 } from '../schema';
 import { supabase } from '@/db/supabaseClient';
 import { toast } from 'sonner';
+
+import { BuyMultipleV2 } from './BuyMultipleV2';
+import { ClickerButtonV2 } from './ClickerButtonV2';
+import { GameStatsV2 } from './GameStatsV2';
+import { PrestigeBarV2 } from './PrestigeBarV2';
+import { PrestigeButtonV2 } from './PrestigeButtonV2';
 
 export const purchasePowerAtom = atom<number>(1);
 
