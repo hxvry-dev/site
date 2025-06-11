@@ -37,7 +37,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 	const handleUpgrade = (upgrade: Upgrade) => {
 		let result: UserUpgrade;
 		result = {
-			user_id: userID!.toString(),
+			user_id: userID!,
 			upgrade_id: upgrade.upgrade_id,
 			level_current: calculateLocalLevel(upgrade, gameState) + purchasePower,
 			prestige_num: gameState.user.num_times_prestiged,
