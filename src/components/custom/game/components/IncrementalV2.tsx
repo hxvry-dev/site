@@ -25,13 +25,15 @@ import { PrestigeButtonV2 } from './PrestigeButtonV2';
 export const purchasePowerAtom = atom<number>(1);
 
 const defaultGameStateV2 = async (): Promise<GameStateV2> => {
-	const data = await fetchAndValidateGameState();
-	const gsv2: GameStateV2 = {
-		user: data!.user,
-		userUpgrades: data!.userUpgrades,
-		upgrades: data!.upgrades,
-	};
-	return gsv2 as GameStateV2;
+	const result = await fetchAndValidateGameState().then((data) => {
+		const gsv2: GameStateV2 = {
+			user: data!.user,
+			userUpgrades: data!.userUpgrades,
+			upgrades: data!.upgrades,
+		};
+		return gsv2;
+	});
+	return result;
 };
 
 const createGameStateV2 = (initialState: GameStateV2) => {
