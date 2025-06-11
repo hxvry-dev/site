@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { ChipV2 } from './Chip';
+import { ChipV2 } from './ChipV2';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
@@ -22,10 +22,7 @@ interface Cost {
 	[key: string]: number;
 }
 
-const userID: string | void | null =
-	sessionStorage.getItem('user_gotten') === 'true'
-		? sessionStorage.getItem('user_id')
-		: console.log('userID not defined.');
+const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
 
 export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 	const [gameState, setGameState] = useAtom(gameStateV2Atom);
