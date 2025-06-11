@@ -21,25 +21,28 @@ export const EnterDebug: FC = () => {
 		<div className="w-[240px] justify-self-center mt-8">
 			<legend className="justify-self-center">Enter Debug Mode?</legend>
 			<div className="grid">
-				<Input
-					type={showPassword ? 'text' : 'password'}
-					placeholder="Enter Debug Credentials"
-					value={debugCreds}
-					onChange={(e) => setDebugCreds(e.target.value)}
-					onKeyDown={(e) => {
-						if (e.key === 'Enter') {
-							if (debugCreds.toLowerCase() === 'debug') {
-								setDebugMode(true);
-								toast.success('Successfully signed into Debug Mode!');
-								setDebugCreds('');
-							} else {
-								toast.error('Incorrect Debug Credentials Provided. Please try again.');
-								setDebugCreds('');
+				<form>
+					<Input
+						type={showPassword ? 'text' : 'password'}
+						placeholder="Enter Debug Credentials"
+						value={debugCreds}
+						onChange={(e) => setDebugCreds(e.target.value)}
+						autoComplete="Enter Debug Credentials"
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								if (debugCreds.toLowerCase() === 'debug') {
+									setDebugMode(true);
+									toast.success('Successfully signed into Debug Mode!');
+									setDebugCreds('');
+								} else {
+									toast.error('Incorrect Debug Credentials Provided. Please try again.');
+									setDebugCreds('');
+								}
 							}
-						}
-					}}
-					className="rounded-xs"
-				/>
+						}}
+						className="rounded-xs"
+					/>
+				</form>
 				<Button
 					size="icon"
 					variant="ghost"

@@ -90,16 +90,18 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 										<Input
 											id="email"
 											type="email"
-											placeholder="m@example.com"
+											placeholder="me@example.com"
 											onChange={(e) => setEmail(e.target.value)}
+											autoComplete="me@example.com"
 											required
 										/>
 										<Label htmlFor="password">Password</Label>
 										<Input
 											id="password"
 											type="password"
-											placeholder="password123"
+											placeholder="hunter2"
 											onChange={(e) => setPassword(e.target.value)}
+											autoComplete="hunter2"
 											required
 										/>
 									</div>
@@ -117,16 +119,18 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 										<Input
 											id="email"
 											type="email"
-											placeholder="m@example.com"
+											placeholder="me@example.com"
 											onChange={(e) => setEmail(e.target.value)}
+											autoComplete="me@example.com"
 											required
 										/>
 										<Label htmlFor="password">Password</Label>
 										<Input
 											id="password"
 											type="password"
-											placeholder="password123"
+											placeholder="hunter2"
 											onChange={(e) => setPassword(e.target.value)}
+											autoComplete="hunter2"
 											required
 										/>
 										<Label htmlFor="password">Password</Label>
@@ -135,6 +139,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 											type="password"
 											placeholder="Confirm Password..."
 											onChange={(e) => setConfirmPassword(e.target.value)}
+											autoComplete="hunter2"
 											required
 										/>
 									</div>
