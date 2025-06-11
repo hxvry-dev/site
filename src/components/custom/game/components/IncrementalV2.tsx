@@ -7,7 +7,6 @@ import { toggleAtom } from '../atomFactory';
 
 import { Version } from './version';
 
-import { LoginForm } from '@/components/login-form';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
@@ -110,11 +109,7 @@ const IncrementalV2: FC = () => {
 	return (
 		<>
 			{!session ? (
-				<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-					<div className="w-full max-w-sm">
-						<LoginForm />
-					</div>
-				</div>
+				<div>No Session</div>
 			) : (
 				<div>
 					<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>

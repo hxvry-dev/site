@@ -67,7 +67,7 @@ export const Incremental: FC = () => {
 				<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
 				<div className="justify-self-end pt-0">
 					<Button variant="link" asChild>
-						<NavLink to="/incremental/v2">Load V2</NavLink>
+						<NavLink to="/login">Load V2</NavLink>
 					</Button>
 				</div>
 				<div className="justify-self-center font-mono">
