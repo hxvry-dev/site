@@ -46,10 +46,7 @@ const ProjectData: ProjectDataProps[] = [
 		name: 'Idle Game [BETA]',
 		description:
 			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has 2 upgrades and a Prestige system implemented, with plans to expand upgrades further in the future. The code is available on my GitHub.',
-		link: [
-			linkGenerator('/incremental', 'Idle Game', `v1`),
-			linkGenerator('/incremental/v2', 'Idle Game V2 [WIP]', `v2`),
-		],
+		link: [linkGenerator('/incremental', 'Idle Game', `v1`), linkGenerator('/login', 'Idle Game V2 [WIP]', `v2`)],
 		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game',
 		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
 	},

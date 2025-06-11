@@ -120,6 +120,7 @@ const IncrementalV2: FC = () => {
 							variant="link"
 							onClick={async () => {
 								await supabase!.auth.signOut();
+								sessionStorage.clear();
 								nav('/');
 							}}
 						>
