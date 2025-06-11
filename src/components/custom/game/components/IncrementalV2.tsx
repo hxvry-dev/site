@@ -61,7 +61,7 @@ const IncrementalV2: FC = () => {
 		const fetchSession = async () => {
 			const {
 				data: { session },
-			} = await supabase!.auth.getSession();
+			} = await supabase!.auth.refreshSession();
 			setSession(session);
 			const gsv2 = await fetchAndValidateGameState();
 			if (!gsv2) return;
