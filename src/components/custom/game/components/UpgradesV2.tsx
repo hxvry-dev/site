@@ -46,9 +46,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 		if (costs[upgrade.upgrade_id] >= gameState.user.currency_balance) return;
 		console.log(costs);
 		if (result.user_id === userID) {
-			gameState.userUpgrades.push(result);
 			toast.success('Purchased Upgrade(s)!');
-			console.log(gameState.userUpgrades);
 			setGameState((state) => {
 				return {
 					...state,
@@ -61,6 +59,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 						currency_per_click_mult:
 							state.user.currency_per_click_mult + upgrade.cpc_mult_inc * purchasePower,
 					},
+					userUpgrades: [...state.userUpgrades, result],
 				};
 			});
 		} else {

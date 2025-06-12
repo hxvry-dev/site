@@ -14,13 +14,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { UpgradesV2 } from './UpgradesV2';
 import { GameStateV2 } from '../schema';
 import { supabase } from '@/db/supabaseClient';
-import { toast } from 'sonner';
 
 import { BuyMultipleV2 } from './BuyMultipleV2';
 import { ClickerButtonV2 } from './ClickerButtonV2';
 import { GameStatsV2 } from './GameStatsV2';
 import { PrestigeBarV2 } from './PrestigeBarV2';
 import { PrestigeButtonV2 } from './PrestigeButtonV2';
+import { toast } from 'sonner';
 
 export const purchasePowerAtom = atom<number>(1);
 
@@ -57,7 +57,6 @@ const IncrementalV2: FC = () => {
 
 	useEffect(() => {
 		document.title = 'Idle Game (V2)';
-
 		const fetchSession = async () => {
 			const {
 				data: { session },
@@ -74,14 +73,6 @@ const IncrementalV2: FC = () => {
 		return () => {
 			authListener.subscription?.unsubscribe();
 		};
-	}, []);
-
-	useEffect(() => {
-		const intervalId = setInterval(async () => {
-			await upsertUserUpgrades();
-			toast('Game Saved!');
-		}, 500000); // Runs every 500 seconds
-		return () => clearInterval(intervalId);
 	}, []);
 
 	useEffect(() => {
@@ -107,6 +98,12 @@ const IncrementalV2: FC = () => {
 			}
 		};
 	}, [setGameState]);
+
+	useEffect(() => {
+		upsertUserUpgrades(gameState.userUpgrades!).then(() => {
+			toast('Game Saved!');
+		});
+	}, []);
 
 	return (
 		<>

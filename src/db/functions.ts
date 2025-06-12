@@ -91,4 +91,12 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): n
 	return current_level;
 };
 
-export const upsertUserUpgrades = async () => {};
+export const upsertUserUpgrades = async (userUpgrades: UserUpgrades): Promise<void> => {
+	console.log(userUpgrades);
+	await supabase
+		.from('user_upgrades')
+		.upsert(userUpgrades)
+		.then(() => {
+			return setTimeout(upsertUserUpgrades, 10000);
+		});
+};
