@@ -14,7 +14,7 @@ export const getUserID = async (): Promise<string | undefined> => {
 	}
 };
 
-export const fetchAndValidateGameState = async (): Promise<GameStateV2> => {
+export const fetchAndValidateGameState = async (): Promise<GameStateV2 | void> => {
 	const userID = await getUserID();
 	let gameStateV2: GameStateV2 = {} as GameStateV2;
 	try {
@@ -39,16 +39,17 @@ export const fetchAndValidateGameState = async (): Promise<GameStateV2> => {
 			userUpgrades: userUpgrades as UserUpgrades,
 			upgrades: gameUpgrades as Upgrades,
 		};
-
-		const validated = GameStateV2.safeParse(gameStateV2);
-		if (validated.success) {
-			console.log('Validated GameStateV2');
-			return gameStateV2;
-		}
 	} catch (error) {
 		console.error(`An error occurred. Please try again later. \nError: ${JSON.stringify(error)}`);
 	}
-	return gameStateV2;
+
+	const validated = GameStateV2.safeParse(gameStateV2);
+	if (validated.success) {
+		console.log('Validated GameStateV2');
+		return gameStateV2;
+	} else {
+		return;
+	}
 };
 
 export const syncGameState = async (gameState: GameStateV2): Promise<GameStateV2 | undefined> => {
@@ -91,12 +92,8 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): n
 	return current_level;
 };
 
-export const upsertUserUpgrades = async (userUpgrades: UserUpgrades): Promise<void> => {
-	console.log(userUpgrades);
-	await supabase
-		.from('user_upgrades')
-		.upsert(userUpgrades)
-		.then(() => {
-			return setTimeout(upsertUserUpgrades, 10000);
-		});
+export const upsertUserUpgrades = async (gameState: GameStateV2): Promise<void> => {
+	console.log(gameState?.userUpgrades);
+	await supabase.from('user_upgrades').upsert(JSON.stringify(gameState?.userUpgrades));
+	setTimeout(upsertUserUpgrades, 10000);
 };

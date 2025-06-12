@@ -44,7 +44,6 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 		};
 		costs[upgrade.upgrade_id] = getCostV2(upgrade, gameState, purchasePower);
 		if (costs[upgrade.upgrade_id] >= gameState.user.currency_balance) return;
-		console.log(costs);
 		if (result.user_id === userID) {
 			toast.success('Purchased Upgrade(s)!');
 			setGameState((state) => {
@@ -62,6 +61,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 					userUpgrades: [...state.userUpgrades, result],
 				};
 			});
+			console.log(gameState);
 		} else {
 			toast.warning('Purchase failed!');
 		}

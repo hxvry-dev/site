@@ -62,13 +62,17 @@ const IncrementalV2: FC = () => {
 				data: { session },
 			} = await supabase!.auth.refreshSession();
 			setSession(session);
-			const gsv2 = await fetchAndValidateGameState();
-			if (!gsv2) return;
-			setGameState(gsv2);
+			await fetchAndValidateGameState().then((res) => {
+				if (typeof res != 'undefined') setGameState(res);
+			});
 		};
 		fetchSession();
 		const { data: authListener } = supabase!.auth.onAuthStateChange((_event, session) => {
 			setSession(session);
+		});
+		upsertUserUpgrades(gameState).then((upgrades) => {
+			console.log(upgrades);
+			toast('Game Saved!');
 		});
 		return () => {
 			authListener.subscription?.unsubscribe();
@@ -98,12 +102,6 @@ const IncrementalV2: FC = () => {
 			}
 		};
 	}, [setGameState]);
-
-	useEffect(() => {
-		upsertUserUpgrades(gameState.userUpgrades!).then(() => {
-			toast('Game Saved!');
-		});
-	}, []);
 
 	return (
 		<>
