@@ -13,6 +13,7 @@ import { calculateLocalLevel } from '@/db/functions';
 import { getCostV2 } from '../util/util';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { toast } from 'sonner';
+import { v4 } from 'uuid';
 
 interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
@@ -25,25 +26,26 @@ interface Cost {
 const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
 
 export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
-	const [gameState, setGameState] = useAtom(gameStateV2Atom);
+	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
 	const [purchasePower] = useAtom(purchasePowerAtom);
-	const data: Upgrades = gameState.upgrades.filter((u) => u.upgrade_type === upgradeType);
+	const data: Upgrades = gameStateV2.upgrades.filter((u) => u.upgrade_type === upgradeType);
 	const resources: number =
-		upgradeType === 'base' ? gameState.user.currency_balance : gameState.user.prestige_points_balance;
+		upgradeType === 'base' ? gameStateV2.user.currency_balance : gameStateV2.user.prestige_points_balance;
 	const costs: Cost = {};
 	for (let keys of data) {
-		costs[keys.upgrade_id] = getCostV2(keys, gameState, purchasePower);
+		costs[keys.upgrade_id] = getCostV2(keys, gameStateV2, purchasePower);
 	}
 	const handleUpgrade = (upgrade: Upgrade) => {
 		const result: UserUpgrade = {
 			id: v4(),
 			user_id: userID!,
 			upgrade_id: upgrade.upgrade_id,
-			level_current: calculateLocalLevel(upgrade, gameState) + purchasePower,
-			prestige_num: gameState.user.num_times_prestiged,
+			level_current: calculateLocalLevel(upgrade, gameStateV2) + purchasePower,
+			prestige_num: gameStateV2.user.num_times_prestiged,
+			purchased_at: new Date().toISOString(),
 		};
-		costs[upgrade.upgrade_id] = getCostV2(upgrade, gameState, purchasePower);
-		if (costs[upgrade.upgrade_id] >= gameState.user.currency_balance) return;
+		costs[upgrade.upgrade_id] = getCostV2(upgrade, gameStateV2, purchasePower);
+		if (costs[upgrade.upgrade_id] >= gameStateV2.user.currency_balance) return;
 		if (result.user_id === userID) {
 			toast.success('Purchased Upgrade(s)!');
 			setGameState((state) => {
@@ -61,7 +63,6 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 					userUpgrades: [...state.userUpgrades, result],
 				};
 			});
-			console.log(gameState);
 		} else {
 			toast.warning('Purchase failed!');
 		}
@@ -79,7 +80,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 										<div>
 											Level:{' '}
 											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{calculateLocalLevel(upgrade, gameState)} / {upgrade.level_max}
+												{calculateLocalLevel(upgrade, gameStateV2)} / {upgrade.level_max}
 											</span>
 										</div>
 										<div>
@@ -91,7 +92,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 											</span>
 										</div>
 										<div>
-											<ChipV2 upgrade={upgrade} resources={gameState.user.currency_balance} />
+											<ChipV2 upgrade={upgrade} resources={gameStateV2.user.currency_balance} />
 										</div>
 									</div>
 								</AccordionTrigger>
@@ -122,8 +123,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 															</TooltipTrigger>
 															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																<div>
-																	Current Bonus: +{gameState.user.currency_per_click}{' '}
-																	Currency/Click
+																	Current Bonus: +
+																	{gameStateV2.user.currency_per_click} Currency/Click
 																</div>
 															</TooltipContent>
 														</Tooltip>
@@ -141,7 +142,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																<div>
 																	Current Bonus:{' '}
-																	{gameState.user.currency_per_click_mult}x Currency
+																	{gameStateV2.user.currency_per_click_mult}x Currency
 																	per Click
 																</div>
 															</TooltipContent>
@@ -162,8 +163,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 															</TooltipTrigger>
 															<TooltipContent className="font-medium bg-background border-2 text-foreground">
 																<div>
-																	Current Bonus: +{gameState.user.currency_per_second}{' '}
-																	Currency/s{' '}
+																	Current Bonus: +
+																	{gameStateV2.user.currency_per_second} Currency/s{' '}
 																	<span className="spoiler">
 																		this is a rounded value
 																	</span>
@@ -182,8 +183,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
 						<Button
 							disabled={
-								resources < getCostV2(upgrade, gameState, purchasePower) &&
-								calculateLocalLevel(upgrade, gameState) != upgrade.level_max
+								resources < getCostV2(upgrade, gameStateV2, purchasePower) &&
+								calculateLocalLevel(upgrade, gameStateV2) != upgrade.level_max
 							}
 							onClick={() => handleUpgrade(upgrade)}
 						>

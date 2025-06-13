@@ -14,7 +14,7 @@ export const getUserID = async (): Promise<string | undefined> => {
 	}
 };
 
-export const fetchAndValidateGameState = async (): Promise<GameStateV2 | void> => {
+export const fetchAndValidateGameState = async (): Promise<GameStateV2 | undefined> => {
 	const userID = await getUserID();
 	let gameStateV2: GameStateV2 = {} as GameStateV2;
 	try {
@@ -47,53 +47,29 @@ export const fetchAndValidateGameState = async (): Promise<GameStateV2 | void> =
 	if (validated.success) {
 		console.log('Validated GameStateV2');
 		return gameStateV2;
-	} else {
-		return;
 	}
 };
 
-export const syncGameState = async (gameState: GameStateV2): Promise<GameStateV2 | undefined> => {
-	const userID = await getUserID();
-	if (!userID) return;
-	try {
-		if (!userID) return;
-		const { data: userInfoData, error: userInfoError } = await supabase!
-			.from('users')
-			.update(gameState.user)
-			.eq('user_id', userID)
-			.select();
-
-		if (userInfoError) {
-			throw userInfoError;
-		} else {
-			console.log(`Synced User's Game info with Supabase! ${userInfoData}`);
-		}
-
-		if (gameState.userUpgrades.length < 0) {
-			const { data: gameStateData, error: gameStateError } = await supabase!.from('user_upgrades').upsert({
-				...gameState.userUpgrades,
-			});
-			if (gameStateError) {
-				throw gameStateError;
-			} else {
-				console.log(`Synced User's Game State info with Supabase! ${gameStateData}`);
-			}
-		}
-	} catch (error) {
-		console.error(`Error syncing with Supabase: ${error}`);
-	}
-};
-
-export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameStateV2): number => {
-	const levels = gameState.userUpgrades
+export const calculateLocalLevel = (upgrade: Upgrade, gameStateV2: GameStateV2): number => {
+	const levels = gameStateV2.userUpgrades
 		.filter((u) => u.upgrade_id === upgrade.upgrade_id)
 		.map((u) => u.level_current);
 	const current_level = Math.max(...levels, 0);
 	return current_level;
 };
 
-export const upsertUserUpgrades = async (gameState: GameStateV2): Promise<void> => {
-	console.log(gameState?.userUpgrades);
-	await supabase.from('user_upgrades').upsert(JSON.stringify(gameState?.userUpgrades));
-	setTimeout(upsertUserUpgrades, 10000);
+export const upsertUserUpgrades = (gameStateV2: GameStateV2): Promise<void> => {
+	const timeout = setInterval(() => {
+		upsertUserUpgrades(gameStateV2);
+	}, 10000);
+	return new Promise(async (resolve, reject) => {
+		await supabase.from('user_upgrades').upsert(gameStateV2.userUpgrades);
+		await supabase.from('users').update(gameStateV2.user).eq('user_id', gameStateV2.user.user_id);
+		try {
+			resolve();
+			clearInterval(timeout);
+		} catch {
+			reject();
+		}
+	});
 };

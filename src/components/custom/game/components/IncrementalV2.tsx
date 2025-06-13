@@ -9,7 +9,7 @@ import { Version } from './version';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
+import { fetchAndValidateGameState } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UpgradesV2 } from './UpgradesV2';
 import { GameStateV2 } from '../schema';
@@ -20,7 +20,7 @@ import { ClickerButtonV2 } from './ClickerButtonV2';
 import { GameStatsV2 } from './GameStatsV2';
 import { PrestigeBarV2 } from './PrestigeBarV2';
 import { PrestigeButtonV2 } from './PrestigeButtonV2';
-import { toast } from 'sonner';
+import { Cart } from './Cart';
 
 export const purchasePowerAtom = atom<number>(1);
 
@@ -44,10 +44,9 @@ export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
 
 const IncrementalV2: FC = () => {
 	const nav = useNavigate();
-	const [gameState, setGameState] = useAtom(gameStateV2Atom);
+	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
 	const [session, setSession] = useState<Session | null>(null);
 	const [toggle, setToggle] = useAtom(toggleAtom);
-
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
 
@@ -60,19 +59,12 @@ const IncrementalV2: FC = () => {
 		const fetchSession = async () => {
 			const {
 				data: { session },
-			} = await supabase!.auth.refreshSession();
+			} = await supabase.auth.refreshSession();
 			setSession(session);
-			await fetchAndValidateGameState().then((res) => {
-				if (typeof res != 'undefined') setGameState(res);
-			});
 		};
 		fetchSession();
 		const { data: authListener } = supabase!.auth.onAuthStateChange((_event, session) => {
 			setSession(session);
-		});
-		upsertUserUpgrades(gameState).then((upgrades) => {
-			console.log(upgrades);
-			toast('Game Saved!');
 		});
 		return () => {
 			authListener.subscription?.unsubscribe();
@@ -143,7 +135,7 @@ const IncrementalV2: FC = () => {
 							</TabsList>
 							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-2 gap-5">
 								<ClickerButtonV2 />
-								<PrestigeButtonV2 initialState={gameState} />
+								<PrestigeButtonV2 initialState={gameStateV2} />
 								<div className="col-span-2 grid-row-2">{<PrestigeBarV2 />}</div>
 							</div>
 							<TabsContent value="base">{<UpgradesV2 upgradeType="base" />}</TabsContent>
@@ -164,7 +156,7 @@ const IncrementalV2: FC = () => {
 					</div>
 					<div className="mt-8">
 						<Version />
-						<div>{JSON.stringify(gameState)}</div>
+						<Cart />
 					</div>
 				</div>
 			)}

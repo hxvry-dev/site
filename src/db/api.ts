@@ -1,31 +1,6 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
-	graphql_public: {
-		Tables: {
-			[_ in never]: never;
-		};
-		Views: {
-			[_ in never]: never;
-		};
-		Functions: {
-			graphql: {
-				Args: {
-					operationName?: string;
-					query?: string;
-					variables?: Json;
-					extensions?: Json;
-				};
-				Returns: Json;
-			};
-		};
-		Enums: {
-			[_ in never]: never;
-		};
-		CompositeTypes: {
-			[_ in never]: never;
-		};
-	};
 	public: {
 		Tables: {
 			upgrades: {
@@ -39,7 +14,7 @@ export type Database = {
 					upgrade_desc: string;
 					upgrade_id: string;
 					upgrade_name: string;
-					upgrade_type: Database['public']['Enums']['upgrade_types'];
+					upgrade_type: Database['public']['Enums']['upgradeTypes'];
 				};
 				Insert: {
 					cost?: number;
@@ -51,7 +26,7 @@ export type Database = {
 					upgrade_desc?: string;
 					upgrade_id?: string;
 					upgrade_name?: string;
-					upgrade_type?: Database['public']['Enums']['upgrade_types'];
+					upgrade_type: Database['public']['Enums']['upgradeTypes'];
 				};
 				Update: {
 					cost?: number;
@@ -63,7 +38,7 @@ export type Database = {
 					upgrade_desc?: string;
 					upgrade_id?: string;
 					upgrade_name?: string;
-					upgrade_type?: Database['public']['Enums']['upgrade_types'];
+					upgrade_type?: Database['public']['Enums']['upgradeTypes'];
 				};
 				Relationships: [];
 			};
@@ -77,7 +52,7 @@ export type Database = {
 					user_id: string;
 				};
 				Insert: {
-					id: string;
+					id?: string;
 					level_current?: number;
 					prestige_num?: number;
 					purchased_at?: string;
@@ -156,7 +131,8 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Enums: {
-			upgrade_types: 'base' | 'prestige';
+			upgrade_types: 'base' | 'prestige' | 'temp';
+			upgradeTypes: 'base' | 'prestige';
 		};
 		CompositeTypes: {
 			[_ in never]: never;
@@ -258,14 +234,3 @@ export type CompositeTypes<
 	: PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
 		? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
 		: never;
-
-export const Constants = {
-	graphql_public: {
-		Enums: {},
-	},
-	public: {
-		Enums: {
-			upgrade_types: ['base', 'prestige', 'temp'],
-		},
-	},
-} as const;
