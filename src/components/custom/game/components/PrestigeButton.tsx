@@ -3,20 +3,23 @@ import { FC } from 'react';
 import { useAtom } from 'jotai';
 
 import { gameStateAtom, initialGameState } from '../atomFactory';
+import { newPrestigePoints } from '../util/util';
 
 import { Button } from '@/components/ui/button';
-import { newPrestigePoints } from '../util/util';
 
 export const PrestigeButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 
 	const handlePrestige = () => {
-		if (gameState.resources.prestigePointsBalance >= 0 && newPrestigePoints(gameState) >= 1) {
+		if (gameState.resources.currencyBalance.prestige >= 0 && newPrestigePoints(gameState) >= 1) {
 			return setGameState((state) => ({
 				...state,
 				resources: {
 					...initialGameState.resources,
-					prestigePointsBalance: gameState.resources.prestigePointsBalance + newPrestigePoints(gameState),
+					currencyBalance: {
+						...initialGameState.resources.currencyBalance,
+						prestige: gameState.resources.currencyBalance.prestige + newPrestigePoints(gameState),
+					},
 				},
 				upgrades: {
 					...state.upgrades,
@@ -33,7 +36,7 @@ export const PrestigeButton: FC = () => {
 	};
 
 	return (
-		<Button onClick={handlePrestige} disabled={newPrestigePoints(gameState) <= 0} className="w-full font-mono">
+		<Button onClick={handlePrestige} disabled={newPrestigePoints(gameState) <= 0} className="flex w-full font-mono">
 			Prestige?
 		</Button>
 	);

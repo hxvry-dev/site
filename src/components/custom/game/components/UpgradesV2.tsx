@@ -2,102 +2,97 @@ import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom } from '../atomFactory';
-import { zUpgrade } from '../schema';
-import { getCost } from '../util/util';
-
-import { Chip } from './Chip';
+import { ChipV2 } from './ChipV2';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Upgrade, Upgrades, UserUpgrade } from '../schema';
+import { calculateLocalLevel } from '@/db/functions';
+import { getCostV2 } from '../util/util';
+import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
+import { toast } from 'sonner';
+import { v4 } from 'uuid';
 
-interface UpgradeItemProps {
+interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
 }
 
-export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
-	const [gameState, setGameState] = useAtom(gameStateAtom);
-	const data = gameState.upgrades[upgradeType];
-	const resources =
-		upgradeType === 'base'
-			? gameState.resources.currencyBalance.main
-			: gameState.resources.currencyBalance.prestige;
+interface Cost {
+	[key: string]: number;
+}
 
-	const handleUpgrade = (upgrade: zUpgrade) => {
-		let balance;
-		if (upgrade.type === 'base') {
-			balance = {
-				...gameState.resources.currencyBalance,
-				main: gameState.resources.currencyBalance.main - getCost(upgrade, gameState),
-			};
-		} else {
-			balance = {
-				...gameState.resources.currencyBalance,
-				prestige: gameState.resources.currencyBalance.prestige - getCost(upgrade, gameState),
-			};
-		}
-		setGameState((state) => {
-			return {
-				...state,
-				resources: {
-					...state.resources,
-					currencyBalance: balance,
-					currencyPerSecond:
-						state.resources.currencyPerSecond +
-						upgrade.stats.currencyPerSecondIncrease * state.resources.purchasePower,
-					currencyPerClick:
-						state.resources.currencyPerClick +
-						upgrade.stats.currencyPerClickIncrease * state.resources.purchasePower,
-					currencyPerClickMultiplier:
-						state.resources.currencyPerClickMultiplier +
-						upgrade.stats.currencyPerClickMultiplierIncrease * state.resources.purchasePower,
-				},
-				upgrades: {
-					...state.upgrades,
-					[upgradeType]: {
-						...state.upgrades[upgradeType],
-						[upgrade.id]: {
-							...upgrade,
-							cost: {
-								current: getCost(upgrade, state),
-								multiplier: upgrade.cost.multiplier,
-							},
-							level: {
-								...upgrade.level,
-								current: upgrade.level.current + state.resources.purchasePower,
-							},
-						},
+const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
+
+export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
+	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
+	const [purchasePower] = useAtom(purchasePowerAtom);
+	const data: Upgrades = gameStateV2.upgrades.filter((u) => u.upgrade_type === upgradeType);
+	const resources: number =
+		upgradeType === 'base' ? gameStateV2.user.currency_balance : gameStateV2.user.prestige_points_balance;
+	const costs: Cost = {};
+	for (let keys of data) {
+		costs[keys.upgrade_id] = getCostV2(keys, gameStateV2, purchasePower);
+	}
+	const handleUpgrade = (upgrade: Upgrade) => {
+		const result: UserUpgrade = {
+			id: v4(),
+			user_id: userID!,
+			upgrade_id: upgrade.upgrade_id,
+			level_current: calculateLocalLevel(upgrade, gameStateV2) + purchasePower,
+			prestige_num: gameStateV2.user.num_times_prestiged,
+			purchased_at: new Date().toISOString(),
+		};
+		costs[upgrade.upgrade_id] = getCostV2(upgrade, gameStateV2, purchasePower);
+		if (costs[upgrade.upgrade_id] >= gameStateV2.user.currency_balance) return;
+		if (result.user_id === userID) {
+			toast.success('Purchased Upgrade(s)!');
+			setGameState((state) => {
+				return {
+					...state,
+					user: {
+						...state.user,
+						currency_balance: state.user.currency_balance - costs[upgrade.upgrade_id],
+						currency_per_second:
+							state.user.currency_per_second + upgrade.currency_per_second_inc * purchasePower,
+						currency_per_click: state.user.currency_per_click + upgrade.cpc_inc * purchasePower,
+						currency_per_click_mult:
+							state.user.currency_per_click_mult + upgrade.cpc_mult_inc * purchasePower,
 					},
-				},
-			};
-		});
+					userUpgrades: [...state.userUpgrades, result],
+				};
+			});
+		} else {
+			toast.warning('Purchase failed!');
+		}
 	};
 	return (
 		<div>
-			{Object.keys(data).map((key) => (
-				<div className="flex grid-flow-col gap-5 font-mono" key={key}>
+			{data.map((upgrade) => (
+				<div className="flex grid-flow-col gap-5 font-mono" key={upgrade.upgrade_id}>
 					<div>
 						<Accordion type="single" collapsible>
-							<AccordionItem value={key}>
+							<AccordionItem value={upgrade.upgrade_name}>
 								<AccordionTrigger className="hover:bg-muted/50 px-5">
 									<div className="grid grid-cols-4 grid-rows-1 gap-2">
-										<div className="w-[200px]">{data[key].name}</div>
+										<div className="w-[200px]">{upgrade.upgrade_name}</div>
 										<div>
 											Level:{' '}
 											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{data[key].level.current} / {data[key].level.max}
+												{calculateLocalLevel(upgrade, gameStateV2)} / {upgrade.level_max}
 											</span>
 										</div>
 										<div>
 											Cost:{' '}
 											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-												{getCost(data[key], gameState).toFixed(2)}
+												{costs[upgrade.upgrade_id].toLocaleString('en-us', {
+													maximumFractionDigits: 2,
+												})}
 											</span>
 										</div>
 										<div>
-											<Chip upgrade={data[key]} resources={resources} />
+											<ChipV2 upgrade={upgrade} resources={gameStateV2.user.currency_balance} />
 										</div>
 									</div>
 								</AccordionTrigger>
@@ -105,7 +100,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 									<div>
 										<legend className="font-mono">Upgrade Description</legend>
 										<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-scroll">
-											{data[key].description}
+											{upgrade.upgrade_desc}
 										</div>
 									</div>
 									<Table>
@@ -123,18 +118,13 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 														<Tooltip>
 															<TooltipTrigger asChild>
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-																	+
-																	{(
-																		data[key].stats.currencyPerClickIncrease *
-																		gameState.resources.purchasePower
-																	).toFixed(2)}
+																	+{(upgrade.cpc_inc * purchasePower).toFixed(2)}
 																</div>
 															</TooltipTrigger>
-															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
+															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																<div>
 																	Current Bonus: +
-																	{gameState.resources.currencyPerClick}{' '}
-																	Currency/Click
+																	{gameStateV2.user.currency_per_click} Currency/Click
 																</div>
 															</TooltipContent>
 														</Tooltip>
@@ -145,20 +135,15 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 														<Tooltip>
 															<TooltipTrigger asChild>
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
-																	+
-																	{(
-																		data[key].stats
-																			.currencyPerClickMultiplierIncrease *
-																		gameState.resources.purchasePower
-																	).toFixed(2)}
+																	+{(upgrade.cpc_mult_inc * purchasePower).toFixed(2)}
 																	x
 																</div>
 															</TooltipTrigger>
-															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px] overflow-auto">
+															<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																<div>
 																	Current Bonus:{' '}
-																	{gameState.resources.currencyPerClickMultiplier}x
-																	Currency per Click
+																	{gameStateV2.user.currency_per_click_mult}x Currency
+																	per Click
 																</div>
 															</TooltipContent>
 														</Tooltip>
@@ -171,8 +156,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
 																	+
 																	{(
-																		data[key].stats.currencyPerSecondIncrease *
-																		gameState.resources.purchasePower
+																		upgrade.currency_per_second_inc * purchasePower
 																	).toFixed(2)}
 																	/s
 																</div>
@@ -180,8 +164,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 															<TooltipContent className="font-medium bg-background border-2 text-foreground">
 																<div>
 																	Current Bonus: +
-																	{gameState.resources.currencyPerSecond} Currency/per
-																	second (Automatically!!){' '}
+																	{gameStateV2.user.currency_per_second} Currency/s{' '}
 																	<span className="spoiler">
 																		this is a rounded value
 																	</span>
@@ -200,10 +183,10 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
 						<Button
 							disabled={
-								resources < getCost(data[key], gameState) &&
-								data[key].level.current != data[key].level.max
+								resources < getCostV2(upgrade, gameStateV2, purchasePower) &&
+								calculateLocalLevel(upgrade, gameStateV2) != upgrade.level_max
 							}
-							onClick={() => handleUpgrade(data[key])}
+							onClick={() => handleUpgrade(upgrade)}
 						>
 							Buy Upgrade
 						</Button>

@@ -1,11 +1,13 @@
 import { FC } from 'react';
 
+import { formatDuration, intervalToDuration } from 'date-fns';
+
+import { Badge } from '../ui/badge';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { formatDuration, intervalToDuration } from 'date-fns';
-import { Badge } from '../ui/badge';
 
 interface JobCardProps {
 	id: number;

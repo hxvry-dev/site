@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import { gameStateAtom } from '../atomFactory';
 
 import { Button } from '@/components/ui/button';
+import { gameStateV2Atom } from './IncrementalV2';
 
 export const ClickerButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
@@ -14,14 +15,18 @@ export const ClickerButton: FC = () => {
 			...state,
 			resources: {
 				...state.resources,
-				currencyBalance:
-					state.resources.currencyBalance +
-					state.resources.currencyPerClick * state.resources.currencyPerClickMultiplier,
+				currencyBalance: {
+					...state.resources.currencyBalance,
+					main:
+						state.resources.currencyBalance.main +
+						state.resources.currencyPerClick * state.resources.currencyPerClickMultiplier,
+				},
 			},
 		}));
 	};
+
 	return (
-		<Button onClick={handleClick} size="default" className="w-full font-mono">
+		<Button onClick={handleClick} className="flex w-full font-mono">
 			Click me! (+{clickValue.toFixed(2)})
 		</Button>
 	);
