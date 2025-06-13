@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { FC } from 'react';
 import { GameStateV2 } from '../schema';
 import { handleNewPrestigePoints } from '../util/util';
-import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
+import { gameStateV2Atom } from './IncrementalV2';
 import { calculateLocalLevel } from '@/db/functions';
 
 interface PrestigeButtonV2Props {
