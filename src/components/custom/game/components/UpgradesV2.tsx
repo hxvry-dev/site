@@ -35,8 +35,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 		costs[keys.upgrade_id] = getCostV2(keys, gameState, purchasePower);
 	}
 	const handleUpgrade = (upgrade: Upgrade) => {
-		let result: UserUpgrade;
-		result = {
+		const result: UserUpgrade = {
+			id: v4(),
 			user_id: userID!,
 			upgrade_id: upgrade.upgrade_id,
 			level_current: calculateLocalLevel(upgrade, gameState) + purchasePower,
