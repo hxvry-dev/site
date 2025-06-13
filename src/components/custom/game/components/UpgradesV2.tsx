@@ -23,9 +23,8 @@ interface Cost {
 	[key: string]: number;
 }
 
-const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
-
 export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
+	const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
 	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
 	const [purchasePower] = useAtom(purchasePowerAtom);
 	const data: Upgrades = gameStateV2.upgrades.filter((u) => u.upgrade_type === upgradeType);
@@ -38,27 +37,34 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 	const handleUpgrade = (upgrade: Upgrade) => {
 		const result: UserUpgrade = {
 			id: v4(),
-			user_id: userID!,
+			user_id: sessionStorage.getItem('user_id')!,
 			upgrade_id: upgrade.upgrade_id,
 			level_current: calculateLocalLevel(upgrade, gameStateV2) + purchasePower,
 			prestige_num: gameStateV2.user.num_times_prestiged,
 			purchased_at: new Date().toISOString(),
 		};
 		costs[upgrade.upgrade_id] = getCostV2(upgrade, gameStateV2, purchasePower);
-		if (costs[upgrade.upgrade_id] >= gameStateV2.user.currency_balance) return;
 		if (result.user_id === userID) {
+			console.log(result);
 			toast.success('Purchased Upgrade(s)!');
 			setGameState((state) => {
 				return {
 					...state,
 					user: {
 						...state.user,
-						currency_balance: state.user.currency_balance - costs[upgrade.upgrade_id],
+						currency_balance:
+							upgrade.upgrade_type === 'base'
+								? gameStateV2.user.currency_balance - costs[upgrade.upgrade_id]
+								: gameStateV2.user.currency_balance,
 						currency_per_second:
 							state.user.currency_per_second + upgrade.currency_per_second_inc * purchasePower,
 						currency_per_click: state.user.currency_per_click + upgrade.cpc_inc * purchasePower,
 						currency_per_click_mult:
 							state.user.currency_per_click_mult + upgrade.cpc_mult_inc * purchasePower,
+						prestige_points_balance:
+							upgrade.upgrade_type === 'prestige'
+								? gameStateV2.user.prestige_points_balance - costs[upgrade.upgrade_id]
+								: gameStateV2.user.prestige_points_balance,
 					},
 					userUpgrades: [...state.userUpgrades, result],
 				};
@@ -92,7 +98,14 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 											</span>
 										</div>
 										<div>
-											<ChipV2 upgrade={upgrade} resources={gameStateV2.user.currency_balance} />
+											<ChipV2
+												upgrade={upgrade}
+												resources={
+													upgrade.upgrade_type === 'base'
+														? gameStateV2.user.currency_balance
+														: gameStateV2.user.prestige_points_balance
+												}
+											/>
 										</div>
 									</div>
 								</AccordionTrigger>

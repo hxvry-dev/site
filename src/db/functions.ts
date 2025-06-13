@@ -53,6 +53,7 @@ export const fetchAndValidateGameState = async (): Promise<GameStateV2 | undefin
 export const calculateLocalLevel = (upgrade: Upgrade, gameStateV2: GameStateV2): number => {
 	const levels = gameStateV2.userUpgrades
 		.filter((u) => u.upgrade_id === upgrade.upgrade_id)
+		.filter((u) => u.prestige_num == gameStateV2.user.num_times_prestiged || upgrade.upgrade_type === 'prestige')
 		.map((u) => u.level_current);
 	const current_level = Math.max(...levels, 0);
 	return current_level;
