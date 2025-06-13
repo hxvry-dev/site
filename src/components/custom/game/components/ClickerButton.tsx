@@ -5,7 +5,6 @@ import { useAtom } from 'jotai';
 import { gameStateAtom } from '../atomFactory';
 
 import { Button } from '@/components/ui/button';
-import { gameStateV2Atom } from './IncrementalV2';
 
 export const ClickerButton: FC = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
