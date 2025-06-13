@@ -3,6 +3,7 @@ import { gameStateV2Atom } from './IncrementalV2';
 import { useAtom } from 'jotai';
 import { Button } from '@/components/ui/button';
 import { upsertUserUpgrades } from '@/db/functions';
+import { toast } from 'sonner';
 
 interface CartProps {}
 
@@ -17,12 +18,21 @@ export const Cart: FC<CartProps> = ({}) => {
 					<div className="border-2 rounded-none p-5" key={u.id}>
 						{gameStateV2.upgrades
 							.filter((e) => e.upgrade_id === u.upgrade_id)
-							.map((f) => <div key={f.upgrade_id}>{f.upgrade_name}</div>)
-							.slice(-10)}
+							.map((f) => (
+								<div key={f.upgrade_id}>{f.upgrade_name}</div>
+							))}
 					</div>
 				))}
 			</div>
-			<Button onClick={() => upsertUserUpgrades(gameStateV2)}>Upsert!</Button>
+			<Button
+				onClick={() => {
+					upsertUserUpgrades(gameStateV2).then(() => {
+						toast('Upserted!');
+					});
+				}}
+			>
+				Upsert!
+			</Button>
 		</div>
 	);
 };

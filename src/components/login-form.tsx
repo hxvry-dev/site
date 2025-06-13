@@ -26,7 +26,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 		});
 		if (error) {
 			console.error(`There was a problem logging you in... Error code: ${error.code}`, error.message);
-			toast.error('Something went wrong. Please try again later');
+			toast.error(`Something went wrong! ${error.message}`);
 		} else if (data) {
 			toast.success('Signed In!');
 			return nav('/incremental/v2');
