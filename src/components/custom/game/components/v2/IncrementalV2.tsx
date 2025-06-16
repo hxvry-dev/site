@@ -60,13 +60,18 @@ const IncrementalV2: FC = () => {
 	};
 
 	const checkOfflineProgress = () => {
-		const lastSeen: number = Date.parse(gameStateV2.user.last_seen);
-		console.log(lastSeen);
+		let _lastSeen: string;
+		if (sessionStorage.getItem('last_seen')) {
+			_lastSeen = sessionStorage.getItem('last_seen')!;
+		} else {
+			_lastSeen = gameStateV2.user.last_seen;
+		}
+		const lastSeen: number = Date.parse(_lastSeen);
+		console.log('last seen', lastSeen);
 		if (!lastSeen || !gameStateV2?.user) return;
 		const now: number = Date.now();
 		const timeAway: number = (now - lastSeen) / 1000;
-		console.log('now', now, 'lastSeen', lastSeen, 'now - lastSeen', now - lastSeen, 'timeAway', timeAway);
-		if (timeAway < 90) return;
+		if (timeAway < 30) return;
 		const maxOfflineHours: number = 24;
 		const cappedTimeAway: number = Math.min(timeAway, maxOfflineHours * 3600);
 		const currencyEarned: number = gameStateV2.user.currency_per_second * cappedTimeAway;
@@ -89,19 +94,16 @@ const IncrementalV2: FC = () => {
 	};
 
 	const closeOfflineModal = () => {
+		const lastSeen = new Date().toISOString();
 		setShowOfflineModal(false);
+		sessionStorage.setItem('last_seen', lastSeen);
 		setGameState((state) => ({
 			...state,
 			user: {
 				...state.user,
-				last_seen: new Date().toISOString(),
+				last_seen: lastSeen,
 			},
 		}));
-		supabase
-			.from('users')
-			.update(gameStateV2.user)
-			.eq('user_id', gameStateV2.user.user_id)
-			.then(() => console.log('Updated User'));
 	};
 
 	useEffect(() => {
@@ -122,33 +124,42 @@ const IncrementalV2: FC = () => {
 	}, []);
 
 	useEffect(() => {
-		const handle = () => {
+		const handleVisibilityChange = () => {
 			if (document.hidden) {
+				const lastSeen = new Date().toISOString();
+				sessionStorage.setItem('last_seen', lastSeen);
 				setGameState((state) => ({
 					...state,
 					user: {
 						...state.user,
-						last_seen: new Date().toISOString(),
+						last_seen: lastSeen,
 					},
 				}));
-				supabase
-					.from('users')
-					.update(gameStateV2.user)
-					.eq('user_id', gameStateV2.user.user_id)
-					.then(() => console.log('Updated User'));
 			} else {
 				checkOfflineProgress();
 			}
 		};
 
-		window.addEventListener('beforeunload', handle);
-		window.addEventListener('visibilitychange', handle);
+		const handleBeforeUnload = () => {
+			const lastSeen = new Date().toISOString();
+			sessionStorage.setItem('last_seen', lastSeen);
+			setGameState((state) => ({
+				...state,
+				user: {
+					...state.user,
+					last_seen: lastSeen,
+				},
+			}));
+		};
+
+		window.addEventListener('beforeunload', handleBeforeUnload);
+		window.addEventListener('visibilitychange', handleVisibilityChange);
 
 		checkOfflineProgress();
 
 		return () => {
-			window.removeEventListener('beforeunload', handle);
-			window.removeEventListener('visibilitychange', handle);
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+			window.removeEventListener('visibilitychange', handleVisibilityChange);
 		};
 	}, []);
 
@@ -186,7 +197,6 @@ const IncrementalV2: FC = () => {
 							variant="link"
 							onClick={async () => {
 								await supabase!.auth.signOut();
-								sessionStorage.clear();
 								nav('/');
 							}}
 						>
@@ -234,8 +244,8 @@ const IncrementalV2: FC = () => {
 						</Button>
 					</div>
 					<div className="mt-8">
-						<Version />
 						<Cart />
+						<Version />
 					</div>
 					<OfflineProgressModal
 						isOpen={showOfflineModal}

@@ -32,7 +32,9 @@ export const Cart: FC<CartProps> = ({}) => {
 		<div className="mt-4 p-5 border-2 font-mono justify-self-center">
 			<div className="pb-10 justify-self-center">Upgrades Purchased this Prestige:</div>
 			{cartVisible ? (
-				<div className="w-full h-[350px] overflow-y-scroll">
+				<div
+					className={`${gameStateRef.current.userUpgrades.length > 0 ? 'w-full h-[350px] overflow-y-scroll' : 'w-full'}`}
+				>
 					{gameStateV2.userUpgrades
 						.filter((f) => f.prestige_num == gameStateV2.user.num_times_prestiged)
 						.map((u) => (
@@ -94,13 +96,17 @@ export const Cart: FC<CartProps> = ({}) => {
 			) : (
 				<></>
 			)}
-			<div className="flex justify-center">
-				<Button
-					variant={cartVisible ? 'secondary' : 'destructive'}
-					onClick={() => setCartVisible((prev) => !prev)}
-				>
-					Toggle Cart
-				</Button>
+			<div className="flex justify-center pt-5">
+				{gameStateRef.current.userUpgrades.length > 0 ? (
+					<Button
+						variant={cartVisible ? 'secondary' : 'destructive'}
+						onClick={() => setCartVisible((prev) => !prev)}
+					>
+						Toggle Cart
+					</Button>
+				) : (
+					<></>
+				)}
 			</div>
 		</div>
 	);
