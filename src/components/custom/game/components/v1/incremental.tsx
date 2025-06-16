@@ -2,8 +2,6 @@ import { FC, useEffect, useRef } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { debugGameState, debugModeAtom, gameStateAtom, initialGameState, toggleAtom } from '../atomFactory';
-
 import { BuyMultiple } from './BuyMultiple';
 import { ClickerButton } from './ClickerButton';
 import { EnterDebug } from './DebugMode';
@@ -11,12 +9,13 @@ import { GameStats } from './GameStats';
 import { PrestigeBar } from './PrestigeBar';
 import { PrestigeButton } from './PrestigeButton';
 import { Upgrades } from './Upgrades';
-import { Version } from './version';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { NavLink } from 'react-router-dom';
+import { Version } from '../version';
+import { gameStateAtom, toggleAtom, debugModeAtom, debugGameState, initialGameState } from './util/atomFactory';
 
 export const Incremental: FC = () => {
 	const [, setGameState] = useAtom(gameStateAtom);

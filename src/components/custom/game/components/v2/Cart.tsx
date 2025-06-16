@@ -1,12 +1,12 @@
 import { FC, useState, useEffect, useRef } from 'react';
-import { gameStateV2Atom } from './IncrementalV2';
 import { useAtom } from 'jotai';
 import { Button } from '@/components/ui/button';
 import { upsertUserUpgrades } from '@/db/functions';
 import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { GameStateV2 } from '../schema';
+import { GameStateV2 } from './util/v2-schema';
+import { gameStateV2Atom } from './IncrementalV2';
 
 interface CartProps {}
 
@@ -20,16 +20,11 @@ export const Cart: FC<CartProps> = ({}) => {
 	// Auto-save every 10 seconds
 	useEffect(() => {
 		const interval = setInterval(() => {
-			console.log(gameStateRef.current);
-			upsertUserUpgrades(gameStateRef.current)
-				.then(() => {
-					toast('Game Saved!');
-				})
-				.catch((error) => {
-					console.error('Auto-save failed:', error);
-					toast.error('Auto-save failed');
-				});
-		}, 30000); // Saves every 30 seconds.
+			upsertUserUpgrades(gameStateRef.current).catch((error) => {
+				console.error('Auto-save failed:', error);
+				toast.error('Auto-save failed');
+			});
+		}, 10000); // Saves every 10 seconds.
 		return () => clearInterval(interval);
 	}, []);
 

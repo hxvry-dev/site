@@ -2,16 +2,15 @@ import { FC } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { gameStateAtom } from '../atomFactory';
-import { zUpgrade } from '../schema';
-import { getCost } from '../util/util';
-
 import { Chip } from './Chip';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { gameStateAtom } from './util/atomFactory';
+import { zUpgrade } from './util/schema';
+import { getCost } from './util/util';
 
 interface UpgradeItemProps {
 	upgradeType: 'base' | 'prestige';

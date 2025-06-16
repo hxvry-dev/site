@@ -1,10 +1,10 @@
 import { calculateLocalLevel } from '@/db/functions';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
-import { Upgrade } from '../schema';
-import { getCostV2 } from '../util/util';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { Badge } from '@/components/ui/badge';
+import { Upgrade } from './util/v2-schema';
+import { getCostV2 } from './util/util';
 
 interface ChipPropsV2 {
 	upgrade: Upgrade;

@@ -1,19 +1,16 @@
 import { FC } from 'react';
-
 import { useAtom } from 'jotai';
-
 import { ChipV2 } from './ChipV2';
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Upgrade, Upgrades, UserUpgrade } from '../schema';
 import { calculateLocalLevel } from '@/db/functions';
-import { getCostV2 } from '../util/util';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { toast } from 'sonner';
 import { v4 } from 'uuid';
+import { Upgrades, Upgrade, UserUpgrade } from './util/v2-schema';
+import { getCostV2 } from './util/util';
 
 interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
@@ -65,6 +62,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 							upgrade.upgrade_type === 'prestige'
 								? gameStateV2.user.prestige_points_balance - costs[upgrade.upgrade_id]
 								: gameStateV2.user.prestige_points_balance,
+						last_seen: new Date().toISOString(),
 					},
 					userUpgrades: [...state.userUpgrades, result],
 				};

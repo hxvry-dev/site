@@ -1,10 +1,7 @@
 import { FC } from 'react';
-
 import { useAtom } from 'jotai';
-
-import { gameStateAtom } from '../atomFactory';
-
 import { Progress } from '@/components/ui/progress';
+import { gameStateAtom } from './util/atomFactory';
 
 export const PrestigeBar: FC = () => {
 	const [gameState] = useAtom(gameStateAtom);
