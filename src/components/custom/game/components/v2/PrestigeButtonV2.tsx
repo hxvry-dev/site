@@ -32,7 +32,6 @@ export const PrestigeButtonV2: FC<PrestigeButtonV2Props> = ({ initialState }) =>
 						(u.currency_per_second_inc >= 0 ? u.currency_per_second_inc * level_current : 0),
 				};
 			}
-			console.log(bonuses);
 		});
 		return bonuses;
 	};

@@ -14,16 +14,22 @@ interface ChipPropsV2 {
 export const ChipV2: FC<ChipPropsV2> = ({ upgrade, resources }) => {
 	const [gameStateV2] = useAtom(gameStateV2Atom);
 	const [pp] = useAtom(purchasePowerAtom);
-	if (resources >= getCostV2(upgrade, gameStateV2, pp)) {
-		if (calculateLocalLevel(upgrade, gameStateV2) >= upgrade.level_max) {
-			// Max level
-			return (
-				<Badge variant="chip" className={`opacity-85 bg-stone-800 hover:bg-stone-800/90 text-foreground`}>
-					Max Level
-				</Badge>
-			);
-		}
-		// Can Purchase
+
+	const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
+	const maxPossiblePurchase = Math.max(0, upgrade.level_max - currentLevel);
+	const actualPurchaseAmount = Math.min(pp, maxPossiblePurchase);
+
+	// Check if already at max level
+	if (currentLevel >= upgrade.level_max) {
+		return (
+			<Badge variant="chip" className={`opacity-85 bg-stone-800 hover:bg-stone-800/90 text-foreground`}>
+				Max Level
+			</Badge>
+		);
+	}
+
+	// Check if can afford the actual purchasable amount
+	if (actualPurchaseAmount > 0 && resources >= getCostV2(upgrade, gameStateV2, actualPurchaseAmount)) {
 		return (
 			<Badge variant="chip" className={`opacity-85 bg-green-800 hover:bg-green-700/90 text-foreground`}>
 				Click Me!

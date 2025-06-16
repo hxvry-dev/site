@@ -51,7 +51,6 @@ export const fetchAndValidateGameState = async (): Promise<GameStateV2 | undefin
 
 	const validated = GameStateV2.safeParse(gameStateV2);
 	if (validated.success) {
-		console.log('Validated GameStateV2');
 		return gameStateV2;
 	}
 };
