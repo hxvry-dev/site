@@ -1,4 +1,10 @@
-import { GameStateV2, Upgrade, Upgrades, User, UserUpgrades } from '@/components/custom/game/schema';
+import {
+	GameStateV2,
+	UserUpgrades,
+	Upgrades,
+	Upgrade,
+	User,
+} from '@/components/custom/game/components/v2/util/v2-schema';
 import { supabase } from '@/db/supabaseClient';
 
 export const getUserID = async (): Promise<string | undefined> => {

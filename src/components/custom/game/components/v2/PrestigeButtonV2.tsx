@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
-import { GameStateV2 } from '../schema';
-import { handleNewPrestigePoints } from '../util/util';
 import { gameStateV2Atom } from './IncrementalV2';
 import { calculateLocalLevel } from '@/db/functions';
+import { handleNewPrestigePoints } from './util/util';
+import { GameStateV2 } from './util/v2-schema';
 
 interface PrestigeButtonV2Props {
 	initialState: GameStateV2;

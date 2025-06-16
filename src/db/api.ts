@@ -91,6 +91,7 @@ export type Database = {
 					currency_per_click: number;
 					currency_per_click_mult: number;
 					currency_per_second: number;
+					last_seen: string;
 					num_times_prestiged: number;
 					prestige_cost: number;
 					prestige_cost_mult: number;
@@ -103,6 +104,7 @@ export type Database = {
 					currency_per_click?: number;
 					currency_per_click_mult?: number;
 					currency_per_second?: number;
+					last_seen?: string;
 					num_times_prestiged?: number;
 					prestige_cost?: number;
 					prestige_cost_mult?: number;
@@ -115,6 +117,7 @@ export type Database = {
 					currency_per_click?: number;
 					currency_per_click_mult?: number;
 					currency_per_second?: number;
+					last_seen?: string;
 					num_times_prestiged?: number;
 					prestige_cost?: number;
 					prestige_cost_mult?: number;
@@ -234,3 +237,12 @@ export type CompositeTypes<
 	: PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
 		? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
 		: never;
+
+export const Constants = {
+	public: {
+		Enums: {
+			upgrade_types: ['base', 'prestige', 'temp'],
+			upgradeTypes: ['base', 'prestige'],
+		},
+	},
+} as const;

@@ -3,16 +3,11 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { atom, useAtom } from 'jotai';
 
-import { toggleAtom } from '../atomFactory';
-
-import { Version } from './version';
-
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAndValidateGameState } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UpgradesV2 } from './UpgradesV2';
-import { GameStateV2 } from '../schema';
 import { supabase } from '@/db/supabaseClient';
 
 import { BuyMultipleV2 } from './BuyMultipleV2';
@@ -21,8 +16,10 @@ import { GameStatsV2 } from './GameStatsV2';
 import { PrestigeBarV2 } from './PrestigeBarV2';
 import { PrestigeButtonV2 } from './PrestigeButtonV2';
 import { Cart } from './Cart';
-
-export const purchasePowerAtom = atom<number>(1);
+import { Version } from '../version';
+import { GameStateV2 } from './util/v2-schema';
+import { toggleAtom } from '../v1/util/atomFactory';
+import { OfflineProgressModal } from './OfflineProgressModal';
 
 const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 	const result = await fetchAndValidateGameState().then((data) => {
@@ -40,6 +37,7 @@ const createGameStateV2 = (initialState: GameStateV2) => {
 	return atom(initialState);
 };
 
+export const purchasePowerAtom = atom<number>(1);
 export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
 
 const IncrementalV2: FC = () => {
@@ -50,8 +48,60 @@ const IncrementalV2: FC = () => {
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
 
+	const [showOfflineModal, setShowOfflineModal] = useState(false);
+	const [offlineData, setOfflineData] = useState({
+		timeAway: 0,
+		currencyEarned: 0,
+		currencyPerSecond: 0,
+	});
+
 	const handleToggle = () => {
 		setToggle((prev) => !prev);
+	};
+
+	const checkOfflineProgress = () => {
+		const lastSeen: number = Date.parse(gameStateV2.user.last_seen);
+		console.log(lastSeen);
+		if (!lastSeen || !gameStateV2?.user) return;
+		const now: number = Date.now();
+		const timeAway: number = (now - lastSeen) / 1000;
+		console.log('now', now, 'lastSeen', lastSeen, 'now - lastSeen', now - lastSeen, 'timeAway', timeAway);
+		if (timeAway < 90) return;
+		const maxOfflineHours: number = 24;
+		const cappedTimeAway: number = Math.min(timeAway, maxOfflineHours * 3600);
+		const currencyEarned: number = gameStateV2.user.currency_per_second * cappedTimeAway;
+
+		setGameState((state) => ({
+			...state,
+			user: {
+				...state.user,
+				currency_balance: state.user.currency_balance + currencyEarned,
+			},
+		}));
+
+		setOfflineData({
+			timeAway: cappedTimeAway,
+			currencyEarned: currencyEarned,
+			currencyPerSecond: gameStateV2.user.currency_per_second,
+		});
+
+		setShowOfflineModal(true);
+	};
+
+	const closeOfflineModal = () => {
+		setShowOfflineModal(false);
+		setGameState((state) => ({
+			...state,
+			user: {
+				...state.user,
+				last_seen: new Date().toISOString(),
+			},
+		}));
+		supabase
+			.from('users')
+			.update(gameStateV2.user)
+			.eq('user_id', gameStateV2.user.user_id)
+			.then(() => console.log('Updated User'));
 	};
 
 	useEffect(() => {
@@ -68,6 +118,37 @@ const IncrementalV2: FC = () => {
 		});
 		return () => {
 			authListener.subscription?.unsubscribe();
+		};
+	}, []);
+
+	useEffect(() => {
+		const handle = () => {
+			if (document.hidden) {
+				setGameState((state) => ({
+					...state,
+					user: {
+						...state.user,
+						last_seen: new Date().toISOString(),
+					},
+				}));
+				supabase
+					.from('users')
+					.update(gameStateV2.user)
+					.eq('user_id', gameStateV2.user.user_id)
+					.then(() => console.log('Updated User'));
+			} else {
+				checkOfflineProgress();
+			}
+		};
+
+		window.addEventListener('beforeunload', handle);
+		window.addEventListener('visibilitychange', handle);
+
+		checkOfflineProgress();
+
+		return () => {
+			window.removeEventListener('beforeunload', handle);
+			window.removeEventListener('visibilitychange', handle);
 		};
 	}, []);
 
@@ -97,9 +178,7 @@ const IncrementalV2: FC = () => {
 
 	return (
 		<>
-			{!session ? (
-				<div>No Session</div>
-			) : (
+			{session ? (
 				<div>
 					<h1 className="font-incremental text-2xl justify-self-center mb-16">Idle Game</h1>
 					<div className="justify-self-end pt-0">
@@ -158,7 +237,16 @@ const IncrementalV2: FC = () => {
 						<Version />
 						<Cart />
 					</div>
+					<OfflineProgressModal
+						isOpen={showOfflineModal}
+						onClose={closeOfflineModal}
+						offlineTime={offlineData.timeAway}
+						currencyEarned={offlineData.currencyEarned}
+						currencyPerSecond={offlineData.currencyPerSecond}
+					/>
 				</div>
+			) : (
+				<div>No Session</div>
 			)}
 		</>
 	);

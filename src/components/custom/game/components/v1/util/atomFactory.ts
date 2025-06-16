@@ -1,7 +1,6 @@
-import { atomWithStorage, createJSONStorage, unstable_withStorageValidator as withStorageValidator } from 'jotai/utils';
-
 import { GameState, zGameStateSchema } from './schema';
 import { PrestigeUpgrades, Upgrades } from './upgrades';
+import { atomWithStorage, unstable_withStorageValidator as withStorageValidator, createJSONStorage } from 'jotai/utils';
 
 const isGameState = (g: unknown): g is GameState => zGameStateSchema.safeParse(g).success;
 
