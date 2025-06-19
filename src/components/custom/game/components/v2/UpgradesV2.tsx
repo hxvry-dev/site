@@ -151,7 +151,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 											</div>
 										</div>
 									</AccordionTrigger>
-									<AccordionContent className="pt-5 px-2 backdrop-brightness-75">
+									<AccordionContent className="pt-5 px-2 backdrop-brightness-85">
 										<div>
 											<legend className="font-mono">Upgrade Description</legend>
 											<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-y-scroll no-scrollbar">
