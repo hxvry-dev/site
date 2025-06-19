@@ -10,7 +10,7 @@ import { Badge } from '../ui/badge';
 
 const linkGenerator = (slug: string, desc: string, key?: string) => {
 	return (
-		<Button asChild variant="secondary" key={key}>
+		<Button asChild variant="default" key={key} className="px-2">
 			<NavLink to={`${slug}`}>{desc}</NavLink>
 		</Button>
 	);
