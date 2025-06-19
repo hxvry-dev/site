@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/db/supabaseClient';
 
-export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 	const nav = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -174,6 +174,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 			</div>
 		</div>
 	);
-}
+};
 
 export default LoginForm;

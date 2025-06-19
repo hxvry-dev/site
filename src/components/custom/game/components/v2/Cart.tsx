@@ -33,7 +33,7 @@ export const Cart: FC<CartProps> = ({}) => {
 			<div className="pb-10 justify-self-center">Upgrades Purchased this Prestige:</div>
 			{cartVisible ? (
 				<div
-					className={`${gameStateRef.current.userUpgrades.length > 0 ? 'w-full h-[350px] overflow-y-scroll' : 'w-full'}`}
+					className={`${gameStateRef.current.userUpgrades.length > 0 ? 'w-full h-[350px] overflow-y-scroll no-scrollbar' : 'w-full'}`}
 				>
 					{gameStateV2.userUpgrades
 						.filter((f) => f.prestige_num == gameStateV2.user.num_times_prestiged)
@@ -99,7 +99,7 @@ export const Cart: FC<CartProps> = ({}) => {
 			<div className="flex justify-center pt-5">
 				{gameStateRef.current.userUpgrades.length > 0 ? (
 					<Button
-						variant={cartVisible ? 'secondary' : 'destructive'}
+						variant={cartVisible ? 'destructive' : 'default'}
 						onClick={() => setCartVisible((prev) => !prev)}
 					>
 						Toggle Cart
