@@ -10,7 +10,7 @@ import {
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { Theme, useTheme } from '../theme-provider';
-import { BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Sun } from 'lucide-react';
+import { AxeIcon, BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Sun } from 'lucide-react';
 
 interface ThemeOption {
 	value: Theme;
@@ -55,7 +55,7 @@ const themeOptions: ThemeOption[] = [
 		value: 'claude-dark',
 		label: 'Claude (Dark)',
 		icon: DropletIcon,
-		description: 'Inspired by the AI Chatbot, but dark!',
+		description: 'Inspired by the AI Chatbot, but dark! [DARK]',
 	},
 	{
 		value: 'bubblegum',
@@ -67,7 +67,17 @@ const themeOptions: ThemeOption[] = [
 		value: 'bubblegum-dark',
 		label: 'Bubblegum (Dark)',
 		icon: BoldIcon,
-		description: `This doesn't lose flavor in 5 minutes ;) (Dark)`,
+		description: `This doesn't lose flavor in 5 minutes ;) [DARK]`,
+	},
+	{
+		value: 'doom',
+		label: 'DOOM',
+		icon: AxeIcon,
+	},
+	{
+		value: 'doom-dark',
+		label: 'DOOM [DARK]',
+		icon: AxeIcon,
 	},
 ];
 
