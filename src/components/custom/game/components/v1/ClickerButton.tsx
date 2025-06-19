@@ -22,7 +22,7 @@ export const ClickerButton: FC = () => {
 	};
 
 	return (
-		<Button onClick={handleClick} className="flex w-full font-mono">
+		<Button onClick={handleClick} className="flex w-full font-mono px-2">
 			Click me! (+{clickValue.toFixed(2)})
 		</Button>
 	);

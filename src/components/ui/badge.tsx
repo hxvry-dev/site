@@ -16,8 +16,8 @@ const badgeVariants = cva(
 				destructive:
 					'border-transparent bg-destructive rounded-md text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/70',
 				outline: 'text-foreground rounded-md [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-				typescript: 'border-transparent bg-blue-600 rounded-md text-white shadow-sm hover:bg-primary/80',
-				chip: 'border-transparent text-white shadow-sm hover:bg-primary/80',
+				typescript: 'border-transparent bg-blue-600 rounded-md text-white shadow-sm',
+				chip: 'border-transparent text-white shadow-sm',
 			},
 		},
 		defaultVariants: {

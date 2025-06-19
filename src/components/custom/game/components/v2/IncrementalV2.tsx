@@ -236,8 +236,8 @@ const IncrementalV2: FC = () => {
 							onClick={() => handleToggle()}
 							className={
 								!toggle
-									? 'mt-5 opacity-85 bg-green-700 hover:bg-green-700/90 text-foreground'
-									: 'mt-5 opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground'
+									? 'mt-5 opacity-85 bg-green-700 text-white'
+									: 'mt-5 opacity-85 bg-red-800 text-white'
 							}
 						>
 							Toggle Upgrades{` ${!toggle ? 'ON' : 'OFF'}`}

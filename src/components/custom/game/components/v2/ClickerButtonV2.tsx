@@ -22,8 +22,10 @@ export const ClickerButtonV2: FC = () => {
 	};
 
 	return (
-		<Button onClick={handleClickV2} className="flex w-full font-mono">
-			Click Me! (+{clickValueV2.toFixed(2)})
-		</Button>
+		<div className="grid grid-rows-2 gap-0 font-mono">
+			<Button onClick={handleClickV2} className="flex w-full px-2">
+				Click Me! (+{clickValueV2.toFixed(2)})
+			</Button>
+		</div>
 	);
 };
