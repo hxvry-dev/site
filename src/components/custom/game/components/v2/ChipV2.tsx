@@ -19,26 +19,23 @@ export const ChipV2: FC<ChipPropsV2> = ({ upgrade, resources }) => {
 	const maxPossiblePurchase = Math.max(0, upgrade.level_max - currentLevel);
 	const actualPurchaseAmount = Math.min(pp, maxPossiblePurchase);
 
-	// Check if already at max level
 	if (currentLevel >= upgrade.level_max) {
 		return (
-			<Badge variant="chip" className={`opacity-85 bg-stone-800 hover:bg-stone-800/90 text-foreground`}>
+			<Badge variant="chip" className={`opacity-85 bg-accent`}>
 				Max Level
 			</Badge>
 		);
 	}
-
-	// Check if can afford the actual purchasable amount
 	if (actualPurchaseAmount > 0 && resources >= getCostV2(upgrade, gameStateV2, actualPurchaseAmount)) {
 		return (
-			<Badge variant="chip" className={`opacity-85 bg-green-800 hover:bg-green-700/90 text-foreground`}>
-				Click Me!
+			<Badge variant="chip" className={`opacity-85 bg-green-800 hover:bg-green-800`}>
+				Can Purchase!
 			</Badge>
 		);
 	} else {
 		// Cannot purchase
 		return (
-			<Badge variant="chip" className={`opacity-85 bg-red-800 hover:bg-red-800/90 text-foreground`}>
+			<Badge variant="chip" className={`opacity-85 bg-destructive`}>
 				Can&apos;t Afford!
 			</Badge>
 		);
