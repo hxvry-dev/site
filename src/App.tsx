@@ -8,12 +8,13 @@ import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
 import Projects from './components/custom/Projects';
 import Resume from './components/custom/Resume';
-const LoginForm = lazy(() => import('./components/login-form'));
+import { ThemeProvider } from './components/theme-provider';
+const LoginForm = lazy(() => import('./components/custom/login-form'));
 const IncrementalV2 = lazy(() => import('./components/custom/game/components/v2/IncrementalV2'));
 
 const App: FC = () => {
 	return (
-		<>
+		<ThemeProvider defaultTheme="dark">
 			<Navbar />
 			<Suspense fallback={<NotFound />}>
 				<Routes>
@@ -29,7 +30,7 @@ const App: FC = () => {
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Suspense>
-		</>
+		</ThemeProvider>
 	);
 };
 
