@@ -9,7 +9,9 @@ export type Theme =
 	| 'bubblegum'
 	| 'bubblegum-dark'
 	| 'doom'
-	| 'doom-dark';
+	| 'doom-dark'
+	| 'hoot'
+	| 'hoot-dark';
 
 type ThemeProviderProps = {
 	children: React.ReactNode;
@@ -49,6 +51,8 @@ export function ThemeProvider({
 			'bubblegum-dark',
 			'doom',
 			'doom-dark',
+			'hoot',
+			'hoot-dark',
 		);
 
 		if (theme === 'system') {

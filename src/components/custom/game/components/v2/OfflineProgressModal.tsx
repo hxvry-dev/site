@@ -71,7 +71,7 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 						</Card>
 					</div>
 
-					<Button onClick={onClose} variant="secondary" className="w-full mt-4">
+					<Button onClick={onClose} variant="default" className="w-full mt-4">
 						Collect Rewards
 					</Button>
 				</DialogContent>

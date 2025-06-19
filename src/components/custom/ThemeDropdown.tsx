@@ -10,7 +10,7 @@ import {
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
 import { Theme, useTheme } from '../theme-provider';
-import { AxeIcon, BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Sun } from 'lucide-react';
+import { AxeIcon, Bird, BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Sun } from 'lucide-react';
 
 interface ThemeOption {
 	value: Theme;
@@ -79,6 +79,13 @@ const themeOptions: ThemeOption[] = [
 		label: 'DOOM [DARK]',
 		icon: AxeIcon,
 	},
+	{
+		value: 'hoot',
+		label: 'Hoot Theme',
+		icon: Bird,
+		description: 'Theme for Hoots',
+	},
+	{ value: 'hoot-dark', label: 'Hoot (Dark)', icon: Bird, description: 'Theme for Hoots [DARK]' },
 ];
 
 export const ThemeDropdown: FC<ThemeDropdownProps> = ({
