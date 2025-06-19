@@ -127,13 +127,13 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 											<div className="w-[200px]">{upgrade.upgrade_name}</div>
 											<div>
 												Level:{' '}
-												<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+												<span className="code max-w-fit px-2">
 													{currentLevel} / {upgrade.level_max}
 												</span>
 											</div>
 											<div>
 												Cost:{' '}
-												<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+												<span className="code max-w-fit px-2">
 													{actualCost.toLocaleString('en-us', {
 														maximumFractionDigits: 2,
 													})}
@@ -151,10 +151,10 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 											</div>
 										</div>
 									</AccordionTrigger>
-									<AccordionContent className="pt-5">
+									<AccordionContent className="pt-5 px-2 backdrop-brightness-75">
 										<div>
 											<legend className="font-mono">Upgrade Description</legend>
-											<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-scroll">
+											<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-y-scroll no-scrollbar">
 												{upgrade.upgrade_desc}
 											</div>
 										</div>
@@ -172,7 +172,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<TooltipProvider>
 															<Tooltip>
 																<TooltipTrigger asChild>
-																	<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+																	<div className="code max-w-fit px-2">
 																		+
 																		{(
 																			upgrade.cpc_inc * actualPurchaseAmount
@@ -193,7 +193,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<TooltipProvider>
 															<Tooltip>
 																<TooltipTrigger asChild>
-																	<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+																	<div className="code max-w-fit px-2">
 																		+
 																		{(
 																			upgrade.cpc_mult_inc * actualPurchaseAmount
@@ -215,7 +215,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 														<TooltipProvider>
 															<Tooltip>
 																<TooltipTrigger asChild>
-																	<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+																	<div className="code max-w-fit px-2">
 																		+
 																		{(
 																			upgrade.currency_per_second_inc *
@@ -245,7 +245,11 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 							</Accordion>
 						</div>
 						<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
-							<Button disabled={!canPurchaseUpgrade(upgrade)} onClick={() => handleUpgrade(upgrade)}>
+							<Button
+								className="px-5"
+								disabled={!canPurchaseUpgrade(upgrade)}
+								onClick={() => handleUpgrade(upgrade)}
+							>
 								Buy Upgrade
 								{actualPurchaseAmount !== purchasePower && actualPurchaseAmount > 0 && (
 									<span className="text-xs ml-1">({actualPurchaseAmount})</span>

@@ -75,7 +75,7 @@ const Projects: FC = () => {
 							<CardTitle>{project.name}</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="overflow-scroll whitespace-normal border p-3 h-[150px] content-center">
+							<div className="no-scrollbar overflow-scroll whitespace-normal border p-3 h-[150px] content-center">
 								<p>{project.description}</p>
 							</div>
 							<div className="pt-5 justify-self-center grid grid-flow-col gap-2">

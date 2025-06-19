@@ -85,13 +85,13 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 										<div className="w-[200px]">{data[key].name}</div>
 										<div>
 											Level:{' '}
-											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+											<span className="code max-w-fit px-2">
 												{data[key].level.current} / {data[key].level.max}
 											</span>
 										</div>
 										<div>
 											Cost:{' '}
-											<span className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+											<span className="code max-w-fit px-2">
 												{getCost(data[key], gameState).toFixed(2)}
 											</span>
 										</div>
@@ -103,7 +103,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 								<AccordionContent className="pt-5">
 									<div>
 										<legend className="font-mono">Upgrade Description</legend>
-										<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-scroll">
+										<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-scroll no-scrollbar">
 											{data[key].description}
 										</div>
 									</div>
@@ -121,7 +121,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 													<TooltipProvider>
 														<Tooltip>
 															<TooltipTrigger asChild>
-																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+																<div className="code max-w-fit px-2">
 																	+
 																	{(
 																		data[key].stats.currencyPerClickIncrease *
@@ -143,7 +143,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 													<TooltipProvider>
 														<Tooltip>
 															<TooltipTrigger asChild>
-																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+																<div className="code max-w-fit px-2">
 																	+
 																	{(
 																		data[key].stats
@@ -167,7 +167,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 													<TooltipProvider>
 														<Tooltip>
 															<TooltipTrigger asChild>
-																<div className="code max-w-fit px-2 hover:bg-primary-foreground hover:text-foreground">
+																<div className="code max-w-fit px-2">
 																	+
 																	{(
 																		data[key].stats.currencyPerSecondIncrease *
@@ -198,6 +198,7 @@ export const Upgrades: FC<UpgradeItemProps> = ({ upgradeType }) => {
 					</div>
 					<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
 						<Button
+							className="px-5"
 							disabled={
 								resources < getCost(data[key], gameState) &&
 								data[key].level.current != data[key].level.max
