@@ -220,8 +220,8 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 								Example format: <code>--primary: 220 14% 93%; --background: 0 0% 100%;</code>
 							</p>
 							<p>
-								Don&apos;t include the curly braces or the <code>:root</code> selector - just the
-								variable declarations, please!
+								Don&apos;t include the curly braces or the <code>:root</code> selector from TweakCN -
+								just the variable declarations, please!
 							</p>
 						</div>
 					</div>
