@@ -88,6 +88,7 @@ const themeOptions: ThemeOption[] = [
 		description: 'Theme for Hoots',
 	},
 	{ value: 'hoot-dark', label: 'Hoot (Dark)', icon: Bird, description: 'Theme for Hoots [DARK]' },
+	{ value: 'custom-theme', label: 'Custom Theme', icon: Palette },
 ];
 
 export const ThemeDropdown: FC<ThemeDropdownProps> = ({
@@ -99,10 +100,6 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 	const { theme, setTheme, applyCustomTheme, getCustomTheme, hasCustomTheme } = useTheme();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [customCss, setCustomCss] = useState('');
-	const currentTheme = themeOptions.find((o) => o.value === theme);
-	const CurrentIcon = currentTheme?.icon || Monitor;
-
-	const isSelected = theme === localStorage.getItem('vite-ui-theme');
 
 	const handleCustomThemeConfirm = () => {
 		if (customCss.trim()) {
@@ -121,7 +118,7 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 			if (!hasCustomTheme()) {
 				setIsDialogOpen(true);
 			} else {
-				setTheme('custom-theme');
+				setTheme(selected);
 			}
 		} else {
 			setTheme(selected);
@@ -129,16 +126,26 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 	};
 
 	const handleCustomThemeEdit = () => {
+		setCustomCss(getCustomTheme());
 		setIsDialogOpen(true);
+		setTheme('custom-theme');
 	};
+
+	const getCurrentTheme = () => {
+		const t = localStorage.getItem('vite-ui-theme') as Theme;
+		const currentTheme = themeOptions.find((o) => o.value === t);
+		return currentTheme;
+	};
+
+	const CurrentIcon = getCurrentTheme()?.icon || Monitor;
 
 	return (
 		<>
-			<DropdownMenu>
+			<DropdownMenu modal={false}>
 				<DropdownMenuTrigger asChild>
 					<Button variant={variant} size={size} className="w-full float-right rounded-none">
 						<CurrentIcon className={`w-4 h-4`} />
-						{showLabel && <>{currentTheme?.label || 'Theme'}</>}
+						{showLabel && <>{getCurrentTheme()?.label || 'Theme'}</>}
 						<ChevronDown className="h-3 w-3 opacity-50" />
 					</Button>
 				</DropdownMenuTrigger>
@@ -152,38 +159,50 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 							const Icon = t.icon;
 							const isSelected = theme === t.value;
 
-							return (
-								<DropdownMenuItem
-									key={t.value}
-									onClick={() => handleThemeSelect(t.value)}
-									className="flex items-center gap-3 px-2 py-2.5 cursor-pointer"
-								>
-									<Icon className="h-4 w-4" />
-									<div className="flex flex-col flex-1 gap-0.5">
-										<span className="text-sm font-medium">{t.label}</span>
-										{t.description && (
-											<span className="text-xs text-muted-foreground">{t.description}</span>
-										)}
+							if (t.value === 'custom-theme') {
+								return (
+									<div key={'safe-key-lol'}>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem
+											key={t.value}
+											onClick={() =>
+												hasCustomTheme() ? handleCustomThemeEdit() : handleThemeSelect(t.value)
+											}
+											className="flex items-center gap-3 px-2 py-2.5 cursor-pointer"
+										>
+											<Icon className="h-4 w-4" />
+											<div className="flex flex-col flex-1 gap-0.5">
+												<span className="text-sm font-medium">{t.label}</span>
+												<span className="text-xs text-muted-foreground">
+													{hasCustomTheme()
+														? 'Edit your custom theme'
+														: 'Create your own theme'}
+												</span>
+											</div>
+											{isSelected && <Check className="h-4 w-4 text-primary" />}
+										</DropdownMenuItem>
 									</div>
-									{isSelected && <Check className="h-4 w-4 text-primary" />}
-								</DropdownMenuItem>
-							);
+								);
+							} else {
+								return (
+									<DropdownMenuItem
+										key={t.value}
+										onClick={() => handleThemeSelect(t.value)}
+										className="flex items-center gap-3 px-2 py-2.5 cursor-pointer"
+									>
+										<Icon className="h-4 w-4" />
+										<div className="flex flex-col flex-1 gap-0.5">
+											<span className="text-sm font-medium">{t.label}</span>
+											{t.description && (
+												<span className="text-xs text-muted-foreground">{t.description}</span>
+											)}
+										</div>
+										{isSelected && <Check className="h-4 w-4 text-primary" />}
+									</DropdownMenuItem>
+								);
+							}
 						})}
 					</DropdownMenuGroup>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem
-						onClick={() => handleCustomThemeEdit()}
-						className="flex items-center gap-3 px-2 py-2.5 cursor-pointer"
-					>
-						<Palette className="h-4 w-4" />
-						<div className="flex flex-col flex-1 gap-0.5">
-							<span className="text-sm font-medium">Custom</span>
-							<span className="text-xs text-muted-foreground">
-								{hasCustomTheme() ? 'Edit your custom theme' : 'Create your own theme'}
-							</span>
-						</div>
-						{isSelected && <Check className="h-4 w-4 text-primary" />}
-					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
 
