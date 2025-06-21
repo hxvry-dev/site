@@ -67,7 +67,6 @@ const IncrementalV2: FC = () => {
 			_lastSeen = gameStateV2.user.last_seen;
 		}
 		const lastSeen: number = Date.parse(_lastSeen);
-		console.log('last seen', lastSeen);
 		if (!lastSeen || !gameStateV2?.user) return;
 		const now: number = Date.now();
 		const timeAway: number = (now - lastSeen) / 1000;
