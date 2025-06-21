@@ -97,7 +97,7 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 	align = 'end',
 }) => {
 	const { theme, setTheme, applyCustomTheme, getCustomTheme, hasCustomTheme } = useTheme();
-	const [isOpen, setIsOpen] = useState(false);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [customCss, setCustomCss] = useState('');
 	const currentTheme = themeOptions.find((o) => o.value === theme);
 	const CurrentIcon = currentTheme?.icon || Monitor;
@@ -108,18 +108,18 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 		if (customCss.trim()) {
 			applyCustomTheme(customCss.trim());
 		}
-		setIsOpen(false);
+		setIsDialogOpen(false);
 	};
 
 	const handleCustomThemeCancel = () => {
-		setIsOpen(false);
+		setIsDialogOpen(false);
 		setCustomCss(getCustomTheme());
 	};
 
 	const handleThemeSelect = (selected: Theme) => {
 		if (selected === 'custom-theme') {
 			if (!hasCustomTheme()) {
-				setIsOpen(true);
+				setIsDialogOpen(true);
 			} else {
 				setTheme('custom-theme');
 			}
@@ -129,7 +129,7 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 	};
 
 	const handleCustomThemeEdit = () => {
-		setIsOpen(true);
+		setIsDialogOpen(true);
 	};
 
 	return (
@@ -187,7 +187,7 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<DialogContent className="max-w-2xl">
 					<DialogHeader>
 						<DialogTitle>Custom Theme Editor</DialogTitle>{' '}
