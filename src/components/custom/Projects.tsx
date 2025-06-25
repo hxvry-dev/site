@@ -1,4 +1,4 @@
-import { FC, JSX, useEffect } from 'react';
+import { FC, useEffect, useId } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
@@ -7,14 +7,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card
 
 import GithubRepoTable from './GithubRepoTable';
 import { Badge } from '../ui/badge';
-
-const linkGenerator = (slug: string, desc: string, key?: string) => {
-	return (
-		<Button asChild variant="default" key={key} className="px-2">
-			<NavLink to={`${slug}`}>{desc}</NavLink>
-		</Button>
-	);
-};
 
 function GithubLogo() {
 	return (
@@ -31,11 +23,18 @@ function GithubLogo() {
 	);
 }
 
+interface LinkProps {
+	href: string;
+	desc: string;
+	key: string;
+	target?: boolean;
+}
+
 interface ProjectDataProps {
 	id: number;
 	name: string;
 	description: string;
-	link: Array<JSX.Element | string>;
+	link: Array<LinkProps>;
 	src: string;
 	tools: Array<string>;
 }
@@ -46,8 +45,11 @@ const ProjectData: ProjectDataProps[] = [
 		name: 'Idle Game [BETA]',
 		description:
 			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has 2 upgrades and a Prestige system implemented, with plans to expand upgrades further in the future. The code is available on my GitHub.',
-		link: [linkGenerator('/incremental', 'Idle Game', `v1`), linkGenerator('/login', 'Idle Game V2 [WIP]', `v2`)],
-		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game',
+		link: [
+			{ href: '/incremental', desc: 'Idle Game', key: 'v1' },
+			{ href: '/login', desc: 'Idle Game V2', key: 'v2' },
+		],
+		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game/components',
 		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
 	},
 	{
@@ -55,7 +57,14 @@ const ProjectData: ProjectDataProps[] = [
 		name: 'Bitburner Scripts',
 		description:
 			'A collection of my TypeScript-based scripts for Bitburner. Some of the code was taken from other repositories, and I tried to credit the author(s) when possible.',
-		link: [linkGenerator('https://github.com/hxvry-dev/bitburner-scripts', 'Bitburner Scripts', `bb`)],
+		link: [
+			{
+				href: 'https://github.com/hxvry-dev/bitburner-scripts',
+				desc: 'Bitburner Scripts',
+				key: 'bb',
+				target: true,
+			},
+		],
 		src: 'https://github.com/hxvry-dev/bitburner-scripts',
 		tools: ['TypeScript', 'Vite'],
 	},
@@ -92,9 +101,17 @@ const Projects: FC = () => {
 						</CardContent>
 						<CardFooter>
 							<div className="grid grid-cols-2 gap-5">
-								<div>{project.link}</div>
+								<div className="grid grid-flow-col-dense gap-2">
+									{project.link.map((p) => (
+										<Button asChild key={p.key}>
+											<NavLink to={p.href} target={p.target ? '_blank' : ''}>
+												{p.desc}
+											</NavLink>
+										</Button>
+									))}
+								</div>
 								<div>
-									<Button asChild variant="link">
+									<Button asChild variant="link" key={useId()}>
 										<NavLink to={project.src} target="_blank">
 											{<GithubLogo />} Source
 										</NavLink>
