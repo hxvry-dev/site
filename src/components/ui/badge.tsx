@@ -17,7 +17,9 @@ const badgeVariants = cva(
 					'border-transparent bg-destructive rounded-md text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/70',
 				outline: 'text-foreground rounded-md [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
 				typescript: 'border-transparent bg-blue-600 rounded-md text-white shadow-sm',
-				chip: 'border-transparent text-white shadow-sm',
+				maxLevelChip: 'border-transparent rounded-none shadow-sm bg-muted text-muted-foreground',
+				canBuyChip: 'border-transparent rounded-none shadow-sm bg-accent text-accent-foreground',
+				cannotBuyChip: 'border-transparent rounded-none shadow-sm bg-destructive text-destructive-foreground',
 			},
 		},
 		defaultVariants: {
