@@ -21,13 +21,6 @@ interface ThemeOption {
 	description?: string;
 }
 
-interface ThemeDropdownProps {
-	variant?: 'default' | 'outline' | 'ghost';
-	size?: 'default' | 'sm' | 'lg';
-	showLabel?: boolean;
-	align?: 'start' | 'center' | 'end';
-}
-
 const themeOptions: ThemeOption[] = [
 	{
 		value: 'system',
@@ -91,12 +84,7 @@ const themeOptions: ThemeOption[] = [
 	{ value: 'custom-theme', label: 'Custom Theme', icon: Palette },
 ];
 
-export const ThemeDropdown: FC<ThemeDropdownProps> = ({
-	variant = 'outline',
-	size = 'default',
-	showLabel = true,
-	align = 'end',
-}) => {
+export const ThemeDropdown: FC = () => {
 	const { theme, setTheme, applyCustomTheme, getCustomTheme, hasCustomTheme } = useTheme();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [customCss, setCustomCss] = useState('');
@@ -143,13 +131,13 @@ export const ThemeDropdown: FC<ThemeDropdownProps> = ({
 		<>
 			<DropdownMenu modal={false}>
 				<DropdownMenuTrigger asChild>
-					<Button variant={variant} size={size} className="w-full float-right rounded-none">
+					<Button variant="ghost" size="default" className="w-full float-right rounded-none">
 						<CurrentIcon className={`w-4 h-4`} />
-						{showLabel && <>{getCurrentTheme()?.label || 'Theme'}</>}
+						<>{getCurrentTheme()?.label || 'Theme'}</>
 						<ChevronDown className="h-3 w-3 opacity-50" />
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent className="w-56" align={align} sideOffset={4}>
+				<DropdownMenuContent className="w-56" align="end" sideOffset={4}>
 					<DropdownMenuLabel>
 						<p>Themes</p>
 					</DropdownMenuLabel>

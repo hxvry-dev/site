@@ -10,6 +10,7 @@ const Navbar: FC = () => {
 			<Button
 				asChild
 				size="icon"
+				variant="ghost"
 				className={`bg-background text-foreground hover:bg-accent hover:text-accent-foreground`}
 			>
 				<NavLink to="/" className="rounded-none">
