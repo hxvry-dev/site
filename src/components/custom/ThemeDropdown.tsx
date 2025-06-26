@@ -137,7 +137,7 @@ export const ThemeDropdown: FC = () => {
 						<ChevronDown className="h-3 w-3 opacity-50" />
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent className="w-56" align="end" sideOffset={4}>
+				<DropdownMenuContent className="w-56" align="center" sideOffset={4}>
 					<DropdownMenuLabel>
 						<p>Themes</p>
 					</DropdownMenuLabel>

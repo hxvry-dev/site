@@ -90,7 +90,7 @@ const Projects: FC = () => {
 							<div className="pt-5 justify-self-center grid grid-flow-col gap-2">
 								<legend>Tools Used:</legend>
 								{project.tools.map((tool) => (
-									<Badge variant="secondary" key={tool.toLowerCase().replace('/', '-')}>
+									<Badge variant="secondaryChip" key={tool.toLowerCase().replace('/', '-')}>
 										{tool}
 									</Badge>
 								))}
