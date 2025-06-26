@@ -20,24 +20,12 @@ export const ChipV2: FC<ChipPropsV2> = ({ upgrade, resources }) => {
 	const actualPurchaseAmount = Math.min(pp, maxPossiblePurchase);
 
 	if (currentLevel >= upgrade.level_max) {
-		return (
-			<Badge variant="chip" className={`opacity-85 bg-accent`}>
-				Max Level
-			</Badge>
-		);
+		return <Badge variant="maxLevelChip">Max Level</Badge>;
 	}
 	if (actualPurchaseAmount > 0 && resources >= getCostV2(upgrade, gameStateV2, actualPurchaseAmount)) {
-		return (
-			<Badge variant="chip" className={`opacity-85 bg-green-800 hover:bg-green-800`}>
-				Can Purchase!
-			</Badge>
-		);
+		return <Badge variant="canBuyChip">Can Purchase!</Badge>;
 	} else {
 		// Cannot purchase
-		return (
-			<Badge variant="chip" className={`opacity-85 bg-destructive`}>
-				Can&apos;t Afford!
-			</Badge>
-		);
+		return <Badge variant="cannotBuyChip">Can&apos;t Afford!</Badge>;
 	}
 };

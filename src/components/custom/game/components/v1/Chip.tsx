@@ -16,21 +16,21 @@ export const Chip: FC<ChipProps> = ({ upgrade, resources }) => {
 		if (upgrade.level.current >= upgrade.level.max) {
 			// Max Level reached
 			return (
-				<Badge variant="chip" className={`opacity-85 bg-accent`}>
+				<Badge variant="maxLevelChip" className={`opacity-85 bg-accent`}>
 					Max Level
 				</Badge>
 			);
 		}
 		// Can Purchase this upgrade
 		return (
-			<Badge variant="chip" className={`opacity-85 bg-green-800 hover:bg-green-800`}>
+			<Badge variant="canBuyChip" className={`opacity-85 bg-green-800 hover:bg-green-800`}>
 				Can Purchase!
 			</Badge>
 		);
 	} else {
 		// Cannot purchase this upgrade
 		return (
-			<Badge variant="chip" className={`opacity-85 bg-destructive`}>
+			<Badge variant="cannotBuyChip" className={`opacity-85 bg-destructive`}>
 				Can&apos;t Afford!
 			</Badge>
 		);

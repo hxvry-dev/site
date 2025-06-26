@@ -233,11 +233,8 @@ const IncrementalV2: FC = () => {
 					<div className="justify-self-center font-mono">
 						<Button
 							onClick={() => handleToggle()}
-							className={
-								!toggle
-									? 'mt-5 opacity-85 bg-green-700 text-white'
-									: 'mt-5 opacity-85 bg-red-800 text-white'
-							}
+							variant={toggle ? 'destructive' : 'default'}
+							className="mt-5"
 						>
 							Toggle Upgrades{` ${!toggle ? 'ON' : 'OFF'}`}
 						</Button>
