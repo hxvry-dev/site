@@ -20,6 +20,7 @@ const badgeVariants = cva(
 				maxLevelChip: 'border-transparent rounded-none shadow-sm bg-muted text-muted-foreground',
 				canBuyChip: 'border-transparent rounded-none shadow-sm bg-accent text-accent-foreground',
 				cannotBuyChip: 'border-transparent rounded-none shadow-sm bg-destructive text-destructive-foreground',
+				secondaryChip: 'border-transparent rounded-none shadow-sm bg-secondary text-secondary-foreground',
 			},
 		},
 		defaultVariants: {

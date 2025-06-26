@@ -42,7 +42,7 @@ export const BuyMultipleV2: FC = () => {
 					{buyMultipleItems.map((item) => (
 						<label
 							key={`${id}-${item.value}`}
-							className="relative flex cursor-pointer flex-col items-center gap-3 border-2 border-input px-2 py-3 text-center has-data-[state=checked]:border-ring has-data-[state=checked]:bg-accent has-data-disabled:opacity-50"
+							className="relative flex cursor-pointer flex-col items-center gap-3 border-2 border-input px-2 py-3 text-center has-data-[state=checked]:border-ring has-data-disabled:opacity-50"
 						>
 							<RadioGroupItem
 								id={`${id}-${item.value}`}
