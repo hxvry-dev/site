@@ -131,18 +131,20 @@ const Resume: FC = () => {
 					</Card>
 				))}
 			</div>
-			<Dialog>
-				<DialogTitle hidden>My Resume</DialogTitle>
-				<DialogTrigger asChild>
-					<Button size="sm" variant="ghost">
-						View Resume
-					</Button>
-				</DialogTrigger>
-				<DialogContent className="p-5 min-w-fit">
-					<embed src={pdf} type="application/pdf" width="600px" height="800px" />
-				</DialogContent>
-			</Dialog>
-			<div className="text-stone-700">
+			<div className="justify-self-center">
+				<Dialog>
+					<DialogTitle hidden>My Resume</DialogTitle>
+					<DialogTrigger asChild>
+						<Button size="sm" variant="ghost" className="justify-items-center">
+							View Resume
+						</Button>
+					</DialogTrigger>
+					<DialogContent className="p-5 min-w-fit">
+						<embed src={pdf} type="application/pdf" width="600px" height="800px" />
+					</DialogContent>
+				</Dialog>
+			</div>
+			<div className="text-muted-foreground">
 				<small>Click the {`[HO]`} to go home when you&apos;re done!</small>
 			</div>
 		</div>
