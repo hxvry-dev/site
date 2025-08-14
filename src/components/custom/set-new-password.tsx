@@ -16,10 +16,7 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 	useEffect(() => {
 		supabase.auth.onAuthStateChange(async (event) => {
 			if (event == 'PASSWORD_RECOVERY') {
-				const { data, error } = await supabase.auth.updateUser(
-					{ password: confirmPassword },
-					{ emailRedirectTo: 'https://hxvry.com/login' },
-				);
+				const { data, error } = await supabase.auth.updateUser({ password: confirmPassword });
 				if (data) {
 					toast.success('Password Updated Successfully!');
 				}
