@@ -1,7 +1,7 @@
 import { supabase } from '@/db/supabaseClient';
 import { cn } from '@/lib/utils';
 import { GalleryVerticalEnd } from 'lucide-react';
-import { FC, FormEvent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
@@ -10,7 +10,6 @@ import { Label } from '../ui/label';
 
 const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'div'>) => {
 	const nav = useNavigate();
-	const [_, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
