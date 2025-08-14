@@ -1,6 +1,6 @@
 import { supabase } from '@/db/supabaseClient';
 import { cn } from '@/lib/utils';
-import { GalleryVerticalEnd } from 'lucide-react';
+import { NotebookPen } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -39,7 +39,7 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 							<div className="flex flex-col items-center gap-2">
 								<a href="#" className="flex flex-col items-center gap-2 font-medium">
 									<div className="flex size-8 items-center justify-center rounded-md">
-										<GalleryVerticalEnd className="size-6" />
+										<NotebookPen className="size-6" />
 									</div>
 									<span className="sr-only">Idle Game</span>
 								</a>
