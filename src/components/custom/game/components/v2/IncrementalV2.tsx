@@ -196,7 +196,8 @@ const IncrementalV2: FC = () => {
 							variant="link"
 							onClick={async () => {
 								await supabase!.auth.signOut();
-								nav('/');
+								nav('/login');
+								sessionStorage.clear();
 							}}
 						>
 							Sign Out
