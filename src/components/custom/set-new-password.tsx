@@ -18,6 +18,7 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 		const { data, error } = await supabase.auth.updateUser({ password: confirmPassword });
 		if (data) {
 			toast.success('Password Updated Successfully!');
+			nav('/login');
 		}
 		if (error) {
 			toast.error(`There was an error updating your password. ${error.message}`);
