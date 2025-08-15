@@ -16,7 +16,7 @@ const SignUpForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
-	async function handleSignup(e: FormEvent) {
+	const handleSignup = async (e: FormEvent) => {
 		e.preventDefault();
 		const { error } = await supabase!.auth.signUp({
 			email: email,
@@ -34,7 +34,7 @@ const SignUpForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 		} else {
 			toast.success('Signed Up Successfully!');
 		}
-	}
+	};
 
 	return (
 		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
