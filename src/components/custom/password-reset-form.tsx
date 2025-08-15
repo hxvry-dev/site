@@ -12,7 +12,7 @@ const PasswordResetForm: FC = ({ className, ...props }: React.ComponentProps<'di
 	const nav = useNavigate();
 	const [email, setEmail] = useState('');
 
-	async function handlePasswordReset(e: FormEvent) {
+	const handlePasswordReset = async (e: FormEvent) => {
 		e.preventDefault();
 		if (email == '' || !email) return toast.error('You need to provide your email to reset your password');
 		const { data, error } = await supabase!.auth.resetPasswordForEmail(email, {
@@ -24,7 +24,7 @@ const PasswordResetForm: FC = ({ className, ...props }: React.ComponentProps<'di
 		if (data) {
 			toast.success('Successfully sent Password Reset Email. Check your email for the link!');
 		}
-	}
+	};
 
 	return (
 		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">

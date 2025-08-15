@@ -1,7 +1,7 @@
 import { supabase } from '@/db/supabaseClient';
 import { cn } from '@/lib/utils';
 import { NotebookPen } from 'lucide-react';
-import { FC, useEffect, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
@@ -13,25 +13,22 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
-	useEffect(() => {
-		supabase.auth.onAuthStateChange(async (event) => {
-			if (event == 'PASSWORD_RECOVERY') {
-				const { data, error } = await supabase.auth.updateUser({ password: confirmPassword });
-				if (data) {
-					toast.success('Password Updated Successfully!');
-				}
-				if (error) {
-					toast.error(`There was an error updating your password. ${error.message}`);
-				}
-			}
-		});
-	}, []);
+	const handleSetNewPassword = async (e: FormEvent) => {
+		e.preventDefault();
+		const { data, error } = await supabase.auth.updateUser({ password: confirmPassword });
+		if (data) {
+			toast.success('Password Updated Successfully!');
+		}
+		if (error) {
+			toast.error(`There was an error updating your password. ${error.message}`);
+		}
+	};
 
 	return (
 		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
 			<div className="w-full max-w-sm">
 				<div className={cn('flex flex-col gap-6', className)} {...props}>
-					<form>
+					<form onSubmit={handleSetNewPassword}>
 						<div className="flex flex-col gap-6">
 							<div className="flex flex-col items-center gap-2">
 								<a href="#" className="flex flex-col items-center gap-2 font-medium">
@@ -51,6 +48,7 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 										placeholder="*******"
 										onChange={(e) => setPassword(e.target.value)}
 										autoComplete="password"
+										minLength={6}
 										required
 									/>
 									<Label htmlFor="password">Confirm New Password</Label>
@@ -60,6 +58,7 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 										placeholder="hunter2"
 										onChange={(e) => setConfirmPassword(e.target.value)}
 										autoComplete="new-password"
+										minLength={6}
 										required
 									/>
 								</div>

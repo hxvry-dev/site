@@ -15,7 +15,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	async function handleLogin(e: FormEvent) {
+	const handleLogin = async (e: FormEvent) => {
 		e.preventDefault();
 		const { data, error } = await supabase!.auth.signInWithPassword({
 			email: email,
@@ -27,7 +27,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 			toast.success('Signed In!');
 			return nav('/incremental/v2');
 		}
-	}
+	};
 
 	return (
 		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
