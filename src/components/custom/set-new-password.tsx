@@ -2,7 +2,7 @@ import { supabase } from '@/db/supabaseClient';
 import { cn } from '@/lib/utils';
 import { NotebookPen } from 'lucide-react';
 import { FC, FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -12,9 +12,12 @@ const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'d
 	const nav = useNavigate();
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const [searchParams] = useSearchParams();
 
 	const handleSetNewPassword = async (e: FormEvent) => {
 		e.preventDefault();
+		const code = searchParams.get('code')!;
+		await supabase.auth.exchangeCodeForSession(code);
 		const { data, error } = await supabase.auth.updateUser({ password: confirmPassword });
 		if (data) {
 			toast.success('Password Updated Successfully!');
