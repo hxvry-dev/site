@@ -1,4 +1,4 @@
-import { act, FC } from 'react';
+import { FC } from 'react';
 import { useAtom } from 'jotai';
 import { ChipV2 } from './ChipV2';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
