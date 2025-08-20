@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { FC } from 'react';
+import { costFormatter } from './util/util';
 
 interface OfflineProgressModalProps {
 	isOpen: boolean;
@@ -38,15 +39,14 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 				<DialogContent className="font-mono rounded-sm">
 					<DialogHeader>
 						<DialogTitle className="flex items-center gap-2 text-2xl">Welcome Back!</DialogTitle>
-						<DialogDescription>
-							You&apos;ve been away for a while! Here&apos;s what you earned while offline:
-						</DialogDescription>
+						<DialogDescription>You&apos;ve been away for a while!</DialogDescription>
+						<DialogDescription>Here&apos;s what you earned while offline:</DialogDescription>
 					</DialogHeader>
 					<div className="space-y-4">
 						<Card className="rounded-none">
 							<CardHeader>
 								<CardTitle className="text-2xl grid grid-cols-2">
-									<div>Time Away</div>
+									<div>Time Away:</div>
 									<p className="text-2xl">{formatTime(offlineTime)}</p>
 								</CardTitle>
 							</CardHeader>
@@ -58,11 +58,8 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 										<div>Earnings: </div>
 										<div>
 											<p className="text-2xl">
-												+
-												{currencyEarned.toLocaleString('en-us', {
-													maximumFractionDigits: 2,
-												})}{' '}
-												(from {currencyPerSecond}/s)
+												+{costFormatter.format(currencyEarned)} (from{' '}
+												{costFormatter.format(currencyPerSecond)}/s)
 											</p>
 										</div>
 									</CardTitle>

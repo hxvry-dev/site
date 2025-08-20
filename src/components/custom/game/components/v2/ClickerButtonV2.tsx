@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
 import { FC } from 'react';
 import { gameStateV2Atom } from './IncrementalV2';
+import { costFormatter } from './util/util';
 
 export const ClickerButtonV2: FC = () => {
 	const [gameStateV2, setGameStateV2] = useAtom(gameStateV2Atom);
@@ -24,7 +25,7 @@ export const ClickerButtonV2: FC = () => {
 	return (
 		<div className="grid grid-rows-2 gap-0 font-mono">
 			<Button onClick={handleClickV2} className="flex w-full px-2">
-				Click Me! (+{clickValueV2.toFixed(2)})
+				Click Me! (+{costFormatter.format(clickValueV2)})
 			</Button>
 		</div>
 	);
