@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { act, FC } from 'react';
 import { useAtom } from 'jotai';
 import { ChipV2 } from './ChipV2';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -10,7 +10,7 @@ import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { toast } from 'sonner';
 import { v4 } from 'uuid';
 import { Upgrades, Upgrade, UserUpgrade } from './util/v2-schema';
-import { getCostV2 } from './util/util';
+import { costFormatter, getCostV2 } from './util/util';
 
 interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
@@ -128,15 +128,14 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 											<div>
 												Level:{' '}
 												<span className="code max-w-fit px-2">
-													{currentLevel} / {upgrade.level_max}
+													{costFormatter.format(currentLevel)} /{' '}
+													{costFormatter.format(upgrade.level_max)}
 												</span>
 											</div>
 											<div>
 												Cost:{' '}
 												<span className="code max-w-fit px-2">
-													{actualCost.toLocaleString('en-us', {
-														maximumFractionDigits: 2,
-													})}
+													{costFormatter.format(actualCost)}
 												</span>
 											</div>
 											<div>
@@ -174,15 +173,17 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 																<TooltipTrigger asChild>
 																	<div className="code max-w-fit px-2">
 																		+
-																		{(
-																			upgrade.cpc_inc * actualPurchaseAmount
-																		).toFixed(2)}
+																		{costFormatter.format(
+																			upgrade.cpc_inc * actualPurchaseAmount,
+																		)}
 																	</div>
 																</TooltipTrigger>
 																<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																	<div>
 																		Current Bonus: +
-																		{gameStateV2.user.currency_per_click}{' '}
+																		{costFormatter.format(
+																			gameStateV2.user.currency_per_click,
+																		)}{' '}
 																		Currency/Click
 																	</div>
 																</TooltipContent>
@@ -195,17 +196,19 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 																<TooltipTrigger asChild>
 																	<div className="code max-w-fit px-2">
 																		+
-																		{(
-																			upgrade.cpc_mult_inc * actualPurchaseAmount
-																		).toFixed(2)}
+																		{costFormatter.format(
+																			upgrade.cpc_mult_inc * actualPurchaseAmount,
+																		)}
 																		x
 																	</div>
 																</TooltipTrigger>
 																<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
 																	<div>
 																		Current Bonus:{' '}
-																		{gameStateV2.user.currency_per_click_mult}x
-																		Currency per Click
+																		{costFormatter.format(
+																			gameStateV2.user.currency_per_click_mult,
+																		)}
+																		x Currency per Click
 																	</div>
 																</TooltipContent>
 															</Tooltip>
@@ -217,17 +220,19 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 																<TooltipTrigger asChild>
 																	<div className="code max-w-fit px-2">
 																		+
-																		{(
+																		{costFormatter.format(
 																			upgrade.currency_per_second_inc *
-																			actualPurchaseAmount
-																		).toFixed(2)}
+																				actualPurchaseAmount,
+																		)}
 																		/s
 																	</div>
 																</TooltipTrigger>
 																<TooltipContent className="font-medium bg-background border-2 text-foreground">
 																	<div>
 																		Current Bonus: +
-																		{gameStateV2.user.currency_per_second}{' '}
+																		{costFormatter.format(
+																			gameStateV2.user.currency_per_second,
+																		)}{' '}
 																		Currency/s{' '}
 																		<span className="spoiler">
 																			this is a rounded value
@@ -252,7 +257,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 							>
 								Buy Upgrade
 								{actualPurchaseAmount !== purchasePower && actualPurchaseAmount > 0 && (
-									<span className="text-xs ml-1">({actualPurchaseAmount})</span>
+									<span className="text-xs ml-1">({costFormatter.format(actualPurchaseAmount)})</span>
 								)}
 							</Button>
 						</div>

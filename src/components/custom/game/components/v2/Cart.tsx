@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { GameStateV2 } from './util/v2-schema';
 import { gameStateV2Atom } from './IncrementalV2';
+import { costFormatter } from './util/util';
 
 interface CartProps {}
 
@@ -68,12 +69,19 @@ export const Cart: FC<CartProps> = ({}) => {
 															</TableHeader>
 															<TableBody>
 																<TableRow>
-																	<TableCell>+{u.cpc_inc}</TableCell>
 																	<TableCell>
-																		+{u.cpc_mult_inc}x Currency per click
+																		+{costFormatter.format(u.cpc_inc)}
 																	</TableCell>
 																	<TableCell>
-																		+{u.currency_per_second_inc} Currency per second
+																		+{costFormatter.format(u.cpc_mult_inc)}x
+																		Currency per click
+																	</TableCell>
+																	<TableCell>
+																		+
+																		{costFormatter.format(
+																			u.currency_per_second_inc,
+																		)}{' '}
+																		Currency per second
 																	</TableCell>
 																</TableRow>
 															</TableBody>
