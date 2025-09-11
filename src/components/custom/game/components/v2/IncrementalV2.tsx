@@ -15,7 +15,6 @@ import { ClickerButtonV2 } from './ClickerButtonV2';
 import { GameStatsV2 } from './GameStatsV2';
 import { PrestigeBarV2 } from './PrestigeBarV2';
 import { PrestigeButtonV2 } from './PrestigeButtonV2';
-import { Cart } from './Cart';
 import { Version } from '../version';
 import { GameStateV2 } from './util/v2-schema';
 import { toggleAtom } from '../v1/util/atomFactory';
@@ -241,7 +240,6 @@ const IncrementalV2: FC = () => {
 						</Button>
 					</div>
 					<div className="mt-8">
-						<Cart />
 						<Version />
 					</div>
 					<OfflineProgressModal
