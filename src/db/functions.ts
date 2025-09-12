@@ -64,18 +64,29 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameStateV2: GameStateV2):
 	return current_level;
 };
 
-export const upsertUserUpgrades = (gameStateV2: GameStateV2): Promise<void> => {
-	const timeout = setInterval(() => {
-		upsertUserUpgrades(gameStateV2);
-	}, 10000);
+export const upsertUserUpgrades = async (gameStateV2: GameStateV2): Promise<void> => {
 	return new Promise(async (resolve, reject) => {
-		await supabase.from('user_upgrades').upsert(gameStateV2.userUpgrades);
-		await supabase.from('users').update(gameStateV2.user).eq('user_id', gameStateV2.user.user_id);
 		try {
+			const { error: upgradesError } = await supabase.from('user_upgrades').upsert(gameStateV2.userUpgrades);
+			if (upgradesError) {
+				console.error('Error upserting user upgrades:', upgradesError);
+				throw upgradesError;
+			}
+			// Update user data
+			const { error: userError } = await supabase
+				.from('users')
+				.update(gameStateV2.user)
+				.eq('user_id', gameStateV2.user.user_id);
+
+			if (userError) {
+				console.error('Error updating user:', userError);
+				throw userError;
+			}
+
 			resolve();
-			clearInterval(timeout);
-		} catch {
-			reject();
+		} catch (error) {
+			console.error('Auto-save failed:', error);
+			reject(error);
 		}
 	});
 };
