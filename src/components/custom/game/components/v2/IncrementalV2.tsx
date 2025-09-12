@@ -5,7 +5,7 @@ import { atom, useAtom } from 'jotai';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { fetchAndValidateGameState } from '@/db/functions';
+import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UpgradesV2 } from './UpgradesV2';
 import { supabase } from '@/db/supabaseClient';
@@ -19,6 +19,7 @@ import { Version } from '../version';
 import { GameStateV2 } from './util/v2-schema';
 import { toggleAtom } from '../v1/util/atomFactory';
 import { OfflineProgressModal } from './OfflineProgressModal';
+import { toast } from 'sonner';
 
 const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 	const result = await fetchAndValidateGameState().then((data) => {
@@ -46,6 +47,9 @@ const IncrementalV2: FC = () => {
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
+
+	const gameStateRef = useRef<GameStateV2>(gameStateV2);
+	gameStateRef.current = gameStateV2;
 
 	const [showOfflineModal, setShowOfflineModal] = useState(false);
 	const [offlineData, setOfflineData] = useState({
@@ -119,6 +123,16 @@ const IncrementalV2: FC = () => {
 		return () => {
 			authListener.subscription?.unsubscribe();
 		};
+	}, []);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			upsertUserUpgrades(gameStateRef.current).catch((error) => {
+				console.error('Auto-save failed:', error);
+				toast.error('Auto-save failed');
+			});
+		}, 10000); // Saves every 10 seconds.
+		return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ export const UserUpgradeSchema = z.object({
 	level_current: z.number().int().min(0),
 	purchased_at: z.string().optional(),
 	prestige_num: z.number(),
-	id: z.string().uuid().optional(),
+	id: z.string(),
 });
 export type UserUpgrade = z.infer<typeof UserUpgradeSchema>;
 export type UserUpgrades = z.infer<typeof GameStateV2.shape.userUpgrades>;
@@ -24,6 +24,7 @@ export const GameUpgradeSchema = z.object({
 	cpc_inc: z.number().nonnegative(),
 	cpc_mult_inc: z.number().nonnegative(),
 	currency_per_second_inc: z.number().nonnegative(),
+	min_prestige_required: z.number().nonnegative(),
 });
 export type Upgrade = z.infer<typeof GameUpgradeSchema>;
 export type Upgrades = z.infer<typeof GameStateV2.shape.upgrades>;

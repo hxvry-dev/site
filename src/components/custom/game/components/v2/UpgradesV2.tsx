@@ -8,7 +8,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { calculateLocalLevel } from '@/db/functions';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { toast } from 'sonner';
-import { v4 } from 'uuid';
 import { Upgrades, Upgrade, UserUpgrade } from './util/v2-schema';
 import { costFormatter, getCostV2 } from './util/util';
 
@@ -53,13 +52,43 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 		return resources >= cost;
 	};
 
+	const findOrCreateUserUpgrade = (
+		upgrade: Upgrade,
+		currentLevel: number,
+		actualPurchaseAmount: number,
+	): UserUpgrade => {
+		const existingUpgrade = gameStateV2.userUpgrades.find((uu) => {
+			uu.upgrade_id === upgrade.upgrade_id &&
+				uu.prestige_num === gameStateV2.user.num_times_prestiged &&
+				uu.user_id === userID;
+		});
+
+		if (existingUpgrade) {
+			return {
+				...existingUpgrade,
+				level_current: currentLevel + actualPurchaseAmount,
+				purchased_at: new Date().toISOString(),
+			};
+		} else {
+			const upgradeKey = `${userID}-${upgrade.upgrade_name.replace(' ', '-')}`;
+			return {
+				id: upgradeKey,
+				user_id: userID!,
+				upgrade_id: upgrade.upgrade_id,
+				level_current: currentLevel + actualPurchaseAmount,
+				prestige_num: gameStateV2.user.num_times_prestiged,
+				purchased_at: new Date().toISOString(),
+			};
+		}
+	};
+
 	const handleUpgrade = (upgrade: Upgrade) => {
 		const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
 		const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
 
 		// Double-check that we can make this purchase
 		if (actualPurchaseAmount <= 0 || currentLevel >= upgrade.level_max) {
-			toast.error('Cannot purchase: upgrade is already at maximum level!');
+			toast.error('Cannot purchase: Upgrade is already at maximum level!');
 			return;
 		}
 
@@ -70,19 +99,20 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 			return;
 		}
 
-		const result: UserUpgrade = {
-			id: v4(),
-			user_id: sessionStorage.getItem('user_id')!,
-			upgrade_id: upgrade.upgrade_id,
-			level_current: currentLevel + actualPurchaseAmount,
-			prestige_num: gameStateV2.user.num_times_prestiged,
-			purchased_at: new Date().toISOString(),
-		};
+		const result: UserUpgrade = findOrCreateUserUpgrade(upgrade, currentLevel, actualPurchaseAmount);
 
 		if (result.user_id === userID) {
 			console.log(result);
 			toast.success(`Purchased ${actualPurchaseAmount} level(s) of ${upgrade.upgrade_name}!`);
 			setGameState((state) => {
+				const filteredUpgrades = state.userUpgrades.filter(
+					(uu) =>
+						!(
+							uu.upgrade_id === upgrade.upgrade_id &&
+							uu.prestige_num === gameStateV2.user.num_times_prestiged &&
+							uu.user_id === userID
+						),
+				);
 				return {
 					...state,
 					user: {
@@ -102,7 +132,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 								: gameStateV2.user.prestige_points_balance,
 						last_seen: new Date().toISOString(),
 					},
-					userUpgrades: [...state.userUpgrades, result],
+					userUpgrades: [...filteredUpgrades, result],
 				};
 			});
 		} else {
