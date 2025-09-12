@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { act, FC } from 'react';
 import { useAtom } from 'jotai';
 import { ChipV2 } from './ChipV2';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -10,6 +10,7 @@ import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { toast } from 'sonner';
 import { Upgrades, Upgrade, UserUpgrade } from './util/v2-schema';
 import { costFormatter, getCostV2 } from './util/util';
+import { getCost } from '../v1/util/util';
 
 interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
@@ -142,6 +143,29 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 
 	return (
 		<div>
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead>Upgrade Name</TableHead>
+						<TableHead>Click Power Increase</TableHead>
+						<TableHead>Click Power Multiplier Increase</TableHead>
+						<TableHead>Currency Per Second Increase</TableHead>
+					</TableRow>
+				</TableHeader>
+				{data.map((upgrade) => {
+					const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
+					const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
+					const actualCost =
+						actualPurchaseAmount > 0 ? getCostV2(upgrade, gameStateV2, actualPurchaseAmount) : 0;
+					return <></>;
+				})}
+			</Table>
+		</div>
+	);
+};
+
+/**
+ * <div>
 			{data.map((upgrade) => {
 				const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
 				const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
@@ -295,5 +319,4 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 				);
 			})}
 		</div>
-	);
-};
+ */
