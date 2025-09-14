@@ -58,7 +58,7 @@ export const UpgradeDialog: FC<UpgradeDialogPropsV2> = ({
 						<TableCell className="font-bold font-mono">Level After Purchase</TableCell>
 						<TableCell>
 							<span className="code max-w-fit px-2">
-								{currentLevel + purchasePower} / {upgrade.level_max}
+								{currentLevel + actualPurchaseAmount} / {upgrade.level_max}
 							</span>
 						</TableCell>
 					</TableRow>
