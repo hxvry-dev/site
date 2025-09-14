@@ -1,25 +1,25 @@
 import { FC } from 'react';
 import { useAtom } from 'jotai';
 import { ChipV2 } from './ChipV2';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { calculateLocalLevel } from '@/db/functions';
 import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
 import { toast } from 'sonner';
 import { Upgrades, Upgrade, UserUpgrade } from './util/v2-schema';
 import { costFormatter, getCostV2 } from './util/util';
+import { UpgradeDialog } from './dialogs/UpgradeDialog';
 
 interface UpgradeItemPropsV2 {
 	upgradeType: 'base' | 'prestige';
+	prestigeFilter: number;
 }
 
 interface Cost {
 	[key: string]: number;
 }
 
-export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
+export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter }) => {
 	const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
 	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
 	const [purchasePower] = useAtom(purchasePowerAtom);
@@ -142,158 +142,56 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType }) => {
 
 	return (
 		<div>
-			{data.map((upgrade) => {
-				const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
-				const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
-				const actualCost = actualPurchaseAmount > 0 ? getCostV2(upgrade, gameStateV2, actualPurchaseAmount) : 0;
-
-				return (
-					<div className="flex grid-flow-col gap-5 font-mono" key={upgrade.upgrade_id}>
-						<div>
-							<Accordion type="single" collapsible>
-								<AccordionItem value={upgrade.upgrade_name}>
-									<AccordionTrigger className="hover:bg-muted/50 px-5">
-										<div className="grid grid-cols-4 grid-rows-1 gap-2">
-											<div className="w-[200px]">{upgrade.upgrade_name}</div>
-											<div>
-												Level:{' '}
-												<span className="code max-w-fit px-2">
-													{costFormatter.format(currentLevel)} /{' '}
-													{costFormatter.format(upgrade.level_max)}
-												</span>
-											</div>
-											<div>
-												Cost:{' '}
-												<span className="code max-w-fit px-2">
-													{costFormatter.format(actualCost)}
-												</span>
-											</div>
-											<div>
-												<ChipV2
-													upgrade={upgrade}
-													resources={
-														upgrade.upgrade_type === 'base'
-															? gameStateV2.user.currency_balance
-															: gameStateV2.user.prestige_points_balance
-													}
-												/>
-											</div>
-										</div>
-									</AccordionTrigger>
-									<AccordionContent className="pt-5 px-2 backdrop-brightness-85">
-										<div>
-											<legend className="font-mono">Upgrade Description</legend>
-											<div className="max-w-[550px] border-2 p-2 mt-2 font-mono italic text-xs overflow-y-scroll no-scrollbar">
-												{upgrade.upgrade_desc}
-											</div>
-										</div>
-										<Table>
-											<TableHeader>
-												<TableRow>
-													<TableHead>Click Power Increase</TableHead>
-													<TableHead>Click Power Multiplier Increase</TableHead>
-													<TableHead>Currency Per Second Increase</TableHead>
-												</TableRow>
-											</TableHeader>
-											<TableBody>
-												<TableRow>
-													<TableCell>
-														<TooltipProvider>
-															<Tooltip>
-																<TooltipTrigger asChild>
-																	<div className="code max-w-fit px-2">
-																		+
-																		{costFormatter.format(
-																			upgrade.cpc_inc * actualPurchaseAmount,
-																		)}
-																	</div>
-																</TooltipTrigger>
-																<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
-																	<div>
-																		Current Bonus: +
-																		{costFormatter.format(
-																			gameStateV2.user.currency_per_click,
-																		)}{' '}
-																		Currency/Click
-																	</div>
-																</TooltipContent>
-															</Tooltip>
-														</TooltipProvider>
-													</TableCell>
-													<TableCell>
-														<TooltipProvider>
-															<Tooltip>
-																<TooltipTrigger asChild>
-																	<div className="code max-w-fit px-2">
-																		+
-																		{costFormatter.format(
-																			upgrade.cpc_mult_inc * actualPurchaseAmount,
-																		)}
-																		x
-																	</div>
-																</TooltipTrigger>
-																<TooltipContent className="bg-background border-2 text-foreground max-w-[240px]">
-																	<div>
-																		Current Bonus:{' '}
-																		{costFormatter.format(
-																			gameStateV2.user.currency_per_click_mult,
-																		)}
-																		x Currency per Click
-																	</div>
-																</TooltipContent>
-															</Tooltip>
-														</TooltipProvider>
-													</TableCell>
-													<TableCell>
-														<TooltipProvider>
-															<Tooltip>
-																<TooltipTrigger asChild>
-																	<div className="code max-w-fit px-2">
-																		+
-																		{costFormatter.format(
-																			upgrade.currency_per_second_inc *
-																				actualPurchaseAmount,
-																		)}
-																		/s
-																	</div>
-																</TooltipTrigger>
-																<TooltipContent className="font-medium bg-background border-2 text-foreground">
-																	<div>
-																		Current Bonus: +
-																		{costFormatter.format(
-																			gameStateV2.user.currency_per_second,
-																		)}{' '}
-																		Currency/s{' '}
-																		<span className="spoiler">
-																			this is a rounded value
-																		</span>
-																	</div>
-																</TooltipContent>
-															</Tooltip>
-														</TooltipProvider>
-													</TableCell>
-												</TableRow>
-											</TableBody>
-										</Table>
-									</AccordionContent>
-								</AccordionItem>
-							</Accordion>
-						</div>
-						<div className="grid grid-cols-2 gap-5 max-w-fit content-center">
-							<Button
-								className="px-5"
-								disabled={!canPurchaseUpgrade(upgrade)}
-								onClick={() => handleUpgrade(upgrade)}
-							>
-								Buy Upgrade
-								{actualPurchaseAmount !== purchasePower && actualPurchaseAmount > 0 && (
-									<span className="text-xs ml-1">({costFormatter.format(actualPurchaseAmount)})</span>
-								)}
-							</Button>
-						</div>
-					</div>
-				);
-			})}
+			<Table className="min-w-lg">
+				<TableBody>
+					{data.map((upgrade) => {
+						const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
+						const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
+						const actualCost =
+							actualPurchaseAmount > 0 ? getCostV2(upgrade, gameStateV2, actualPurchaseAmount) : 0;
+						return upgrade.min_prestige_required <= prestigeFilter ? (
+							<TableRow key={upgrade.upgrade_id}>
+								<TableCell>{upgrade.upgrade_name}</TableCell>
+								<TableCell>
+									<ChipV2
+										upgrade={upgrade}
+										resources={
+											upgrade.upgrade_type === 'base'
+												? gameStateV2.user.currency_balance
+												: gameStateV2.user.prestige_points_balance
+										}
+									/>
+								</TableCell>
+								<TableCell>
+									<UpgradeDialog
+										upgrade={upgrade}
+										currentLevel={currentLevel}
+										actualCost={actualCost}
+										actualPurchaseAmount={actualPurchaseAmount}
+										purchasePower={purchasePower}
+									/>
+								</TableCell>
+								<TableCell>
+									<Button
+										className="px-5"
+										disabled={!canPurchaseUpgrade(upgrade)}
+										onClick={() => handleUpgrade(upgrade)}
+									>
+										Buy Upgrade
+										{actualPurchaseAmount !== purchasePower && actualPurchaseAmount > 0 && (
+											<span className="text-xs ml-1">
+												({costFormatter.format(actualPurchaseAmount)})
+											</span>
+										)}
+									</Button>
+								</TableCell>
+							</TableRow>
+						) : (
+							<></>
+						);
+					})}
+				</TableBody>
+			</Table>
 		</div>
 	);
 };
