@@ -20,6 +20,8 @@ import { GameStateV2 } from './util/v2-schema';
 import { toggleAtom } from '../v1/util/atomFactory';
 import { OfflineProgressModal } from './OfflineProgressModal';
 import { toast } from 'sonner';
+import { TotalBonusDialog } from './dialogs/TotalBonusDialog';
+import { PrestigeSelect } from './PrestigeSelect';
 
 const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 	const result = await fetchAndValidateGameState().then((data) => {
@@ -39,10 +41,12 @@ const createGameStateV2 = (initialState: GameStateV2) => {
 
 export const purchasePowerAtom = atom<number>(1);
 export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
+export const prestigeFilterAtom = atom<number>(0);
 
 const IncrementalV2: FC = () => {
 	const nav = useNavigate();
 	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
+	const [prestigeFilter, setPrestigeFilter] = useAtom(prestigeFilterAtom);
 	const [session, setSession] = useState<Session | null>(null);
 	const [toggle, setToggle] = useAtom(toggleAtom);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -225,6 +229,9 @@ const IncrementalV2: FC = () => {
 					</div>
 					<GameStatsV2 />
 					<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={!toggle}>
+						<div className="mb-4 font-mono justify-self-center">
+							<TotalBonusDialog state={gameStateRef.current} />
+						</div>
 						<legend className="mb-4 font-mono justify-self-center">Upgrades</legend>
 						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
 							<TabsList className="self-center bg-background font-mono">
@@ -235,13 +242,27 @@ const IncrementalV2: FC = () => {
 									Prestige
 								</TabsTrigger>
 							</TabsList>
-							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-2 gap-5">
+							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-3 gap-5">
 								<ClickerButtonV2 />
 								<PrestigeButtonV2 initialState={gameStateV2} />
 								<div className="col-span-2 grid-row-2">{<PrestigeBarV2 />}</div>
+								<div className="justify-self-center col-span-2 grid-row-3">
+									<legend>Filter Upgrades by Prestige</legend>
+									{
+										<PrestigeSelect
+											currentPrestige={gameStateV2.user.num_times_prestiged}
+											prestigeFilter={prestigeFilter}
+											setPrestigeFilter={setPrestigeFilter}
+										/>
+									}
+								</div>
 							</div>
-							<TabsContent value="base">{<UpgradesV2 upgradeType="base" />}</TabsContent>
-							<TabsContent value="prestige">{<UpgradesV2 upgradeType="prestige" />}</TabsContent>
+							<TabsContent value="base">
+								{<UpgradesV2 upgradeType="base" prestigeFilter={prestigeFilter} />}
+							</TabsContent>
+							<TabsContent value="prestige">
+								{<UpgradesV2 upgradeType="prestige" prestigeFilter={prestigeFilter} />}
+							</TabsContent>
 						</Tabs>
 					</div>
 					<div className="justify-self-center font-mono">
