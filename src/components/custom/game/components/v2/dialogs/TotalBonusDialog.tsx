@@ -25,7 +25,7 @@ export const TotalBonusDialog: FC<TotalBonusDialogPropsV2> = ({ state }) => {
 	};
 	return (
 		<Dialog>
-			<DialogTrigger>Game Details</DialogTrigger>
+			<DialogTrigger className="hover:underline cursor-pointer font-bold">Game Details</DialogTrigger>
 			<DialogContent className="min-w-fit">
 				<DialogHeader>
 					<DialogTitle>Idle Game Stats</DialogTitle>
