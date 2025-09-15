@@ -58,9 +58,11 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 		actualPurchaseAmount: number,
 	): UserUpgrade => {
 		const existingUpgrade = gameStateV2.userUpgrades.find((uu) => {
-			uu.upgrade_id === upgrade.upgrade_id &&
+			return (
+				uu.upgrade_id === upgrade.upgrade_id &&
 				uu.prestige_num === gameStateV2.user.num_times_prestiged &&
-				uu.user_id === userID;
+				uu.user_id === userID
+			);
 		});
 
 		if (existingUpgrade) {
@@ -102,7 +104,6 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 		const result: UserUpgrade = findOrCreateUserUpgrade(upgrade, currentLevel, actualPurchaseAmount);
 
 		if (result.user_id === userID) {
-			console.log(result);
 			toast.success(`Purchased ${actualPurchaseAmount} level(s) of ${upgrade.upgrade_name}!`);
 			setGameState((state) => {
 				const filteredUpgrades = state.userUpgrades.filter(
