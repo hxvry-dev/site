@@ -23,7 +23,7 @@ export const ClickerButtonV2: FC = () => {
 	};
 
 	return (
-		<div className="grid grid-rows-2 gap-0 font-mono">
+		<div className="grid gap-0 font-mono">
 			<Button onClick={handleClickV2} className="flex w-full px-2">
 				Click Me! (+{costFormatter.format(clickValueV2)})
 			</Button>

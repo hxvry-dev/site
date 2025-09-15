@@ -223,16 +223,15 @@ const IncrementalV2: FC = () => {
 							<NavLink to="/incremental">Load V1</NavLink>
 						</Button>
 					</div>
-					<div className="justify-self-center font-mono">
-						<p className="justify-self-center mb-5">Buy Multiple Upgrades!</p>
-						<BuyMultipleV2 />
-					</div>
 					<GameStatsV2 />
+					<div className="mb-4 mt-4 font-mono justify-self-center">
+						<TotalBonusDialog state={gameStateRef.current} />
+					</div>
 					<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={!toggle}>
-						<div className="mb-4 font-mono justify-self-center">
-							<TotalBonusDialog state={gameStateRef.current} />
+						<div className="justify-self-center max-w-[375px] font-mono mb-4">
+							<p className="justify-self-center mb-2">Buy Multiple Upgrades!</p>
+							<BuyMultipleV2 />
 						</div>
-						<legend className="mb-4 font-mono justify-self-center">Upgrades</legend>
 						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
 							<TabsList className="self-center bg-background font-mono">
 								<TabsTrigger value="base" className="rounded-none">
@@ -242,20 +241,18 @@ const IncrementalV2: FC = () => {
 									Prestige
 								</TabsTrigger>
 							</TabsList>
-							<div className="max-w-[350px] self-center my-5 grid grid-cols-2 grid-rows-3 gap-5">
+							<div className="max-w-md self-center grid gap-5">
 								<ClickerButtonV2 />
 								<PrestigeButtonV2 initialState={gameStateV2} />
-								<div className="col-span-2 grid-row-2">{<PrestigeBarV2 />}</div>
-								<div className="justify-self-center col-span-2 grid-row-3">
-									<legend>Filter Upgrades by Prestige</legend>
-									{
-										<PrestigeSelect
-											currentPrestige={gameStateV2.user.num_times_prestiged}
-											prestigeFilter={prestigeFilter}
-											setPrestigeFilter={setPrestigeFilter}
-										/>
-									}
-								</div>
+								<div className="col-span-2">{<PrestigeBarV2 />}</div>
+							</div>
+							<div className="justify-items-center">
+								<p>Filter Upgrades by Prestige</p>
+								<PrestigeSelect
+									currentPrestige={gameStateV2.user.num_times_prestiged}
+									prestigeFilter={prestigeFilter}
+									setPrestigeFilter={setPrestigeFilter}
+								/>
 							</div>
 							<TabsContent value="base">
 								{<UpgradesV2 upgradeType="base" prestigeFilter={prestigeFilter} />}
@@ -264,15 +261,6 @@ const IncrementalV2: FC = () => {
 								{<UpgradesV2 upgradeType="prestige" prestigeFilter={prestigeFilter} />}
 							</TabsContent>
 						</Tabs>
-					</div>
-					<div className="justify-self-center font-mono">
-						<Button
-							onClick={() => handleToggle()}
-							variant={toggle ? 'destructive' : 'default'}
-							className="mt-5"
-						>
-							Toggle Upgrades{` ${!toggle ? 'ON' : 'OFF'}`}
-						</Button>
 					</div>
 					<div className="mt-8">
 						<Version />

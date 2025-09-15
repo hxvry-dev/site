@@ -56,7 +56,7 @@ export const BuyMultipleV2: FC = () => {
 					))}
 				</RadioGroup>
 			</fieldset>
-			<div className="font-sm justify-self-center">
+			<div className="font-sm justify-self-center mt-2">
 				Purchase Power:{' '}
 				<i>
 					<u>{purchasePower}</u>
