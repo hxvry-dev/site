@@ -125,10 +125,15 @@ const IncrementalV2: FC = () => {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			upsertUserUpgrades(gameStateRef.current).catch((error) => {
-				console.error('Auto-save failed:', error);
-				toast.error('Auto-save failed');
-			});
+			upsertUserUpgrades(gameStateRef.current)
+				.then((msg) => {
+					console.info('Auto-save success:', msg);
+					toast.success('Auto-saved');
+				})
+				.catch((error) => {
+					console.error('Auto-save failed:', error);
+					toast.error('Auto-save failed');
+				});
 		}, 10000); // Saves every 10 seconds.
 		return () => clearInterval(interval);
 	}, []);

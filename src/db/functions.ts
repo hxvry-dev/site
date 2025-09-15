@@ -67,7 +67,9 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameStateV2: GameStateV2):
 export const upsertUserUpgrades = async (gameStateV2: GameStateV2): Promise<void> => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const { error: upgradesError } = await supabase.from('user_upgrades').upsert(gameStateV2.userUpgrades);
+			const { error: upgradesError } = await supabase
+				.from('user_upgrades')
+				.upsert(gameStateV2.userUpgrades, { onConflict: 'id' });
 			if (upgradesError) {
 				console.error('Error upserting user upgrades:', upgradesError);
 				throw upgradesError;
