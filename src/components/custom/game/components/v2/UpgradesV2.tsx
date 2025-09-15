@@ -144,13 +144,13 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 		<div>
 			<Table className="min-w-lg">
 				<TableBody>
-					{data.map((upgrade) => {
+					{data.map((upgrade, key) => {
 						const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
 						const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
 						const actualCost =
 							actualPurchaseAmount > 0 ? getCostV2(upgrade, gameStateV2, actualPurchaseAmount) : 0;
 						return upgrade.min_prestige_required <= prestigeFilter ? (
-							<TableRow key={upgrade.upgrade_id}>
+							<TableRow key={key}>
 								<TableCell>{upgrade.upgrade_name}</TableCell>
 								<TableCell>
 									<ChipV2
@@ -186,9 +186,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 									</Button>
 								</TableCell>
 							</TableRow>
-						) : (
-							<></>
-						);
+						) : null;
 					})}
 				</TableBody>
 			</Table>
