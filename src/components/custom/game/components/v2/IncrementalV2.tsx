@@ -17,7 +17,6 @@ import { PrestigeBarV2 } from './PrestigeBarV2';
 import { PrestigeButtonV2 } from './PrestigeButtonV2';
 import { Version } from '../version';
 import { GameStateV2 } from './util/v2-schema';
-import { toggleAtom } from '../v1/util/atomFactory';
 import { OfflineProgressModal } from './OfflineProgressModal';
 import { toast } from 'sonner';
 import { TotalBonusDialog } from './dialogs/TotalBonusDialog';
@@ -48,7 +47,6 @@ const IncrementalV2: FC = () => {
 	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
 	const [prestigeFilter, setPrestigeFilter] = useAtom(prestigeFilterAtom);
 	const [session, setSession] = useState<Session | null>(null);
-	const [toggle, setToggle] = useAtom(toggleAtom);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
 
@@ -61,10 +59,6 @@ const IncrementalV2: FC = () => {
 		currencyEarned: 0,
 		currencyPerSecond: 0,
 	});
-
-	const handleToggle = () => {
-		setToggle((prev) => !prev);
-	};
 
 	const checkOfflineProgress = () => {
 		let _lastSeen: string;
@@ -227,7 +221,7 @@ const IncrementalV2: FC = () => {
 					<div className="mb-4 mt-4 font-mono justify-self-center">
 						<TotalBonusDialog state={gameStateRef.current} />
 					</div>
-					<div className="mt-5 px-5 max-w-fit justify-self-center" hidden={!toggle}>
+					<div className="mt-5 px-5 max-w-fit justify-self-center">
 						<div className="justify-self-center max-w-[375px] font-mono mb-4">
 							<p className="justify-self-center mb-2">Buy Multiple Upgrades!</p>
 							<BuyMultipleV2 />

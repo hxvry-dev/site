@@ -40,38 +40,39 @@ export const UpgradeDialog: FC<UpgradeDialogPropsV2> = ({
 					Buff Summary for the purchase of {purchasePower}x {upgrade.upgrade_name}
 				</h2>
 				<Table>
-					<TableRow>
-						<TableCell className="font-bold font-mono">Cost</TableCell>
-						<TableCell>
-							<span className="code max-w-fit px-2">{costFormatter.format(actualCost)}</span>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell className="font-bold font-mono">Current Level</TableCell>
-						<TableCell>
-							<span className="code max-w-fit px-2">
-								{currentLevel} / {upgrade.level_max}
-							</span>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell className="font-bold font-mono">Level After Purchase</TableCell>
-						<TableCell>
-							<span className="code max-w-fit px-2">
-								{currentLevel + actualPurchaseAmount} / {upgrade.level_max}
-							</span>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell className="font-bold font-mono">Minimum Prestige Required</TableCell>
-						<TableCell>
-							<span className="code max-w-fit px-2">{upgrade.min_prestige_required}</span>
-						</TableCell>
-					</TableRow>
+					<TableBody>
+						<TableRow>
+							<TableCell className="font-bold font-mono">Cost</TableCell>
+							<TableCell>
+								<span className="code max-w-fit px-2">{costFormatter.format(actualCost)}</span>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell className="font-bold font-mono">Current Level</TableCell>
+							<TableCell>
+								<span className="code max-w-fit px-2">
+									{currentLevel} / {upgrade.level_max}
+								</span>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell className="font-bold font-mono">Level After Purchase</TableCell>
+							<TableCell>
+								<span className="code max-w-fit px-2">
+									{currentLevel + actualPurchaseAmount} / {upgrade.level_max}
+								</span>
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell className="font-bold font-mono">Minimum Prestige Required</TableCell>
+							<TableCell>
+								<span className="code max-w-fit px-2">{upgrade.min_prestige_required}</span>
+							</TableCell>
+						</TableRow>
+					</TableBody>
 				</Table>
+				<h1 className="font-bold">Buffs</h1>
 				<Table>
-					<h1 className="font-bold">Buffs</h1>
-					<hr />
 					<TableBody>
 						<TableRow>
 							<TableCell className="font-bold font-mono">Click Power Increase</TableCell>
