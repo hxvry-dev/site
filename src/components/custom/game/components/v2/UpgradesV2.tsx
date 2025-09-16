@@ -145,50 +145,56 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 		<div>
 			<Table className="min-w-lg">
 				<TableBody>
-					{data.map((upgrade, key) => {
-						const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
-						const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
-						const actualCost =
-							actualPurchaseAmount > 0 ? getCostV2(upgrade, gameStateV2, actualPurchaseAmount) : 0;
-						return upgrade.min_prestige_required <= prestigeFilter ? (
-							<TableRow key={key}>
-								<TableCell>{upgrade.upgrade_name}</TableCell>
-								<TableCell>
-									<ChipV2
-										upgrade={upgrade}
-										resources={
-											upgrade.upgrade_type === 'base'
-												? gameStateV2.user.currency_balance
-												: gameStateV2.user.prestige_points_balance
-										}
-									/>
-								</TableCell>
-								<TableCell>
-									<UpgradeDialog
-										upgrade={upgrade}
-										currentLevel={currentLevel}
-										actualCost={actualCost}
-										actualPurchaseAmount={actualPurchaseAmount}
-										purchasePower={purchasePower}
-									/>
-								</TableCell>
-								<TableCell>
-									<Button
-										className="px-5"
-										disabled={!canPurchaseUpgrade(upgrade)}
-										onClick={() => handleUpgrade(upgrade)}
-									>
-										Buy Upgrade
-										{actualPurchaseAmount !== purchasePower && actualPurchaseAmount > 0 && (
-											<span className="text-xs ml-1">
-												({costFormatter.format(actualPurchaseAmount)})
-											</span>
-										)}
-									</Button>
-								</TableCell>
-							</TableRow>
-						) : null;
-					})}
+					{data
+						.sort((a, b) => {
+							if (a.upgrade_name > b.upgrade_name) return 1;
+							if (a.upgrade_name < b.upgrade_name) return -1;
+							return 0;
+						})
+						.map((upgrade, key) => {
+							const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
+							const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
+							const actualCost =
+								actualPurchaseAmount > 0 ? getCostV2(upgrade, gameStateV2, actualPurchaseAmount) : 0;
+							return upgrade.min_prestige_required <= prestigeFilter ? (
+								<TableRow key={key}>
+									<TableCell>{upgrade.upgrade_name}</TableCell>
+									<TableCell>
+										<ChipV2
+											upgrade={upgrade}
+											resources={
+												upgrade.upgrade_type === 'base'
+													? gameStateV2.user.currency_balance
+													: gameStateV2.user.prestige_points_balance
+											}
+										/>
+									</TableCell>
+									<TableCell>
+										<UpgradeDialog
+											upgrade={upgrade}
+											currentLevel={currentLevel}
+											actualCost={actualCost}
+											actualPurchaseAmount={actualPurchaseAmount}
+											purchasePower={purchasePower}
+										/>
+									</TableCell>
+									<TableCell>
+										<Button
+											className="px-5"
+											disabled={!canPurchaseUpgrade(upgrade)}
+											onClick={() => handleUpgrade(upgrade)}
+										>
+											Buy Upgrade
+											{actualPurchaseAmount !== purchasePower && actualPurchaseAmount > 0 && (
+												<span className="text-xs ml-1">
+													({costFormatter.format(actualPurchaseAmount)})
+												</span>
+											)}
+										</Button>
+									</TableCell>
+								</TableRow>
+							) : null;
+						})}
 				</TableBody>
 			</Table>
 		</div>
