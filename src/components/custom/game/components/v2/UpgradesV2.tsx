@@ -106,14 +106,11 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 		if (result.user_id === userID) {
 			toast.success(`Purchased ${actualPurchaseAmount} level(s) of ${upgrade.upgrade_name}!`);
 			setGameState((state) => {
-				const filteredUpgrades = state.userUpgrades.filter(
-					(uu) =>
-						!(
-							uu.upgrade_id === upgrade.upgrade_id &&
-							uu.prestige_num === gameStateV2.user.num_times_prestiged &&
-							uu.user_id === userID
-						),
-				);
+				const filteredUpgrades = state.userUpgrades.filter((uu) => uu.id !== result.id);
+				const upgradeMap = new Map<string, UserUpgrade>(filteredUpgrades.map((uu) => [uu.id, uu]));
+				upgradeMap.set(result.id, result);
+				const deduplicatedUpgrades = Array.from(upgradeMap.values());
+
 				return {
 					...state,
 					user: {
@@ -133,7 +130,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 								: gameStateV2.user.prestige_points_balance,
 						last_seen: new Date().toISOString(),
 					},
-					userUpgrades: [...filteredUpgrades, result],
+					userUpgrades: deduplicatedUpgrades,
 				};
 			});
 		} else {
