@@ -11,7 +11,7 @@ import { costFormatter, getCostV2 } from './util/util';
 import { UpgradeDialog } from './dialogs/UpgradeDialog';
 
 interface UpgradeItemPropsV2 {
-	upgradeType: 'base' | 'prestige';
+	upgradeType: 'base' | 'prestige' | 'mult';
 	prestigeFilter: number;
 }
 
@@ -128,6 +128,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 							upgrade.upgrade_type === 'prestige'
 								? gameStateV2.user.prestige_points_balance - actualCost
 								: gameStateV2.user.prestige_points_balance,
+						offline_progress_mult:
+							state.user.offline_progress_mult + upgrade.offline_progress_mult_inc * actualPurchaseAmount,
 						last_seen: new Date().toISOString(),
 					},
 					userUpgrades: deduplicatedUpgrades,

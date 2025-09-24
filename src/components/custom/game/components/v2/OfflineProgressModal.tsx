@@ -8,6 +8,7 @@ interface OfflineProgressModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	offlineTime: number; // in seconds
+	offlineProgressMult: number;
 	currencyEarned: number;
 	currencyPerSecond: number;
 }
@@ -16,6 +17,7 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 	isOpen,
 	onClose,
 	offlineTime,
+	offlineProgressMult,
 	currencyEarned,
 	currencyPerSecond,
 }) => {
@@ -54,12 +56,13 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 						<Card className="rounded-none">
 							<div>
 								<CardHeader>
-									<CardTitle className="text-2xl grid grid-cols-2">
-										<div>Earnings: </div>
-										<div>
-											<p className="text-2xl">
-												+{costFormatter.format(currencyEarned)} (from{' '}
-												{costFormatter.format(currencyPerSecond)}/s)
+									<CardTitle className="text-2xl">
+										<div className="grid col-span-2">Earnings: </div>
+										<div className="grid grid-cols-2">
+											<p>+{costFormatter.format(currencyEarned)} </p>
+											<p>
+												(from {costFormatter.format(currencyPerSecond)}/s x{' '}
+												{costFormatter.format(offlineProgressMult)})
 											</p>
 										</div>
 									</CardTitle>
