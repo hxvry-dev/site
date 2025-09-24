@@ -24,10 +24,6 @@ export const GameStatsV2: FC = () => {
 				<div className="text-sm border-b-2 font-bold content-center w-fit">
 					{costFormatter.format(gameStateV2.user.currency_per_second)}
 				</div>
-				<div className="text-sm border-b-2 italic w-fit">Offline Progress Mult: </div>
-				<div className="text-sm border-b-2 font-bold content-center w-fit">
-					{costFormatter.format(gameStateV2.user.offline_progress_mult)}
-				</div>
 			</div>
 			<div className="grid grid-cols-[max-content_max-content] gap-x-4 gap-y-2 mt-4">
 				<div className="text-sm border-b-2 italic w-fit">Prestige Points: </div>
@@ -41,6 +37,10 @@ export const GameStatsV2: FC = () => {
 				<div className="text-sm border-b-2 italic w-fit">Cost to Prestige: </div>
 				<div className="text-sm border-b-2 font-bold content-center w-fit">
 					{costFormatter.format(gameStateV2.user.prestige_cost)}
+				</div>
+				<div className="text-sm border-b-2 italic w-fit">Offline Progress Multiplier: </div>
+				<div className="text-sm border-b-2 font-bold content-center w-fit">
+					{costFormatter.format(gameStateV2.user.offline_progress_mult)}
 				</div>
 			</div>
 		</div>
