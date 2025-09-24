@@ -74,7 +74,8 @@ const IncrementalV2: FC = () => {
 		if (timeAway < 30) return;
 		const maxOfflineHours: number = 24;
 		const cappedTimeAway: number = Math.min(timeAway, maxOfflineHours * 3600);
-		const currencyEarned: number = gameStateV2.user.currency_per_second * cappedTimeAway;
+		const currencyEarned: number =
+			gameStateV2.user.currency_per_second * cappedTimeAway * gameStateV2.user.offline_progress_mult;
 
 		setGameState((state) => ({
 			...state,
@@ -239,6 +240,9 @@ const IncrementalV2: FC = () => {
 								<TabsTrigger value="prestige" className="rounded-none">
 									Prestige
 								</TabsTrigger>
+								<TabsTrigger value="mult" className="rounded-none">
+									Multipliers
+								</TabsTrigger>
 							</TabsList>
 							<div className="max-w-md self-center grid gap-5">
 								<ClickerButtonV2 />
@@ -259,6 +263,9 @@ const IncrementalV2: FC = () => {
 							<TabsContent value="prestige">
 								{<UpgradesV2 upgradeType="prestige" prestigeFilter={prestigeFilter} />}
 							</TabsContent>
+							<TabsContent value="mult">
+								{<UpgradesV2 upgradeType="mult" prestigeFilter={prestigeFilter} />}
+							</TabsContent>
 						</Tabs>
 					</div>
 					<div className="mt-8">
@@ -268,6 +275,7 @@ const IncrementalV2: FC = () => {
 						isOpen={showOfflineModal}
 						onClose={closeOfflineModal}
 						offlineTime={offlineData.timeAway}
+						offlineProgressMult={gameStateV2.user.offline_progress_mult}
 						currencyEarned={offlineData.currencyEarned}
 						currencyPerSecond={offlineData.currencyPerSecond}
 					/>

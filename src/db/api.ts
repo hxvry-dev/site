@@ -17,6 +17,7 @@ export type Database = {
 					currency_per_second_inc: number;
 					level_max: number;
 					min_prestige_required: number;
+					offline_progress_mult_inc: number;
 					upgrade_desc: string;
 					upgrade_id: string;
 					upgrade_name: string;
@@ -30,6 +31,7 @@ export type Database = {
 					currency_per_second_inc?: number;
 					level_max?: number;
 					min_prestige_required?: number;
+					offline_progress_mult_inc?: number;
 					upgrade_desc?: string;
 					upgrade_id?: string;
 					upgrade_name?: string;
@@ -43,6 +45,7 @@ export type Database = {
 					currency_per_second_inc?: number;
 					level_max?: number;
 					min_prestige_required?: number;
+					offline_progress_mult_inc?: number;
 					upgrade_desc?: string;
 					upgrade_id?: string;
 					upgrade_name?: string;
@@ -101,6 +104,7 @@ export type Database = {
 					currency_per_second: number;
 					last_seen: string;
 					num_times_prestiged: number;
+					offline_progress_mult: number;
 					prestige_cost: number;
 					prestige_cost_mult: number;
 					prestige_points_balance: number;
@@ -114,6 +118,7 @@ export type Database = {
 					currency_per_second?: number;
 					last_seen?: string;
 					num_times_prestiged?: number;
+					offline_progress_mult?: number;
 					prestige_cost?: number;
 					prestige_cost_mult?: number;
 					prestige_points_balance?: number;
@@ -127,6 +132,7 @@ export type Database = {
 					currency_per_second?: number;
 					last_seen?: string;
 					num_times_prestiged?: number;
+					offline_progress_mult?: number;
 					prestige_cost?: number;
 					prestige_cost_mult?: number;
 					prestige_points_balance?: number;
@@ -142,8 +148,7 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Enums: {
-			upgrade_types: 'base' | 'prestige' | 'temp';
-			upgradeTypes: 'base' | 'prestige';
+			upgradeTypes: 'base' | 'prestige' | 'temp';
 		};
 		CompositeTypes: {
 			[_ in never]: never;
@@ -263,8 +268,7 @@ export type CompositeTypes<
 export const Constants = {
 	public: {
 		Enums: {
-			upgrade_types: ['base', 'prestige', 'temp'],
-			upgradeTypes: ['base', 'prestige'],
+			upgradeTypes: ['base', 'prestige', 'mult'],
 		},
 	},
 } as const;

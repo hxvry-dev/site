@@ -99,6 +99,14 @@ export const UpgradeDialog: FC<UpgradeDialogPropsV2> = ({
 								</div>
 							</TableCell>
 						</TableRow>
+						<TableRow>
+							<TableCell className="font-bold font-mono">Offline Progress Multiplier Increase</TableCell>
+							<TableCell>
+								<div className="code max-w-fit px-2">
+									+{costFormatter.format(upgrade.offline_progress_mult_inc * actualPurchaseAmount)}
+								</div>
+							</TableCell>
+						</TableRow>
 					</TableBody>
 				</Table>
 			</DialogContent>

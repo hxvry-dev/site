@@ -11,7 +11,7 @@ import { costFormatter, getCostV2 } from './util/util';
 import { UpgradeDialog } from './dialogs/UpgradeDialog';
 
 interface UpgradeItemPropsV2 {
-	upgradeType: 'base' | 'prestige';
+	upgradeType: 'base' | 'prestige' | 'mult';
 	prestigeFilter: number;
 }
 
@@ -25,7 +25,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 	const [purchasePower] = useAtom(purchasePowerAtom);
 	const data: Upgrades = gameStateV2.upgrades.filter((u) => u.upgrade_type === upgradeType);
 	const resources: number =
-		upgradeType === 'base' ? gameStateV2.user.currency_balance : gameStateV2.user.prestige_points_balance;
+		upgradeType === 'prestige' ? gameStateV2.user.prestige_points_balance : gameStateV2.user.currency_balance;
 	const costs: Cost = {};
 	for (let keys of data) {
 		costs[keys.upgrade_id] = getCostV2(keys, gameStateV2, purchasePower);
@@ -128,6 +128,8 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 							upgrade.upgrade_type === 'prestige'
 								? gameStateV2.user.prestige_points_balance - actualCost
 								: gameStateV2.user.prestige_points_balance,
+						offline_progress_mult:
+							state.user.offline_progress_mult + upgrade.offline_progress_mult_inc * actualPurchaseAmount,
 						last_seen: new Date().toISOString(),
 					},
 					userUpgrades: deduplicatedUpgrades,
@@ -157,14 +159,7 @@ export const UpgradesV2: FC<UpgradeItemPropsV2> = ({ upgradeType, prestigeFilter
 								<TableRow key={key}>
 									<TableCell>{upgrade.upgrade_name}</TableCell>
 									<TableCell>
-										<ChipV2
-											upgrade={upgrade}
-											resources={
-												upgrade.upgrade_type === 'base'
-													? gameStateV2.user.currency_balance
-													: gameStateV2.user.prestige_points_balance
-											}
-										/>
+										<ChipV2 upgrade={upgrade} resources={resources} />
 									</TableCell>
 									<TableCell>
 										<UpgradeDialog

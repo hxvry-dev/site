@@ -1,6 +1,6 @@
 import z from 'zod';
 
-const upgradeTypeEnum = z.enum(['base', 'prestige']);
+const upgradeTypeEnum = z.enum(['base', 'prestige', 'mult']);
 
 export const UserUpgradeSchema = z.object({
 	user_id: z.string().uuid(),
@@ -25,6 +25,7 @@ export const GameUpgradeSchema = z.object({
 	cpc_mult_inc: z.number().nonnegative(),
 	currency_per_second_inc: z.number().nonnegative(),
 	min_prestige_required: z.number().nonnegative(),
+	offline_progress_mult_inc: z.number().nonnegative(),
 });
 export type Upgrade = z.infer<typeof GameUpgradeSchema>;
 export type Upgrades = z.infer<typeof GameStateV2.shape.upgrades>;
@@ -41,6 +42,7 @@ export const UserSchema = z.object({
 	prestige_cost: z.number().nonnegative(),
 	prestige_cost_mult: z.number().nonnegative(),
 	prestige_points_balance: z.number().nonnegative(),
+	offline_progress_mult: z.number().nonnegative(),
 });
 export type User = z.infer<typeof UserSchema>;
 
