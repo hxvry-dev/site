@@ -25,7 +25,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 			toast.error(`Something went wrong! ${error.message}`);
 		} else if (data) {
 			toast.success('Signed In!');
-			return nav('/incremental/v2');
+			return nav('/incremental');
 		}
 	};
 

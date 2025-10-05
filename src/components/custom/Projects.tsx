@@ -1,11 +1,7 @@
-import { FC, useEffect, useId } from 'react';
+import { useEffect, useId } from 'react';
 import { NavLink } from 'react-router-dom';
-
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
-
-import GithubRepoTable from './GithubRepoTable';
 import { Badge } from '../ui/badge';
 
 function GithubLogo() {
@@ -44,11 +40,8 @@ const ProjectData: ProjectDataProps[] = [
 		id: 0,
 		name: 'Idle Game [BETA]',
 		description:
-			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has 2 upgrades and a Prestige system implemented, with plans to expand upgrades further in the future. The code is available on my GitHub.',
-		link: [
-			{ href: '/incremental', desc: 'Idle Game', key: 'v1' },
-			{ href: '/login', desc: 'Idle Game V2', key: 'v2' },
-		],
+			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has since grown a mind of its own, and now has a Supabase-powered backend, and handles offline progression. Plenty more upgrades are planned for the future. Drop an Issue in the Github with your suggestions for features/upgrades! The code is available on my GitHub.',
+		link: [{ href: '/login', desc: 'Idle Game', key: 'Incremental' }],
 		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game/components',
 		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
 	},
@@ -70,10 +63,10 @@ const ProjectData: ProjectDataProps[] = [
 	},
 ];
 
-const Projects: FC = () => {
+const Projects = () => {
 	useEffect(() => {
 		document.title = `The Projects Page`;
-	});
+	}, []);
 	return (
 		<>
 			<div className="justify-self-center mt-5 p-5 font-mono w-fit">My Projects</div>
@@ -118,14 +111,6 @@ const Projects: FC = () => {
 						</CardFooter>
 					</Card>
 				))}
-			</div>
-			<div className="justify-self-center w-fit font-mono">
-				<Accordion type="single" collapsible>
-					<AccordionItem value="proj-repos">
-						<AccordionTrigger className="justify-center pl-4 pr-4">Project Repositories</AccordionTrigger>
-						<AccordionContent className="w-[550px]">{<GithubRepoTable />}</AccordionContent>
-					</AccordionItem>
-				</Accordion>
 			</div>
 		</>
 	);
