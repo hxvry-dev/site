@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { GalleryVerticalEnd } from 'lucide-react';
 import { toast } from 'sonner';
@@ -79,9 +79,6 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 										Forgot Password?
 									</a>
 								</div>
-								<Button variant="link" asChild>
-									<NavLink to="/incremental">Load V1</NavLink>
-								</Button>
 							</div>
 						</div>
 					</form>
