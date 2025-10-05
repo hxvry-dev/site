@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Session } from '@supabase/supabase-js';
 import { atom, useAtom } from 'jotai';
@@ -6,7 +6,7 @@ import { atom, useAtom } from 'jotai';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BuySingleUpgrade } from './BuySingleUpgrade';
 import { supabase } from '@/db/supabaseClient';
 
