@@ -1,8 +1,8 @@
 import { calculateLocalLevel } from '@/db/functions';
-import { Upgrade, GameStateV2 } from './v2-schema';
+import { Upgrade, GameState } from './schema';
 
-export const getCostV2 = (upgrade: Upgrade, gameStateV2: GameStateV2, purchasePower: number): number => {
-	const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
+export const getCost = (upgrade: Upgrade, gameState: GameState, purchasePower: number): number => {
+	const currentLevel = calculateLocalLevel(upgrade, gameState);
 
 	let totalCost = 0;
 	let baseCost = upgrade.cost;
@@ -21,8 +21,8 @@ export const getCostV2 = (upgrade: Upgrade, gameStateV2: GameStateV2, purchasePo
 	return totalCost;
 };
 
-export const handleNewPrestigePoints = (gameStateV2: GameStateV2) => {
-	return Math.floor(gameStateV2.user.currency_balance / gameStateV2.user.prestige_cost);
+export const handleNewPrestigePoints = (gameState: GameState) => {
+	return Math.floor(gameState.user.currency_balance / gameState.user.prestige_cost);
 };
 
 export const costFormatter = new Intl.NumberFormat('en-US');

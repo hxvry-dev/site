@@ -1,9 +1,9 @@
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { useAtom } from 'jotai';
-import { FC, useId } from 'react';
-import { purchasePowerAtom } from './IncrementalV2';
+import { useId } from 'react';
+import { purchasePowerAtom } from './Incremental';
 
-export const BuyMultipleV2: FC = () => {
+export const BuyMultiple = () => {
 	const id = useId();
 	const [purchasePower, setPurchasePower] = useAtom(purchasePowerAtom);
 

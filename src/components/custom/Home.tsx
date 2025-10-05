@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const Home: React.FC = () => {
+const Home = () => {
 	const [isHovering, setIsHovering] = useState(false);
 	const isMobile = useIsMobile();
 

@@ -1,7 +1,6 @@
-import { FC, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Incremental from './components/custom/game/components/v1/incremental';
 import Home from './components/custom/Home';
 import Navbar from './components/custom/Navbar';
 import NotFound from './components/custom/NotFound';
@@ -13,9 +12,9 @@ import SetNewPasswordForm from './components/custom/set-new-password';
 const PasswordResetForm = lazy(() => import('./components/custom/password-reset-form'));
 const SignUpForm = lazy(() => import('./components/custom/sign-up-form'));
 const LoginForm = lazy(() => import('./components/custom/login-form'));
-const IncrementalV2 = lazy(() => import('./components/custom/game/components/v2/IncrementalV2'));
+const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
 
-const App: FC = () => {
+const App = () => {
 	return (
 		<ThemeProvider defaultTheme="dark">
 			<Navbar />
@@ -31,7 +30,6 @@ const App: FC = () => {
 					<Route path="/sign-up" element={<SignUpForm />} />
 
 					<Route path="/incremental" element={<Incremental />} />
-					<Route path="/incremental/v2" element={<IncrementalV2 />} />
 
 					<Route path="*" element={<NotFound />} />
 				</Routes>

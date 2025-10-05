@@ -1,14 +1,14 @@
 import { supabase } from '@/db/supabaseClient';
 import { cn } from '@/lib/utils';
 import { NotebookPen } from 'lucide-react';
-import { FC, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
-const SetNewPasswordForm: FC = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const SetNewPasswordForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 	const nav = useNavigate();
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');

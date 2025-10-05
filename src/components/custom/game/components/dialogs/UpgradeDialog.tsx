@@ -7,11 +7,10 @@ import {
 	DialogDescription,
 } from '@/components/ui/dialog';
 import { TableBody, TableRow, TableCell, Table } from '@/components/ui/table';
-import { FC } from 'react';
 import { costFormatter } from '../util/util';
-import { Upgrade } from '../util/v2-schema';
+import { Upgrade } from '../util/schema';
 
-interface UpgradeDialogPropsV2 {
+interface UpgradeDialogProps {
 	upgrade: Upgrade;
 	currentLevel: number;
 	actualCost: number;
@@ -19,13 +18,13 @@ interface UpgradeDialogPropsV2 {
 	purchasePower: number;
 }
 
-export const UpgradeDialog: FC<UpgradeDialogPropsV2> = ({
+export const UpgradeDialog = ({
 	upgrade,
 	currentLevel,
 	actualCost,
 	actualPurchaseAmount,
 	purchasePower,
-}) => {
+}: UpgradeDialogProps) => {
 	return (
 		<Dialog>
 			<DialogTrigger>Details</DialogTrigger>

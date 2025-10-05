@@ -1,28 +1,27 @@
 import { calculateLocalLevel } from '@/db/functions';
 import { useAtom } from 'jotai';
-import { FC } from 'react';
-import { gameStateV2Atom, purchasePowerAtom } from './IncrementalV2';
+import { gameStateAtom, purchasePowerAtom } from './Incremental';
 import { Badge } from '@/components/ui/badge';
-import { Upgrade } from './util/v2-schema';
-import { getCostV2 } from './util/util';
+import { Upgrade } from './util/schema';
+import { getCost } from './util/util';
 
-interface ChipPropsV2 {
+interface ChipProps {
 	upgrade: Upgrade;
 	resources: number;
 }
 
-export const ChipV2: FC<ChipPropsV2> = ({ upgrade, resources }) => {
-	const [gameStateV2] = useAtom(gameStateV2Atom);
+export const Chip = ({ upgrade, resources }: ChipProps) => {
+	const [gameState] = useAtom(gameStateAtom);
 	const [pp] = useAtom(purchasePowerAtom);
 
-	const currentLevel = calculateLocalLevel(upgrade, gameStateV2);
+	const currentLevel = calculateLocalLevel(upgrade, gameState);
 	const maxPossiblePurchase = Math.max(0, upgrade.level_max - currentLevel);
 	const actualPurchaseAmount = Math.min(pp, maxPossiblePurchase);
 
 	if (currentLevel >= upgrade.level_max) {
 		return <Badge variant="maxLevelChip">Max Level</Badge>;
 	}
-	if (actualPurchaseAmount > 0 && resources >= getCostV2(upgrade, gameStateV2, actualPurchaseAmount)) {
+	if (actualPurchaseAmount > 0 && resources >= getCost(upgrade, gameState, actualPurchaseAmount)) {
 		return <Badge variant="canBuyChip">Can Purchase!</Badge>;
 	} else {
 		// Cannot purchase

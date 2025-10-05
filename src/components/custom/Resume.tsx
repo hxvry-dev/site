@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 import { Badge } from '../ui/badge';
@@ -73,7 +71,7 @@ const getDuration = (startDate: Date, endDate: Date): string => {
 	return result;
 };
 
-const Resume: FC = () => {
+const Resume = () => {
 	const pdf: string = '/pdfs/Resume.pdf';
 	const isMobile = useIsMobile();
 	return (
@@ -125,7 +123,9 @@ const Resume: FC = () => {
 							</div>
 
 							<ul className="list-disc pl-5 pr-5">
-								{job.responsibilities?.map((r) => <li key={r.length}>{r}</li>)}
+								{job.responsibilities?.map((r) => (
+									<li key={r.length}>{r}</li>
+								))}
 							</ul>
 						</CardContent>
 					</Card>

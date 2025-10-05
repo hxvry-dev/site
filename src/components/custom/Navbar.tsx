@@ -1,10 +1,9 @@
-import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { ThemeDropdown } from './ThemeDropdown';
 
-const Navbar: FC = () => {
+const Navbar = () => {
 	return (
 		<div className="font-bold font-mono grid grid-cols-5 gap-2">
 			<Button

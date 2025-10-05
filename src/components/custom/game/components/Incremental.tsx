@@ -7,24 +7,24 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { UpgradesV2 } from './UpgradesV2';
+import { BuySingleUpgrade } from './BuySingleUpgrade';
 import { supabase } from '@/db/supabaseClient';
 
-import { BuyMultipleV2 } from './BuyMultipleV2';
-import { ClickerButtonV2 } from './ClickerButtonV2';
-import { GameStatsV2 } from './GameStatsV2';
-import { PrestigeBarV2 } from './PrestigeBarV2';
-import { PrestigeButtonV2 } from './PrestigeButtonV2';
-import { Version } from '../version';
-import { GameStateV2 } from './util/v2-schema';
+import { ClickerButton } from './ClickerButton';
+import { GameStats } from './GameStats';
+import { PrestigeBar } from './PrestigeBar';
+import { PrestigeButton } from './PrestigeButton';
+import { Version } from './version';
+import { GameState } from './util/schema';
 import { OfflineProgressModal } from './OfflineProgressModal';
 import { toast } from 'sonner';
 import { TotalBonusDialog } from './dialogs/TotalBonusDialog';
 import { PrestigeSelect } from './PrestigeSelect';
+import { BuyMultiple } from './BuyMultiple';
 
-const defaultGameStateV2 = async (): Promise<GameStateV2> => {
+const defaultGameState = async (): Promise<GameState> => {
 	const result = await fetchAndValidateGameState().then((data) => {
-		const gsv2: GameStateV2 = {
+		const gsv2: GameState = {
 			user: data!.user,
 			userUpgrades: data!.userUpgrades,
 			upgrades: data!.upgrades,
@@ -34,24 +34,24 @@ const defaultGameStateV2 = async (): Promise<GameStateV2> => {
 	return result;
 };
 
-const createGameStateV2 = (initialState: GameStateV2) => {
+const createGameStateV2 = (initialState: GameState) => {
 	return atom(initialState);
 };
 
 export const purchasePowerAtom = atom<number>(1);
-export const gameStateV2Atom = createGameStateV2(await defaultGameStateV2());
+export const gameStateAtom = createGameStateV2(await defaultGameState());
 export const prestigeFilterAtom = atom<number>(0);
 
-const IncrementalV2: FC = () => {
+const Incremental = () => {
 	const nav = useNavigate();
-	const [gameStateV2, setGameState] = useAtom(gameStateV2Atom);
+	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const [prestigeFilter, setPrestigeFilter] = useAtom(prestigeFilterAtom);
 	const [session, setSession] = useState<Session | null>(null);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const lastUpdateRef = useRef(Date.now());
 
-	const gameStateRef = useRef<GameStateV2>(gameStateV2);
-	gameStateRef.current = gameStateV2;
+	const gameStateRef = useRef<GameState>(gameState);
+	gameStateRef.current = gameState;
 
 	const [showOfflineModal, setShowOfflineModal] = useState(false);
 	const [offlineData, setOfflineData] = useState({
@@ -65,17 +65,17 @@ const IncrementalV2: FC = () => {
 		if (sessionStorage.getItem('last_seen')) {
 			_lastSeen = sessionStorage.getItem('last_seen')!;
 		} else {
-			_lastSeen = gameStateV2.user.last_seen;
+			_lastSeen = gameState.user.last_seen;
 		}
 		const lastSeen: number = Date.parse(_lastSeen);
-		if (!lastSeen || !gameStateV2?.user) return;
+		if (!lastSeen || !gameState?.user) return;
 		const now: number = Date.now();
 		const timeAway: number = (now - lastSeen) / 1000;
 		if (timeAway < 30) return;
 		const maxOfflineHours: number = 24;
 		const cappedTimeAway: number = Math.min(timeAway, maxOfflineHours * 3600);
 		const currencyEarned: number =
-			gameStateV2.user.currency_per_second * cappedTimeAway * gameStateV2.user.offline_progress_mult;
+			gameState.user.currency_per_second * cappedTimeAway * gameState.user.offline_progress_mult;
 
 		setGameState((state) => ({
 			...state,
@@ -88,7 +88,7 @@ const IncrementalV2: FC = () => {
 		setOfflineData({
 			timeAway: cappedTimeAway,
 			currencyEarned: currencyEarned,
-			currencyPerSecond: gameStateV2.user.currency_per_second,
+			currencyPerSecond: gameState.user.currency_per_second,
 		});
 
 		setShowOfflineModal(true);
@@ -108,7 +108,7 @@ const IncrementalV2: FC = () => {
 	};
 
 	useEffect(() => {
-		document.title = 'Idle Game (V2)';
+		document.title = 'Idle Game';
 		const fetchSession = async () => {
 			const {
 				data: { session },
@@ -219,18 +219,15 @@ const IncrementalV2: FC = () => {
 						>
 							Sign Out
 						</Button>
-						<Button variant="link" asChild>
-							<NavLink to="/incremental">Load V1</NavLink>
-						</Button>
 					</div>
-					<GameStatsV2 />
+					<GameStats />
 					<div className="mb-4 mt-4 font-mono justify-self-center">
 						<TotalBonusDialog state={gameStateRef.current} />
 					</div>
 					<div className="mt-5 px-5 max-w-fit justify-self-center">
 						<div className="justify-self-center max-w-[375px] font-mono mb-4">
 							<p className="justify-self-center mb-2">Buy Multiple Upgrades!</p>
-							<BuyMultipleV2 />
+							<BuyMultiple />
 						</div>
 						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
 							<TabsList className="self-center bg-background font-mono">
@@ -245,26 +242,26 @@ const IncrementalV2: FC = () => {
 								</TabsTrigger>
 							</TabsList>
 							<div className="max-w-md self-center grid gap-5">
-								<ClickerButtonV2 />
-								<PrestigeButtonV2 initialState={gameStateV2} />
-								<div className="col-span-2">{<PrestigeBarV2 />}</div>
+								<ClickerButton />
+								<PrestigeButton initialState={gameState} />
+								<div className="col-span-2">{<PrestigeBar />}</div>
 							</div>
 							<div className="justify-items-center">
 								<p>Filter Upgrades by Prestige</p>
 								<PrestigeSelect
-									currentPrestige={gameStateV2.user.num_times_prestiged}
+									currentPrestige={gameState.user.num_times_prestiged}
 									prestigeFilter={prestigeFilter}
 									setPrestigeFilter={setPrestigeFilter}
 								/>
 							</div>
 							<TabsContent value="base">
-								{<UpgradesV2 upgradeType="base" prestigeFilter={prestigeFilter} />}
+								{<BuySingleUpgrade upgradeType="base" prestigeFilter={prestigeFilter} />}
 							</TabsContent>
 							<TabsContent value="prestige">
-								{<UpgradesV2 upgradeType="prestige" prestigeFilter={prestigeFilter} />}
+								{<BuySingleUpgrade upgradeType="prestige" prestigeFilter={prestigeFilter} />}
 							</TabsContent>
 							<TabsContent value="mult">
-								{<UpgradesV2 upgradeType="mult" prestigeFilter={prestigeFilter} />}
+								{<BuySingleUpgrade upgradeType="mult" prestigeFilter={prestigeFilter} />}
 							</TabsContent>
 						</Tabs>
 					</div>
@@ -275,7 +272,7 @@ const IncrementalV2: FC = () => {
 						isOpen={showOfflineModal}
 						onClose={closeOfflineModal}
 						offlineTime={offlineData.timeAway}
-						offlineProgressMult={gameStateV2.user.offline_progress_mult}
+						offlineProgressMult={gameState.user.offline_progress_mult}
 						currencyEarned={offlineData.currencyEarned}
 						currencyPerSecond={offlineData.currencyPerSecond}
 					/>
@@ -287,4 +284,4 @@ const IncrementalV2: FC = () => {
 	);
 };
 
-export default IncrementalV2;
+export default Incremental;
