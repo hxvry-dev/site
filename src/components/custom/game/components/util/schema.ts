@@ -11,7 +11,7 @@ export const UserUpgradeSchema = z.object({
 	id: z.string(),
 });
 export type UserUpgrade = z.infer<typeof UserUpgradeSchema>;
-export type UserUpgrades = z.infer<typeof GameStateV2.shape.userUpgrades>;
+export type UserUpgrades = z.infer<typeof GameState.shape.userUpgrades>;
 
 export const GameUpgradeSchema = z.object({
 	upgrade_id: z.string().uuid(),
@@ -28,7 +28,7 @@ export const GameUpgradeSchema = z.object({
 	offline_progress_mult_inc: z.number().nonnegative(),
 });
 export type Upgrade = z.infer<typeof GameUpgradeSchema>;
-export type Upgrades = z.infer<typeof GameStateV2.shape.upgrades>;
+export type Upgrades = z.infer<typeof GameState.shape.upgrades>;
 
 export const UserSchema = z.object({
 	user_id: z.string().uuid(),
@@ -46,9 +46,9 @@ export const UserSchema = z.object({
 });
 export type User = z.infer<typeof UserSchema>;
 
-export const GameStateV2 = z.object({
+export const GameState = z.object({
 	user: UserSchema,
 	userUpgrades: z.array(UserUpgradeSchema),
 	upgrades: z.array(GameUpgradeSchema),
 });
-export type GameStateV2 = z.infer<typeof GameStateV2>;
+export type GameState = z.infer<typeof GameState>;

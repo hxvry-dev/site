@@ -1,9 +1,8 @@
-import { FC } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { NavLink } from 'react-router-dom';
 
-export const Version: FC = () => {
+export const Version = () => {
 	const changelogByTag: string = `https://github.com/hxvry-dev/site/compare/${__APP_VERSION__}...main`;
 
 	return (

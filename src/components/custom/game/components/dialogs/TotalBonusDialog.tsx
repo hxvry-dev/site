@@ -6,16 +6,15 @@ import {
 	DialogTitle,
 	DialogDescription,
 } from '@/components/ui/dialog';
-import { FC } from 'react';
-import { GameStateV2 } from '../util/v2-schema';
+import { GameState } from '../util/schema';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { costFormatter } from '../util/util';
 
-interface TotalBonusDialogPropsV2 {
-	state: GameStateV2;
+interface TotalBonusDialogProps {
+	state: GameState;
 }
 
-export const TotalBonusDialog: FC<TotalBonusDialogPropsV2> = ({ state }) => {
+export const TotalBonusDialog = ({ state }: TotalBonusDialogProps) => {
 	const totalUpgradesPurchased = (): number => {
 		let total: number = 0;
 		state.userUpgrades.forEach((u) => {
