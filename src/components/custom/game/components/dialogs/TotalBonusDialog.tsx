@@ -42,6 +42,14 @@ export const TotalBonusDialog = ({ state }: TotalBonusDialogProps) => {
 							<TableCell>Number of Prestiges</TableCell>
 							<TableCell>{state.user.num_times_prestiged}</TableCell>
 						</TableRow>
+						<TableRow>
+							<TableCell>Prestige Cost Multiplier</TableCell>
+							<TableCell>{state.user.prestige_cost_mult}</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell>User ID</TableCell>
+							<TableCell>{state.user.user_id}</TableCell>
+						</TableRow>
 					</TableBody>
 				</Table>
 			</DialogContent>

@@ -167,6 +167,7 @@ export const BuySingleUpgrade = ({ upgradeType, prestigeFilter }: UpgradeItemPro
 											actualCost={actualCost}
 											actualPurchaseAmount={actualPurchaseAmount}
 											purchasePower={purchasePower}
+											gameState={gameState}
 										/>
 									</TableCell>
 									<TableCell>

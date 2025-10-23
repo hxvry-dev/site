@@ -1,4 +1,11 @@
-import { GameState, UserUpgrades, Upgrades, Upgrade, User } from '@/components/custom/game/components/util/schema';
+import {
+	GameState,
+	UserUpgrades,
+	Upgrades,
+	Upgrade,
+	User,
+	GameStateSchema,
+} from '@/components/custom/game/components/util/schema';
 import { supabase } from '@/db/supabaseClient';
 
 export const getUserID = async (): Promise<string | undefined> => {
@@ -43,7 +50,7 @@ export const fetchAndValidateGameState = async (): Promise<GameState | undefined
 		console.error(`An error occurred. Please try again later. \nError: ${JSON.stringify(error)}`);
 	}
 
-	const validated = GameState.safeParse(gameState);
+	const validated = GameStateSchema.safeParse(gameState);
 	if (validated.success) {
 		return gameState;
 	}
