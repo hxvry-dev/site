@@ -9,6 +9,9 @@ export default defineConfig({
 	define: {
 		__APP_VERSION__: JSON.stringify(json.version),
 	},
+	optimizeDeps: {
+		include: ['@supabase/supabase-js', '@supabase/gotrue-js', '@supabase/postgrest-js'],
+	},
 	build: {
 		minify: 'terser',
 		rollupOptions: {
