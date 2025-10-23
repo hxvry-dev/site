@@ -13,7 +13,7 @@ export default defineConfig({
 		include: ['@supabase/supabase-js', '@supabase/gotrue-js', '@supabase/postgrest-js'],
 	},
 	build: {
-		minify: 'terser',
+		minify: 'esbuild',
 		rollupOptions: {
 			output: {
 				manualChunks(id) {
@@ -28,9 +28,6 @@ export default defineConfig({
 							id.includes('tailwindcss-animate')
 						) {
 							return 'tailwind';
-						}
-						if (id.includes('@supabase')) {
-							return 'supabase-utils';
 						}
 						if (id.includes('lucide-react')) {
 							return 'icons';
@@ -48,7 +45,7 @@ export default defineConfig({
 				},
 			},
 		},
-		target: 'ES2022',
+		target: 'es2022',
 	},
 	resolve: {
 		alias: {
