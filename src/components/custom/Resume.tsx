@@ -92,12 +92,12 @@ const Resume = () => {
 							</div>
 							<div>
 								{job.current ? (
-									<Badge className="float-right bg-[#8F0808] hover:bg-[#8F0808] text-foreground hover:text-foreground">
+									<Badge className="float-right bg-[#8F0808] hover:bg-[#8F0808] text-white hover:text-white">
 										Current
 									</Badge>
 								) : (
 									<div>
-										<Badge className="float-right">
+										<Badge className="float-right text-sm">
 											I worked here in &apos;
 											{job.jobStartDate.getFullYear().toString().substring(2)}
 											{job.jobSecondStartDate ? (
