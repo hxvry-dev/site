@@ -154,7 +154,7 @@ export const BuySingleUpgrade = ({ upgradeType, prestigeFilter }: UpgradeItemPro
 							const actualPurchaseAmount = getActualPurchaseAmount(upgrade);
 							const actualCost =
 								actualPurchaseAmount > 0 ? getCost(upgrade, gameState, actualPurchaseAmount) : 0;
-							return upgrade.min_prestige_required <= prestigeFilter ? (
+							return upgrade.min_prestige_required == prestigeFilter ? (
 								<TableRow key={key}>
 									<TableCell>{upgrade.upgrade_name}</TableCell>
 									<TableCell>
