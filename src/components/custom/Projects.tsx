@@ -68,19 +68,19 @@ const Projects = () => {
 		document.title = `The Projects Page`;
 	}, []);
 	return (
-		<>
-			<div className="justify-self-center mt-5 p-5 font-mono w-fit">My Projects</div>
-			<div className="mt-2 p-5 border-2 rounded-xl font-mono w-fit grid grid-flow-col gap-5 justify-self-center max-w-[1280px]">
+		<div className="w-fit mx-auto font-mono">
+			<div className="grid mt-5 p-5 justify-center">My Projects</div>
+			<div className="p-5 border-2 rounded-xl grid grid-flow-col gap-5">
 				{ProjectData.map((project) => (
 					<Card key={project.id} className="bg-background">
 						<CardHeader>
 							<CardTitle>{project.name}</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="no-scrollbar overflow-scroll whitespace-normal border p-3 h-[150px] content-center">
+							<div className="no-scrollbar overflow-scroll whitespace-normal border p-3 h-30 w-md content-center">
 								<p>{project.description}</p>
 							</div>
-							<div className="pt-5 justify-self-center grid grid-flow-col gap-2">
+							<div className="pt-5 grid grid-flow-col gap-2">
 								<legend>Tools Used:</legend>
 								{project.tools.map((tool) => (
 									<Badge variant="secondaryChip" key={tool.toLowerCase().replace('/', '-')}>
@@ -112,7 +112,7 @@ const Projects = () => {
 					</Card>
 				))}
 			</div>
-		</>
+		</div>
 	);
 };
 

@@ -75,7 +75,7 @@ const Resume = () => {
 	const pdf: string = '/pdfs/Resume.pdf';
 	const isMobile = useIsMobile();
 	return (
-		<div className="justify-items-center font-mono">
+		<div className="grid w-fit mx-auto font-mono">
 			<div
 				className={
 					isMobile
@@ -84,7 +84,7 @@ const Resume = () => {
 				}
 			>
 				{jobs.map((job) => (
-					<Card key={job.id} className="max-w-[650px]">
+					<Card key={job.id} className="max-w-162.5">
 						<CardHeader className="grid grid-cols-2 gap-2">
 							<div>
 								<CardTitle>{job.jobName}</CardTitle>
@@ -131,7 +131,7 @@ const Resume = () => {
 					</Card>
 				))}
 			</div>
-			<div className="justify-self-center">
+			<div className="grid mx-auto">
 				<Dialog>
 					<DialogTitle hidden>My Resume</DialogTitle>
 					<DialogTrigger asChild>
@@ -144,9 +144,9 @@ const Resume = () => {
 					</DialogContent>
 				</Dialog>
 			</div>
-			<div className="text-muted-foreground">
-				<small>Click the {`[HO]`} to go home when you&apos;re done!</small>
-			</div>
+			<small className="grid text-muted-foreground mx-auto">
+				Click the {`[HO]`} to go home when you&apos;re done!
+			</small>
 		</div>
 	);
 };

@@ -37,6 +37,7 @@ export const BuyMultiple = () => {
 	};
 	return (
 		<>
+			<p className="grid mb-2 justify-items-center">Buy Multiple Upgrades!</p>
 			<fieldset className="space-y-4">
 				<RadioGroup className="grid grid-cols-4 gap-2" value={purchasePower.toString() || '1'}>
 					{buyMultipleItems.map((item) => (
@@ -56,11 +57,8 @@ export const BuyMultiple = () => {
 					))}
 				</RadioGroup>
 			</fieldset>
-			<div className="font-sm justify-self-center mt-2">
-				Purchase Power:{' '}
-				<i>
-					<u>{purchasePower}</u>
-				</i>
+			<div className="grid grid-flow-col-dense font-sm mt-2 justify-center">
+				Purchase Power: <u>{purchasePower}</u>
 			</div>
 		</>
 	);
