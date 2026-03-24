@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { FC } from 'react';
 import { costFormatter } from './util/util';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface OfflineProgressModalProps {
 	isOpen: boolean;
@@ -37,17 +37,16 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogContent className="font-mono rounded-sm">
+			<DialogContent className="font-mono rounded-sm min-w-fit">
 				<DialogHeader>
 					<DialogTitle className="grid mx-auto gap-2 text-2xl">Welcome Back!</DialogTitle>
-					<DialogDescription className="mx-auto mt-8">You&apos;ve been away for a while!</DialogDescription>
-					<DialogDescription className="mx-auto">
+					<DialogDescription className="mx-auto mt-4">You&apos;ve been away for a while!</DialogDescription>
+					<DialogDescription className="mx-auto mb-4">
 						Here&apos;s what you earned while offline:
 					</DialogDescription>
 				</DialogHeader>
 				<div className="space-y-4">
 					<Table>
-						<TableCaption></TableCaption>
 						<TableHeader>
 							<TableRow>
 								<TableHead>Time Away</TableHead>
