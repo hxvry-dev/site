@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { FC } from 'react';
 import { costFormatter } from './util/util';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface OfflineProgressModalProps {
 	isOpen: boolean;
@@ -36,46 +37,41 @@ export const OfflineProgressModal: FC<OfflineProgressModalProps> = ({
 	};
 
 	return (
-		<div className="font-mono">
-			<Dialog open={isOpen} onOpenChange={onClose}>
-				<DialogContent className="font-mono rounded-sm">
-					<DialogHeader>
-						<DialogTitle className="flex items-center gap-2 text-2xl">Welcome Back!</DialogTitle>
-						<DialogDescription>You&apos;ve been away for a while!</DialogDescription>
-						<DialogDescription>Here&apos;s what you earned while offline:</DialogDescription>
-					</DialogHeader>
-					<div className="space-y-4">
-						<Card className="rounded-none">
-							<CardHeader>
-								<CardTitle className="text-2xl grid grid-cols-2">
-									<div>Time Away:</div>
-									<p className="text-2xl">{formatTime(offlineTime)}</p>
-								</CardTitle>
-							</CardHeader>
-						</Card>
-						<Card className="rounded-none">
-							<div>
-								<CardHeader>
-									<CardTitle className="text-2xl">
-										<div className="grid col-span-2">Earnings: </div>
-										<div className="grid grid-cols-2">
-											<p>+{costFormatter.format(currencyEarned)} </p>
-											<p>
-												(from {costFormatter.format(currencyPerSecond)}/s x{' '}
-												{costFormatter.format(offlineProgressMult)})
-											</p>
-										</div>
-									</CardTitle>
-								</CardHeader>
-							</div>
-						</Card>
-					</div>
-
-					<Button onClick={onClose} variant="default" className="w-full mt-4">
-						Collect Rewards
-					</Button>
-				</DialogContent>
-			</Dialog>
-		</div>
+		<Dialog open={isOpen} onOpenChange={onClose}>
+			<DialogContent className="font-mono rounded-sm">
+				<DialogHeader>
+					<DialogTitle className="grid mx-auto gap-2 text-2xl">Welcome Back!</DialogTitle>
+					<DialogDescription className="mx-auto mt-8">You&apos;ve been away for a while!</DialogDescription>
+					<DialogDescription className="mx-auto">
+						Here&apos;s what you earned while offline:
+					</DialogDescription>
+				</DialogHeader>
+				<div className="space-y-4">
+					<Table>
+						<TableCaption></TableCaption>
+						<TableHeader>
+							<TableRow>
+								<TableHead>Time Away</TableHead>
+								<TableHead>Earnings</TableHead>
+								<TableHead>Amount</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							<TableRow>
+								<TableCell>{formatTime(offlineTime)}</TableCell>
+								<TableCell>+{costFormatter.format(currencyEarned)}</TableCell>
+								<TableCell>
+									(from {costFormatter.format(currencyPerSecond)}/s x{' '}
+									{costFormatter.format(offlineProgressMult)})
+								</TableCell>
+							</TableRow>
+						</TableBody>
+					</Table>
+				</div>
+				<Button onClick={onClose} variant="default" className="w-full mt-4">
+					Collect Rewards
+				</Button>
+			</DialogContent>
+		</Dialog>
 	);
 };

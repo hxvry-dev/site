@@ -9,12 +9,12 @@ const Home = () => {
 	const isMobile = useIsMobile();
 
 	return (
-		<div className="justify-items-center font-mono">
+		<div className="grid mx-auto w-fit font-mono">
 			<div
 				className={
 					isMobile
-						? 'mt-32 p-5 border-2 rounded-xs max-w-[650px]'
-						: 'mt-64 p-5 border-2 rounded-xs max-w-[650px]'
+						? 'mt-32 p-5 border-2 rounded-xs max-w-[650px] w-fit'
+						: 'mt-64 p-5 border-2 rounded-xs max-w-[650px] w-fit'
 				}
 			>
 				<h1>Hi, I&apos;m Henry!</h1>
@@ -24,11 +24,17 @@ const Home = () => {
 					time. Welcome to my website.
 				</h2>
 			</div>
-			<h4 className="pt-5 pb-5 pl-5 pr-5 justify-self-center">
+			<h4 className="pt-5 pb-5 pl-5 pr-5 w-fit mx-auto">
 				Okay, now that we&apos;ve gotten that out of the way...
 			</h4>
-			<h4 className="pb-5 pl-5 pr-5 justify-self-center">Check out these links!</h4>
-			<div className={isMobile ? 'grid grid-cols-1 grid-rows-5 gap-5' : 'grid grid-cols-4 grid-rows-2 gap-5'}>
+			<h4 className="pb-5 pl-5 pr-5 w-fit mx-auto">Check out these links!</h4>
+			<div
+				className={
+					isMobile
+						? 'grid grid-cols-1 grid-rows-5 gap-5 w-fit mx-auto'
+						: 'grid grid-cols-4 grid-rows-2 gap-5 w-fit mx-auto'
+				}
+			>
 				<Button asChild size="sm" variant={isMobile ? 'outline' : 'ghost'}>
 					<NavLink to="https://www.linkedin.com/in/henry-ouellette-8a3b36201/" target="_blank">
 						My LinkedIn
@@ -55,16 +61,14 @@ const Home = () => {
 				>
 					<NavLink to="/projects">Projects</NavLink>
 				</Button>
-			</div>
-			<div className="pt-5 justify-self-center">
-				<small className="text-stone-700 italic">
-					Made with &#9829; by me, in the{' '}
-					<span onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-						{isHovering ? 'Flour' : 'Flower'}
-					</span>{' '}
-					City
-				</small>
-			</div>
+			</div>{' '}
+			<small className="mx-auto text-stone-700 italic">
+				Made with &#9829; by me, in the{' '}
+				<span onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+					{isHovering ? 'Flour' : 'Flower'}
+				</span>{' '}
+				City
+			</small>
 		</div>
 	);
 };

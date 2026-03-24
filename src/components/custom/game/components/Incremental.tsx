@@ -206,27 +206,24 @@ const Incremental = () => {
 	return (
 		<>
 			{session ? (
-				<div>
-					<h1 className="font-incremental text-2xl justify-self-center mb-8">Idle Game</h1>
-					<div className="justify-self-center border-2 px-5 mb-8">
-						<Button
-							variant="link"
-							onClick={async () => {
-								await supabase!.auth.signOut();
-								nav('/login');
-								sessionStorage.clear();
-							}}
-						>
-							Sign Out
-						</Button>
-					</div>
+				<div className="grid mx-auto">
+					<h1 className="font-incremental text-2xl mb-8 mt-8 justify-self-center">Idle Game</h1>
+					<Button
+						variant="link"
+						onClick={async () => {
+							await supabase!.auth.signOut();
+							nav('/login');
+							sessionStorage.clear();
+						}}
+					>
+						Sign Out
+					</Button>
 					<GameStats />
-					<div className="mb-4 mt-4 font-mono justify-self-center">
+					<div className="mb-4 mt-4 font-mono mx-auto">
 						<TotalBonusDialog state={gameStateRef.current} />
 					</div>
-					<div className="mt-5 px-5 max-w-fit justify-self-center">
-						<div className="justify-self-center max-w-[375px] font-mono mb-4">
-							<p className="justify-self-center mb-2">Buy Multiple Upgrades!</p>
+					<div className="mt-5 px-5 w-fit mx-auto">
+						<div className="max-w-93.75 font-mono mb-4 mx-auto justify-items-center">
 							<BuyMultiple />
 						</div>
 						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
@@ -246,7 +243,7 @@ const Incremental = () => {
 								<PrestigeButton initialState={gameState} />
 								<div className="col-span-2">{<PrestigeBar />}</div>
 							</div>
-							<div className="justify-items-center">
+							<div className="mx-auto">
 								<p>Filter Upgrades by Prestige</p>
 								<PrestigeSelect
 									currentPrestige={gameState.user.num_times_prestiged}
@@ -265,7 +262,7 @@ const Incremental = () => {
 							</TabsContent>
 						</Tabs>
 					</div>
-					<div className="mt-8">
+					<div className="mt-8 mx-auto">
 						<Version />
 					</div>
 					<OfflineProgressModal
