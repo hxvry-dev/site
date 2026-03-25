@@ -69,10 +69,10 @@ const Projects = () => {
 	}, []);
 	return (
 		<div className="w-fit mx-auto font-mono">
-			<div className="grid mt-5 p-5 justify-center">My Projects</div>
-			<div className="p-5 border-2 rounded-xl grid grid-flow-col gap-5">
+			<p className="grid mt-5 p-5 justify-center">My Projects</p>
+			<div className="p-5 rounded-xl grid grid-flow-col gap-5">
 				{ProjectData.map((project) => (
-					<Card key={project.id} className="bg-background">
+					<Card key={project.id} className="bg-background border-2">
 						<CardHeader>
 							<CardTitle>{project.name}</CardTitle>
 						</CardHeader>
