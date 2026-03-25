@@ -84,33 +84,29 @@ const Resume = () => {
 				}
 			>
 				{jobs.map((job) => (
-					<Card key={job.id} className="max-w-162.5">
-						<CardHeader className="grid grid-cols-2 gap-2">
-							<div>
+					<Card key={job.id} className="max-w-162.5 bg-background border-2">
+						<CardHeader className="flex flex-row flex-wrap">
+							<div className="flex-1">
 								<CardTitle>{job.jobName}</CardTitle>
 								<CardDescription>{job.jobTitle}</CardDescription>
 							</div>
-							<div>
-								{job.current ? (
-									<Badge className="float-right bg-[#8F0808] hover:bg-[#8F0808] text-white hover:text-white">
-										Current
-									</Badge>
-								) : (
-									<div>
-										<Badge className="float-right text-sm">
-											I worked here in &apos;
-											{job.jobStartDate.getFullYear().toString().substring(2)}
-											{job.jobSecondStartDate ? (
-												<>
-													{' '}
-													and &apos;
-													{job.jobSecondStartDate.getFullYear().toString().substring(2)}
-												</>
-											) : null}
-										</Badge>
-									</div>
-								)}
-							</div>
+							{job.current ? (
+								<Badge className="float-right bg-[#8F0808] hover:bg-[#8F0808] text-white hover:text-white">
+									Current
+								</Badge>
+							) : (
+								<Badge className="float-right text-sm">
+									I worked here in &apos;
+									{job.jobStartDate.getFullYear().toString().substring(2)}
+									{job.jobSecondStartDate ? (
+										<>
+											{' '}
+											and &apos;
+											{job.jobSecondStartDate.getFullYear().toString().substring(2)}
+										</>
+									) : null}
+								</Badge>
+							)}
 						</CardHeader>
 						<CardContent>
 							<div className="mb-5">
