@@ -22,20 +22,20 @@ interface JobCardProps {
 
 const jobs: JobCardProps[] = [
 	{
-		id: 0,
-		current: true,
+		id: 1,
 		jobName: 'Bryx',
 		jobTitle: 'Customer Support Engineer',
 		jobStartDate: new Date('05-01-2022'),
-		jobEndDate: new Date(),
+		jobEndDate: new Date('3-27-2026'),
 		responsibilities: [
-			'Triage customer questions and concerns as they relate to Bryx Mobile and Bryx Station Alerting.',
-			'Remote and on-site troubleshooting of rack-mounted hardware and software.',
-			'Write code to enhance the customer experience as it relates to Bryx Mobile and Bryx Station Alerting.',
+			'Triage, troubleshoot and resolve customer questions and concerns.',
+			'Work closely with other teams to accomplish a common goal for the customer.',
+			'Remote and occasional local on-site troubleshooting of rack-mounted hardware and associated software.',
+			'Write code to address customer concerns.',
 		],
 	},
 	{
-		id: 1,
+		id: 2,
 		jobName: 'Chiropassion Consulting',
 		jobTitle: 'Data Analyst/Social Media Manager',
 		jobStartDate: new Date('03-01-2021'),
@@ -48,7 +48,7 @@ const jobs: JobCardProps[] = [
 		],
 	},
 	{
-		id: 2,
+		id: 3,
 		jobName: 'Camden Central School District',
 		jobTitle: 'IT Support Technician',
 		jobStartDate: new Date('06-01-2017'),
@@ -91,18 +91,16 @@ const Resume = () => {
 								<CardDescription>{job.jobTitle}</CardDescription>
 							</div>
 							{job.current ? (
-								<Badge className="float-right bg-[#8F0808] hover:bg-[#8F0808] text-white hover:text-white">
-									Current
-								</Badge>
+								<Badge className="float-right">Current</Badge>
 							) : (
 								<Badge className="float-right text-sm">
 									I worked here in &apos;
-									{job.jobStartDate.getFullYear().toString().substring(2)}
-									{job.jobSecondStartDate ? (
+									{job.jobEndDate!.getFullYear().toString().substring(2)}
+									{job.jobSecondEndDate ? (
 										<>
 											{' '}
 											and &apos;
-											{job.jobSecondStartDate.getFullYear().toString().substring(2)}
+											{job.jobSecondEndDate.getFullYear().toString().substring(2)}
 										</>
 									) : null}
 								</Badge>
