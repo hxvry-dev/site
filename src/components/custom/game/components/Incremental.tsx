@@ -47,7 +47,7 @@ const Incremental = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);
 	const [prestigeFilter, setPrestigeFilter] = useAtom(prestigeFilterAtom);
 	const [session, setSession] = useState<Session | null>(null);
-	const intervalRef = useRef<NodeJS.Timeout | null>(null);
+	const intervalRef = useRef<number | null>(null);
 	const lastUpdateRef = useRef(Date.now());
 
 	const gameStateRef = useRef<GameState>(gameState);

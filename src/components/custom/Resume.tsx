@@ -28,10 +28,10 @@ const jobs: JobCardProps[] = [
 		jobStartDate: new Date('05-01-2022'),
 		jobEndDate: new Date('3-27-2026'),
 		responsibilities: [
-			'Triage, troubleshoot and resolve customer questions and concerns.',
-			'Work closely with other teams to accomplish a common goal for the customer.',
-			'Remote and occasional local on-site troubleshooting of rack-mounted hardware and associated software.',
-			'Write code to address customer concerns.',
+			'Triaged and resolved customer issues across hardware and software environments, diagnosing root causes and improving resolution times and customer satisfaction.',
+			'Collaborated with cross-functional teams to deliver cohesive solutions, aligning efforts to efficiently meet customer needs and achieve shared service goals.',
+			'Performed remote and on-site troubleshooting of rack-mounted hardware and associated software, minimizing downtime and ensuring reliable system performance.',
+			'Developed high-quality Python code to address customer requests.',
 		],
 	},
 	{
@@ -42,9 +42,9 @@ const jobs: JobCardProps[] = [
 		jobEndDate: new Date('06-01-2021'),
 		disclaimer: 'This role was temporary, and was filled after 3 months.',
 		responsibilities: [
-			'Study Google Analytics trends pertaining to sales and enrollments in a course.',
-			'Optimization of Google AdWords, including negative keywords.',
-			'Improved CTR and SEO using Google AdWords.',
+			'Analyzed Google Analytics data to identify trends in sales and course enrollments, uncovering insights that informed marketing strategies and improved targeting effectiveness.',
+			'Optimized Google Ads campaigns by refining keyword strategy and implementing negative keywords, reducing wasted ad spend and increasing campaign efficiency.',
+			'Enhanced click-through rates (CTR) and search engine optimization (SEO) by improving ad copy, keyword alignment, and on-site content, driving higher traffic quality and engagement.',
 		],
 	},
 	{
@@ -57,10 +57,10 @@ const jobs: JobCardProps[] = [
 		jobSecondEndDate: new Date('09-01-2018'),
 		disclaimer: 'I worked here twice, once in 2017, and again in 2018, as it was a seasonal job.',
 		responsibilities: [
-			'Performed repairs on laptops, including repairing screens, motherboards, fans, batteries, and data ports.',
-			'Responsible for installation and removal of classroom computers.',
-			'Managed inventory of electronic devices for CCSD.',
-			'Handled client work orders.',
+			'Repaired and restored functionality of 50+ laptops by diagnosing and fixing hardware issues (screens, motherboards, fans, batteries, and data ports), reducing device downtime and extending equipment lifespan.',
+			'Performed installation and decommissioning of classroom computer systems, ensuring seamless setup for instructional use and minimizing disruption to daily school operations.',
+			'Managed and tracked inventory of electronic devices, helped implement an organized system that improved asset accountability and reduced loss or misplacement.',
+			'Processed and fulfilled client work orders efficiently, prioritizing requests and maintaining clear communication to ensure timely resolution.',
 		],
 	},
 ];
@@ -115,12 +115,13 @@ const Resume = () => {
 									</>
 								) : null}
 							</div>
-
-							<ul className="list-disc pl-5 pr-5">
-								{job.responsibilities?.map((r) => (
-									<li key={r.length}>{r}</li>
-								))}
-							</ul>
+							<div className="no-scrollbar overflow-scroll border p-3 h-30 max-w-fit content-center">
+								<ul className="list-disc pl-5 pr-5">
+									{job.responsibilities?.map((r) => (
+										<li key={r.length}>{r}</li>
+									))}
+								</ul>
+							</div>
 						</CardContent>
 					</Card>
 				))}
