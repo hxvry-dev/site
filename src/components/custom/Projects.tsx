@@ -80,7 +80,9 @@ export const Projects = () => {
 				{projectData.map((p) => (
 					<Card className="p-5" key={p.id}>
 						<CardHeader>
-							<CardTitle className="mb-5 text-2xl">{p.name}</CardTitle>
+							<CardTitle className="mb-5 text-2xl">
+								<u>{p.name}</u>
+							</CardTitle>
 							<CardDescription>
 								<div className="flex flex-col gap-2 items-center">
 									<span>Tools Used:</span>
