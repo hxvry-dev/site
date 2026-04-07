@@ -1,8 +1,9 @@
-import { useEffect, useId } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
 import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { NavLink } from 'react-router-dom';
 
 function GithubLogo() {
 	return (
@@ -35,10 +36,10 @@ interface ProjectDataProps {
 	tools: Array<string>;
 }
 
-const ProjectData: ProjectDataProps[] = [
+const projectData: ProjectDataProps[] = [
 	{
 		id: 0,
-		name: 'Idle Game [BETA]',
+		name: 'Idle Game',
 		description:
 			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has since grown a mind of its own, and now has a Supabase-powered backend, and handles offline progression. Plenty more upgrades are planned for the future. Drop an Issue in the Github with your suggestions for features/upgrades! The code is available on my GitHub.',
 		link: [{ href: '/login', desc: 'Idle Game', key: 'Incremental' }],
@@ -63,50 +64,57 @@ const ProjectData: ProjectDataProps[] = [
 	},
 ];
 
-const Projects = () => {
+export const Projects = () => {
 	useEffect(() => {
 		document.title = `The Projects Page`;
 	}, []);
+	const isMobile = useIsMobile();
 	return (
-		<div className="w-fit mx-auto font-mono">
-			<p className="grid mt-5 p-5 justify-center">My Projects</p>
-			<div className="p-5 rounded-xl grid grid-flow-col gap-5">
-				{ProjectData.map((project) => (
-					<Card key={project.id} className="bg-background border-2">
+		<div className="font-mono">
+			<p className="text-center text-3xl my-5">Projects</p>
+			<div
+				className={
+					isMobile ? 'grid grid-flow-row mx-auto w-fit gap-5' : 'grid grid-flow-col mx-auto w-fit gap-5'
+				}
+			>
+				{projectData.map((p) => (
+					<Card className="p-5" key={p.id}>
 						<CardHeader>
-							<CardTitle>{project.name}</CardTitle>
+							<CardTitle className="mb-5 text-2xl">{p.name}</CardTitle>
+							<CardDescription>
+								<div className="flex flex-col gap-2 items-center">
+									<span>Tools Used:</span>
+									<div className="grid grid-cols-3 grid-rows-2 gap-1 items-center p-1 border">
+										{p.tools.map((tool) => (
+											<Badge
+												className="w-full"
+												variant="secondaryChip"
+												key={tool.toLowerCase().replace('/', '-')}
+											>
+												{tool}
+											</Badge>
+										))}
+									</div>
+								</div>
+							</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<div className="no-scrollbar overflow-scroll whitespace-normal border p-3 h-30 w-md content-center">
-								<p>{project.description}</p>
-							</div>
-							<div className="pt-5 grid grid-flow-col gap-2">
-								<legend>Tools Used:</legend>
-								{project.tools.map((tool) => (
-									<Badge variant="secondaryChip" key={tool.toLowerCase().replace('/', '-')}>
-										{tool}
-									</Badge>
-								))}
-							</div>
+						<CardContent className="no-scrollbar overflow-scroll whitespace-normal border p-3 grow w-md">
+							<p>{p.description}</p>
 						</CardContent>
 						<CardFooter>
-							<div className="grid grid-cols-2 gap-5">
-								<div className="grid grid-flow-col-dense gap-2">
-									{project.link.map((p) => (
-										<Button asChild key={p.key}>
-											<NavLink to={p.href} target={p.target ? '_blank' : ''}>
-												{p.desc}
-											</NavLink>
-										</Button>
-									))}
-								</div>
-								<div>
-									<Button asChild variant="link" key={useId()}>
-										<NavLink to={project.src} target="_blank">
-											{<GithubLogo />} Source
+							<div className="flex flex-row gap-5 align-bottom">
+								{p.link.map((link) => (
+									<Button asChild key={link.key}>
+										<NavLink to={link.href} target={link.target ? '_blank' : ''}>
+											{link.desc}
 										</NavLink>
 									</Button>
-								</div>
+								))}
+								<Button asChild variant="link">
+									<NavLink to={p.src} target="_blank">
+										{<GithubLogo />} Source
+									</NavLink>
+								</Button>
 							</div>
 						</CardFooter>
 					</Card>
@@ -115,5 +123,3 @@ const Projects = () => {
 		</div>
 	);
 };
-
-export default Projects;
