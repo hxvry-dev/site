@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -84,7 +84,7 @@ const themeOptions: ThemeOption[] = [
 	{ value: 'custom-theme', label: 'Custom Theme', icon: Palette },
 ];
 
-export const ThemeDropdown: FC = () => {
+export const ThemeDropdown = () => {
 	const { theme, setTheme, applyCustomTheme, getCustomTheme, hasCustomTheme } = useTheme();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [customCss, setCustomCss] = useState('');
@@ -131,13 +131,15 @@ export const ThemeDropdown: FC = () => {
 		<>
 			<DropdownMenu modal={false}>
 				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" size="default" className="w-full float-right rounded-none">
-						<CurrentIcon className={`w-4 h-4`} />
-						<>{getCurrentTheme()?.label || 'Theme'}</>
-						<ChevronDown className="h-3 w-3 opacity-50" />
-					</Button>
+					<div className="float-right">
+						<Button variant="link" size="default" className="min-w-fit rounded-none">
+							<CurrentIcon className={`w-4 h-4`} />
+							<>{getCurrentTheme()?.label || 'Change Theme'}</>
+							<ChevronDown className="h-3 w-3 opacity-50" />
+						</Button>
+					</div>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent className="w-56" align="center" sideOffset={4}>
+				<DropdownMenuContent className="w-56" align="end" sideOffset={4}>
 					<DropdownMenuLabel>
 						<p>Themes</p>
 					</DropdownMenuLabel>
