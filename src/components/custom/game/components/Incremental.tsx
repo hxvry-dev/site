@@ -226,7 +226,7 @@ const Incremental = () => {
 						<div className="max-w-93.75 font-mono mb-4 mx-auto justify-items-center">
 							<BuyMultiple />
 						</div>
-						<Tabs defaultValue="base" className="border-2 rounded-sm p-5">
+						<Tabs defaultValue="base" className="border-2 rounded-none p-5">
 							<TabsList className="self-center bg-background font-mono">
 								<TabsTrigger value="base" className="rounded-none">
 									Base
