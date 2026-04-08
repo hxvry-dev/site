@@ -88,9 +88,7 @@ export const Projects = () => {
 				{projectData.map((p) => (
 					<Card className="p-5" key={p.id}>
 						<CardHeader>
-							<CardTitle className="mb-5 text-2xl">
-								<u>{p.name}</u>
-							</CardTitle>
+							<CardTitle className="text-2xl underline">{p.name}</CardTitle>
 							<CardDescription>
 								<div className="flex flex-col gap-2 items-center">
 									<span>Tools Used:</span>
@@ -118,8 +116,8 @@ export const Projects = () => {
 						<CardContent
 							className={
 								isMobile
-									? 'no-scrollbar overflow-scroll whitespace-normal border p-3 grow w-fit'
-									: 'no-scrollbar overflow-scroll whitespace-normal border p-3 grow w-md'
+									? 'no-scrollbar overflow-scroll border p-2 grow w-fit'
+									: 'no-scrollbar overflow-scroll border p-2 grow w-md'
 							}
 						>
 							<p>{p.description}</p>
