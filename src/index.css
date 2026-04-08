@@ -1,9 +1,5 @@
 @import 'tailwindcss';
-
 @plugin 'tailwindcss-animate';
-
-@custom-variant dark (&:is(.dark *));
-@custom-variant claude (&:is(.claude *));
 
 @layer utilities {
 	.no-scrollbar::-webkit-scrollbar {
@@ -27,27 +23,6 @@
 	}
 	.spoiler {
 		@apply bg-background text-background hover:bg-background hover:text-foreground;
-	}
-	@font-face {
-		font-family: 'geist';
-		font-style: normal;
-		font-weight: 400 600;
-		font-display: swap;
-		src: local('geist'), url(/fonts/Geist.ttf), format('truetype');
-	}
-	@font-face {
-		font-family: 'geist-mono';
-		font-style: normal;
-		font-weight: 400 600;
-		font-display: swap;
-		src: local('geist-mono'), url(/fonts/GeistMono.ttf), format('truetype');
-	}
-	@font-face {
-		font-family: 'space-grotesk';
-		font-style: normal;
-		font-weight: 400 600;
-		font-display: swap;
-		src: local('space-grotesk'), url(/fonts/SpaceGrotesk-VariableFont_wght.ttf), format('truetype');
 	}
 }
 
@@ -107,9 +82,9 @@
 }
 
 :root {
-	--font-sans: geist;
-	--font-mono: geist-mono;
-	--font-incremental: space-grotesk;
+	--font-sans: 'Geist Variable', sans-serif;
+	--font-mono: 'Geist Mono Variable', monospace;
+	--font-incremental: 'Space Grotesk Variable', sans-serif;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
