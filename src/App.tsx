@@ -5,7 +5,7 @@ import Home from './components/custom/Home';
 import { Navbar } from './components/custom/Navbar';
 import { NotFound } from './components/custom/NotFound';
 import { Projects } from './components/custom/Projects';
-import Resume from './components/custom/Resume';
+import { Resume } from './components/custom/Resume';
 import { ThemeProvider } from './components/theme-provider';
 import SetNewPasswordForm from './components/custom/set-new-password';
 

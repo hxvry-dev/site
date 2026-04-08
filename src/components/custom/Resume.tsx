@@ -1,11 +1,27 @@
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 import { Badge } from '../ui/badge';
-
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+	Card,
+	CardAction,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from '../ui/drawer';
+import { Button } from '../ui/button';
+import { useState } from 'react';
 
 interface JobCardProps {
 	id: number;
@@ -16,17 +32,24 @@ interface JobCardProps {
 	jobSecondStartDate?: Date;
 	jobEndDate?: Date;
 	jobSecondEndDate?: Date;
-	disclaimer?: string;
 	responsibilities?: string[];
 }
 
 const jobs: JobCardProps[] = [
 	{
+		id: 0,
+		current: true,
+		jobName: 'Employee For Hire',
+		jobTitle: 'Software Engineer | Customer Support Engineer',
+		jobStartDate: new Date('03-27-2026'),
+		jobEndDate: new Date(),
+	},
+	{
 		id: 1,
 		jobName: 'Bryx',
 		jobTitle: 'Customer Support Engineer',
 		jobStartDate: new Date('05-01-2022'),
-		jobEndDate: new Date('3-27-2026'),
+		jobEndDate: new Date('03-01-2026'),
 		responsibilities: [
 			'Triaged and resolved customer issues across hardware and software environments, diagnosing root causes and improving resolution times and customer satisfaction.',
 			'Collaborated with cross-functional teams to deliver cohesive solutions, aligning efforts to efficiently meet customer needs and achieve shared service goals.',
@@ -40,7 +63,6 @@ const jobs: JobCardProps[] = [
 		jobTitle: 'Data Analyst/Social Media Manager',
 		jobStartDate: new Date('03-01-2021'),
 		jobEndDate: new Date('06-01-2021'),
-		disclaimer: 'This role was temporary, and was filled after 3 months.',
 		responsibilities: [
 			'Analyzed Google Analytics data to identify trends in sales and course enrollments, uncovering insights that informed marketing strategies and improved targeting effectiveness.',
 			'Optimized Google Ads campaigns by refining keyword strategy and implementing negative keywords, reducing wasted ad spend and increasing campaign efficiency.',
@@ -55,7 +77,6 @@ const jobs: JobCardProps[] = [
 		jobSecondStartDate: new Date('08-01-2018'),
 		jobEndDate: new Date('09-01-2017'),
 		jobSecondEndDate: new Date('09-01-2018'),
-		disclaimer: 'I worked here twice, once in 2017, and again in 2018, as it was a seasonal job.',
 		responsibilities: [
 			'Repaired and restored functionality of 50+ laptops by diagnosing and fixing hardware issues (screens, motherboards, fans, batteries, and data ports), reducing device downtime and extending equipment lifespan.',
 			'Performed installation and decommissioning of classroom computer systems, ensuring seamless setup for instructional use and minimizing disruption to daily school operations.',
@@ -67,83 +88,105 @@ const jobs: JobCardProps[] = [
 
 const getDuration = (startDate: Date, endDate: Date): string => {
 	const duration = intervalToDuration({ start: startDate, end: endDate });
-	const result = formatDuration(duration, { delimiter: ', ', format: ['years', 'months'] });
+	const result = formatDuration(duration, { delimiter: ', ', format: ['years', 'months', 'days'] });
 	return result;
 };
 
-const Resume = () => {
+export const Resume = () => {
 	const pdf: string = '/pdfs/Resume.pdf';
 	const isMobile = useIsMobile();
+	const [snap, setSnap] = useState<number | string | null>('50%');
+	const [open, setOpen] = useState(false);
+
 	return (
-		<div className="grid w-fit mx-auto font-mono">
-			<div
-				className={
-					isMobile
-						? 'grid grid-rows-3 gap-3 pt-16 pb-8 pl-8 pr-8'
-						: 'grid grid-cols-3 gap-3 pt-16 pb-8 pl-8 pr-8'
-				}
-			>
-				{jobs.map((job) => (
-					<Card key={job.id} className="max-w-162.5 bg-background border-2">
-						<CardHeader className="flex flex-row flex-wrap">
-							<div className="flex-1">
-								<CardTitle>{job.jobName}</CardTitle>
-								<CardDescription>{job.jobTitle}</CardDescription>
-							</div>
-							{job.current ? (
-								<Badge className="float-right">Current</Badge>
-							) : (
-								<Badge className="float-right text-sm">
-									I worked here in &apos;
-									{job.jobEndDate!.getFullYear().toString().substring(2)}
-									{job.jobSecondEndDate ? (
+		<>
+			<div className="font-mono">
+				<p className="text-center text-3xl mt-5">Recent Job Experience</p>
+				<p className="text-center text-sm underline mb-5">Resume At-A-Glance</p>
+				<div
+					className={isMobile ? 'flex flex-col mx-auto gap-5 p-5' : 'grid grid-flow-col mx-auto gap-5 w-fit'}
+				>
+					{jobs.map((j) => (
+						<Card className="p-5" key={j.id}>
+							<CardHeader>
+								<CardTitle className="@container underline">
+									<div className="text-[5.5cqw] leading-tight">{j.jobTitle}</div>
+								</CardTitle>
+								<CardDescription className="italic">{j.jobName}</CardDescription>
+								{j.current ? (
+									<CardAction>
+										<span className="text-3xl font-black text-destructive">*</span>
+									</CardAction>
+								) : null}
+							</CardHeader>
+							<CardContent
+								className={
+									isMobile
+										? 'no-scrollbar overflow-scroll border p-2 grow size-fit'
+										: 'no-scrollbar overflow-scroll border p-2 grow w-md h-48'
+								}
+							>
+								<div className="px-5">
+									<ul className="list-disc">
+										{j.responsibilities ? (
+											j.responsibilities?.map((r) => <li key={r.length}>{r}</li>)
+										) : (
+											<li>Currently on-going</li>
+										)}
+									</ul>
+								</div>
+							</CardContent>
+							<CardFooter
+								className={
+									isMobile
+										? 'no-scrollbar overflow-scroll p-2 grow'
+										: 'no-scrollbar overflow-scroll p-2 grow'
+								}
+							>
+								<div className="mb-5 max-w-md">
+									Duration of Employment: <Badge>{getDuration(j.jobStartDate, j.jobEndDate!)}</Badge>
+									{j.jobSecondStartDate ? (
 										<>
 											{' '}
-											and &apos;
-											{job.jobSecondEndDate.getFullYear().toString().substring(2)}
+											and <Badge>{getDuration(j.jobSecondStartDate, j.jobSecondEndDate!)}</Badge>
 										</>
 									) : null}
-								</Badge>
-							)}
-						</CardHeader>
-						<CardContent>
-							<div className="mb-5">
-								Duration of Employment: <Badge>{getDuration(job.jobStartDate, job.jobEndDate!)}</Badge>
-								{job.jobSecondStartDate ? (
-									<>
-										, <Badge>{getDuration(job.jobSecondStartDate, job.jobSecondEndDate!)}</Badge>
-									</>
-								) : null}
-							</div>
-							<div className="no-scrollbar overflow-scroll border p-3 h-30 max-w-fit content-center">
-								<ul className="list-disc pl-5 pr-5">
-									{job.responsibilities?.map((r) => (
-										<li key={r.length}>{r}</li>
-									))}
-								</ul>
-							</div>
-						</CardContent>
-					</Card>
-				))}
+								</div>
+							</CardFooter>
+						</Card>
+					))}
+				</div>
+				<p className="text-center mt-5">
+					<span className="text-3xl font-black text-destructive">*</span> = Denotes Current Means of
+					"Employment"
+				</p>
 			</div>
-			<div className="grid mx-auto">
-				<Dialog>
-					<DialogTitle hidden>My Resume</DialogTitle>
-					<DialogTrigger asChild>
-						<Button size="sm" variant="ghost" className="justify-items-center">
-							View Resume
+			<div className="pt-5 w-fit mx-auto">
+				<Drawer
+					open={open}
+					onOpenChange={setOpen}
+					snapPoints={[1]}
+					activeSnapPoint={snap}
+					setActiveSnapPoint={setSnap}
+				>
+					<DrawerTrigger asChild>
+						<Button variant="link" onClick={() => setOpen(true)}>
+							View Full Resume
 						</Button>
-					</DialogTrigger>
-					<DialogContent className="p-5 min-w-fit">
-						<embed src={pdf} type="application/pdf" width="600px" height="800px" />
-					</DialogContent>
-				</Dialog>
+					</DrawerTrigger>
+					<DrawerContent>
+						<DrawerHeader>
+							<DrawerTitle>Resume</DrawerTitle>
+						</DrawerHeader>
+						<div className="p-5 overflow-scroll">
+							<iframe src={pdf} className="w-full min-h-screen rounded-md border" title="PDF Viewer" />
+						</div>
+						<DrawerFooter>
+							<DrawerClose>Cancel</DrawerClose>
+						</DrawerFooter>
+					</DrawerContent>
+				</Drawer>
 			</div>
-			<small className="grid text-muted-foreground mx-auto">
-				Click the {`[HO]`} to go home when you&apos;re done!
-			</small>
-		</div>
+		</>
 	);
 };
-
-export default Resume;
