@@ -13,6 +13,7 @@ import { Theme, useTheme } from '../theme-provider';
 import { AxeIcon, Bird, BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Palette, Sun } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { Textarea } from '../ui/textarea';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ThemeOption {
 	value: Theme;
@@ -88,6 +89,7 @@ export const ThemeDropdown = () => {
 	const { theme, setTheme, applyCustomTheme, getCustomTheme, hasCustomTheme } = useTheme();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [customCss, setCustomCss] = useState('');
+	const isMobile = useIsMobile();
 
 	const handleCustomThemeConfirm = () => {
 		if (customCss.trim()) {
@@ -134,7 +136,7 @@ export const ThemeDropdown = () => {
 					<div className="float-right">
 						<Button variant="link" size="default" className="min-w-fit rounded-none">
 							<CurrentIcon className={`w-4 h-4`} />
-							<>{getCurrentTheme()?.label || 'Change Theme'}</>
+							{isMobile ? null : getCurrentTheme()?.label}
 							<ChevronDown className="h-3 w-3 opacity-50" />
 						</Button>
 					</div>
