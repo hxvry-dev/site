@@ -1,25 +1,31 @@
-import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { GalleryVerticalEnd } from 'lucide-react';
-import { toast } from 'sonner';
-
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '../ui/field';
+import { Input } from '../ui/input';
 import { supabase } from '@/db/supabaseClient';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const zSignInSchema = z.object({
+	email: z.email(),
+	password: z.string().min(6, 'Password must be at least 6 characters long!'),
+});
+
+export const LoginForm = () => {
 	const nav = useNavigate();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const signInForm = useForm<z.infer<typeof zSignInSchema>>({
+		resolver: zodResolver(zSignInSchema),
+		defaultValues: { email: '', password: '' },
+		mode: 'onChange',
+	});
 
-	const handleLogin = async (e: FormEvent) => {
-		e.preventDefault();
+	const onSubmit = async () => {
 		const { data, error } = await supabase!.auth.signInWithPassword({
-			email: email,
-			password: password,
+			email: signInForm.getValues('email'),
+			password: signInForm.getValues('password'),
 		});
 		if (error) {
 			toast.error(`Something went wrong! ${error.message}`);
@@ -27,65 +33,83 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 			toast.success('Signed In!');
 			return nav('/incremental');
 		}
+		console.log(signInForm.getValues());
 	};
 
 	return (
-		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-			<div className="w-full max-w-sm">
-				<div className={cn('flex flex-col gap-6', className)} {...props}>
-					<form onSubmit={handleLogin}>
-						<div className="flex flex-col gap-6">
-							<div className="flex flex-col items-center gap-2">
-								<a href="#" className="flex flex-col items-center gap-2 font-medium">
-									<div className="flex size-8 items-center justify-center rounded-md">
-										<GalleryVerticalEnd className="size-6" />
-									</div>
-									<span className="sr-only">Idle Game</span>
-								</a>
-								<h1 className="text-xl font-bold">Welcome back to the Game!</h1>
-								<div className="text-center text-sm cursor-pointer">
-									Don&apos;t have an account?{' '}
-									<a onClick={() => nav('/sign-up')} className="underline underline-offset-4">
-										Sign up
-									</a>
-								</div>
-							</div>
-							<div className="flex flex-col gap-6">
-								<div className="grid gap-3">
-									<Label htmlFor="email">Email</Label>
+		<Card className="max-w-md mx-auto mt-64">
+			<CardHeader>
+				<CardTitle className="justify-self-center">Welcome Back!</CardTitle>
+				<CardDescription className="font-mono mx-auto">Sign In Form</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<form id="sign-in-form" onSubmit={signInForm.handleSubmit(onSubmit)}>
+					<FieldGroup>
+						<Controller
+							name="email"
+							control={signInForm.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor="sign-in-form">Email Address</FieldLabel>
 									<Input
-										id="email"
-										type="email"
+										{...field}
+										id="sign-in-form"
+										aria-invalid={fieldState.invalid}
 										placeholder="me@example.com"
-										onChange={(e) => setEmail(e.target.value)}
-										autoComplete="me@example.com"
-										required
+										autoComplete="off"
+										className="rounded-none"
 									/>
-									<Label htmlFor="password">Password</Label>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
+						<Controller
+							name="password"
+							control={signInForm.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor="sign-in-form">Password</FieldLabel>
 									<Input
-										id="password"
-										type="password"
+										{...field}
+										id="sign-in-form"
+										aria-invalid={fieldState.invalid}
 										placeholder="hunter2"
-										onChange={(e) => setPassword(e.target.value)}
-										autoComplete="hunter2"
-										required
+										autoComplete="off"
+										type="password"
+										className="rounded-none"
 									/>
-								</div>
-								<Button type="submit" className="w-full">
-									Login
-								</Button>
-								<div className="text-center text-sm cursor-pointer my-2">
-									<a onClick={() => nav('/password-reset')} className="underline underline-offset-4">
-										Forgot Password?
-									</a>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+									<FieldDescription>
+										<NavLink to="/test/reset-password" className="underline">
+											Forgot Password?
+										</NavLink>
+									</FieldDescription>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
+					</FieldGroup>
+				</form>
+			</CardContent>
+			<CardFooter className="flex flex-col gap-2">
+				<Field orientation="horizontal">
+					<div className="mx-auto">
+						<Button type="submit" form="sign-in-form" disabled={!signInForm.formState.isValid}>
+							Submit
+						</Button>
+						<Button type="reset" asChild variant="link">
+							<NavLink to="/">Clear and Go Home</NavLink>
+						</Button>
+					</div>
+				</Field>
+				<Field orientation="horizontal">
+					<small className="text-muted-foreground mx-auto">
+						Don&apos;t have an account?{' '}
+						<NavLink to="/sign-up" className="underline">
+							Sign Up
+						</NavLink>
+					</small>
+				</Field>
+			</CardFooter>
+		</Card>
 	);
 };
-
-export default LoginForm;
