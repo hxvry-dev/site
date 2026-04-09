@@ -7,11 +7,11 @@ import { NotFound } from './components/custom/NotFound';
 import { Projects } from './components/custom/Projects';
 import { Resume } from './components/custom/Resume';
 import { ThemeProvider } from './components/theme-provider';
-import SetNewPasswordForm from './components/custom/set-new-password';
+import { LoginForm } from './components/custom/login-form';
+import { PasswordResetForm } from './components/custom/password-reset-form';
+import { SetNewPasswordForm } from './components/custom/set-new-password';
+import { SignUpForm } from './components/custom/sign-up-form';
 
-const PasswordResetForm = lazy(() => import('./components/custom/password-reset-form'));
-const SignUpForm = lazy(() => import('./components/custom/sign-up-form'));
-const LoginForm = lazy(() => import('./components/custom/login-form'));
 const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
 
 const App = () => {
