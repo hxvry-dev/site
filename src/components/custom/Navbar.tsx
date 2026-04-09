@@ -15,25 +15,25 @@ interface CrumbProps {
 }
 
 const Crumb = ({ loc }: CrumbProps) => {
-	const path = loc.pathname.split('/');
+	const path = loc.pathname.split('/').filter((item) => item !== '');
 	const isMobile = useIsMobile();
+	console.log(path, path[0]);
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>
 				<div className={isMobile ? 'flex items-center' : 'flex items-center space-x-2'}>
 					<BreadcrumbItem>
-						<BreadcrumbLink href={`/${path[0]}`}>Home</BreadcrumbLink>
+						<BreadcrumbLink href={`/`}>Home</BreadcrumbLink>
 					</BreadcrumbItem>
 					{loc.pathname === '/' ? null : <BreadcrumbSeparator />}
-					{path
-						.filter((item) => item !== '')
-						.map((i) => (
-							<div key={i}>
-								<BreadcrumbItem>
-									<BreadcrumbPage>{i.at(0)?.toLocaleUpperCase() + i.slice(1)}</BreadcrumbPage>
-								</BreadcrumbItem>
-							</div>
-						))}
+					{path.map((i, idx) => (
+						<div className={isMobile ? 'flex items-center' : 'flex items-center space-x-2'} key={i}>
+							<BreadcrumbItem>
+								<BreadcrumbPage>{i.at(0)?.toLocaleUpperCase() + i.slice(1)}</BreadcrumbPage>
+							</BreadcrumbItem>
+							{idx < path.length - 1 && <BreadcrumbSeparator />}
+						</div>
+					))}
 				</div>
 			</BreadcrumbList>
 		</Breadcrumb>
