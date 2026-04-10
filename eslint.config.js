@@ -4,8 +4,9 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import { defineConfig } from 'eslint/config';
 
-export default tseslint.config(
+export default defineConfig([
 	{ ignores: ['dist'] },
 	{
 		extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -47,4 +48,4 @@ export default tseslint.config(
 			'simple-import-sort/exports': 'error',
 		},
 	},
-);
+]);

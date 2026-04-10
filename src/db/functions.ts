@@ -66,7 +66,6 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameState): num
 };
 
 export const upsertUserUpgrades = async (gameState: GameState): Promise<void> => {
-	return new Promise(async (resolve, reject) => {
 		try {
 			const { error: upgradesError } = await supabase
 				.from('user_upgrades')
@@ -85,11 +84,8 @@ export const upsertUserUpgrades = async (gameState: GameState): Promise<void> =>
 				console.error('Error updating user:', userError);
 				throw userError;
 			}
-
-			resolve();
 		} catch (error) {
 			console.error('Auto-save failed:', error);
-			reject(error);
+		throw error;
 		}
-	});
 };
