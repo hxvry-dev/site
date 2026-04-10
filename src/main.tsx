@@ -11,7 +11,6 @@ import App from './App.tsx';
 /** Fonts */
 import '@fontsource-variable/geist/wght.css';
 import '@fontsource-variable/space-grotesk/wght.css';
-
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(

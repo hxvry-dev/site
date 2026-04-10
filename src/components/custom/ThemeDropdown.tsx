@@ -1,4 +1,10 @@
 import { useState } from 'react';
+
+import { AxeIcon, Bird, BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Palette, Sun } from 'lucide-react';
+
+import { Theme, useTheme } from '../theme-provider';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter,DialogHeader, DialogTitle } from '../ui/dialog';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -8,11 +14,8 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
-import { Theme, useTheme } from '../theme-provider';
-import { AxeIcon, Bird, BoldIcon, Check, ChevronDown, DropletIcon, Monitor, Moon, Palette, Sun } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { Textarea } from '../ui/textarea';
+
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ThemeOption {

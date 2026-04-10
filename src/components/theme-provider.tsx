@@ -14,19 +14,19 @@ export type Theme =
 	| 'hoot-dark'
 	| 'custom-theme';
 
-type ThemeProviderProps = {
+interface ThemeProviderProps {
 	children: React.ReactNode;
 	defaultTheme?: Theme;
 	storageKey?: string;
-};
+}
 
-type ThemeProviderState = {
+interface ThemeProviderState {
 	theme: Theme;
 	setTheme: (theme: Theme) => void;
 	applyCustomTheme: (css: string) => void;
 	getCustomTheme: () => string;
 	hasCustomTheme: () => boolean;
-};
+}
 
 const initialState: ThemeProviderState = {
 	theme: 'system',
@@ -46,21 +46,22 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
 	const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem(storageKey) as Theme) || defaultTheme);
 
-	const applyCustomTheme = (css: string): void => {
+	const applyCustomTheme = (css: string): boolean => {
 		try {
-			const existingStyle = document.getElementById(`custom-theme`);
+			const existingStyle = document.getElementById('custom-theme');
 			if (existingStyle) existingStyle.remove();
 
-			const styleElement = document.createElement('style', { is: 'text/css' });
+			const styleElement = document.createElement('style');
 			styleElement.id = 'custom-theme';
 			styleElement.textContent = `:root { ${css} }`;
 			document.head.appendChild(styleElement);
 
 			localStorage.setItem('vite-ui-theme', 'custom-theme');
 			localStorage.setItem(`${storageKey}-custom`, css);
+			return true;
 		} catch (e) {
 			console.error(`Failed to apply custom theme:`, e);
-			setTheme(defaultTheme);
+			return false;
 		}
 	};
 
@@ -75,9 +76,12 @@ export function ThemeProvider({
 
 	useEffect(() => {
 		if (theme === 'custom-theme' && hasCustomTheme()) {
-			applyCustomTheme(getCustomTheme());
+			const success = applyCustomTheme(getCustomTheme());
+			if (!success) {
+				setTimeout(() => setTheme(defaultTheme), 0);
+			}
 		}
-	}, []);
+	}, [theme]);
 
 	useEffect(() => {
 		const root = window.document.documentElement;

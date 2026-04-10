@@ -1,6 +1,19 @@
+import { useState } from 'react';
+
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from '../ui/drawer';
+
 import {
 	Card,
 	CardAction,
@@ -11,17 +24,6 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
-import {
-	Drawer,
-	DrawerClose,
-	DrawerContent,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerTitle,
-	DrawerTrigger,
-} from '../ui/drawer';
-import { Button } from '../ui/button';
-import { useState } from 'react';
 
 interface JobCardProps {
 	id: number;
@@ -93,7 +95,7 @@ const getDuration = (startDate: Date, endDate: Date): string => {
 };
 
 export const Resume = () => {
-	const pdf: string = '/pdfs/Resume.pdf';
+	const pdf = '/pdfs/Resume.pdf';
 	const isMobile = useIsMobile();
 	const [snap, setSnap] = useState<number | string | null>('50%');
 	const [open, setOpen] = useState(false);

@@ -1,9 +1,11 @@
-import { calculateLocalLevel } from '@/db/functions';
 import { useAtom } from 'jotai';
-import { gameStateAtom, purchasePowerAtom } from './Incremental';
-import { Badge } from '@/components/ui/badge';
+
 import { Upgrade } from './util/schema';
 import { getCost } from './util/util';
+import { gameStateAtom, purchasePowerAtom } from './Incremental';
+
+import { Badge } from '@/components/ui/badge';
+import { calculateLocalLevel } from '@/db/functions';
 
 interface ChipProps {
 	upgrade: Upgrade;

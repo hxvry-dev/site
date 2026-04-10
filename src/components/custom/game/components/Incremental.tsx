@@ -1,26 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Session } from '@supabase/supabase-js';
 import { atom, useAtom } from 'jotai';
+import { toast } from 'sonner';
+
+import { TotalBonusDialog } from './dialogs/TotalBonusDialog';
+import { GameState } from './util/schema';
+import { BuyMultiple } from './BuyMultiple';
+import { BuySingleUpgrade } from './BuySingleUpgrade';
+import { ClickerButton } from './ClickerButton';
+import { GameStats } from './GameStats';
+import { OfflineProgressModal } from './OfflineProgressModal';
+import { PrestigeBar } from './PrestigeBar';
+import { PrestigeButton } from './PrestigeButton';
+import { PrestigeSelect } from './PrestigeSelect';
+import { Version } from './version';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchAndValidateGameState, upsertUserUpgrades } from '@/db/functions';
-import { useNavigate } from 'react-router-dom';
-import { BuySingleUpgrade } from './BuySingleUpgrade';
 import { supabase } from '@/db/supabaseClient';
-
-import { ClickerButton } from './ClickerButton';
-import { GameStats } from './GameStats';
-import { PrestigeBar } from './PrestigeBar';
-import { PrestigeButton } from './PrestigeButton';
-import { Version } from './version';
-import { GameState } from './util/schema';
-import { OfflineProgressModal } from './OfflineProgressModal';
-import { toast } from 'sonner';
-import { TotalBonusDialog } from './dialogs/TotalBonusDialog';
-import { PrestigeSelect } from './PrestigeSelect';
-import { BuyMultiple } from './BuyMultiple';
 
 const defaultGameState = async (): Promise<GameState> => {
 	const result = await fetchAndValidateGameState().then((data) => {
@@ -72,7 +72,7 @@ const Incremental = () => {
 		const now: number = Date.now();
 		const timeAway: number = (now - lastSeen) / 1000;
 		if (timeAway < 30) return;
-		const maxOfflineHours: number = 24;
+		const maxOfflineHours = 24;
 		const cappedTimeAway: number = Math.min(timeAway, maxOfflineHours * 3600);
 		const currencyEarned: number =
 			gameState.user.currency_per_second * cappedTimeAway * gameState.user.offline_progress_mult;

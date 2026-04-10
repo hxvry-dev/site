@@ -1,26 +1,43 @@
-import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 
-import { GalleryVerticalEnd } from 'lucide-react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import z from 'zod';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
+import { Input } from '../ui/input';
+
 import { supabase } from '@/db/supabaseClient';
 
-const SignUpForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
-	const nav = useNavigate();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
+const zSignUpSchema = z
+	.object({
+		email: z.email(),
+		password: z.string().min(6, 'Password must be at least 6 characters long!'),
+		confirmPassword: z.string(),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		error: 'Passwords do not match!',
+		path: ['confirmPassword'],
+	});
 
-	const handleSignup = async (e: FormEvent) => {
-		e.preventDefault();
+export const SignUpForm = () => {
+	const signUpForm = useForm<z.infer<typeof zSignUpSchema>>({
+		resolver: zodResolver(zSignUpSchema),
+		defaultValues: {
+			email: '',
+			password: '',
+			confirmPassword: '',
+		},
+		mode: 'onChange',
+	});
+
+	const onSubmit = async () => {
 		const { error } = await supabase!.auth.signUp({
-			email: email,
-			password: password,
+			email: signUpForm.getValues('email'),
+			password: signUpForm.getValues('password'),
 			options: {
 				emailRedirectTo: 'https://hxvry.com/login',
 			},
@@ -35,71 +52,94 @@ const SignUpForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
 			toast.success('Signed Up Successfully!');
 		}
 	};
-
 	return (
-		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-			<div className="w-full max-w-sm">
-				<div className={cn('flex flex-col gap-6', className)} {...props}>
-					<form onSubmit={handleSignup}>
-						<div className="flex flex-col gap-6">
-							<div className="flex flex-col items-center gap-2">
-								<a href="#" className="flex flex-col items-center gap-2 font-medium">
-									<div className="flex size-8 items-center justify-center rounded-md">
-										<GalleryVerticalEnd className="size-6" />
-									</div>
-									<span className="sr-only">Idle Game</span>
-								</a>
-								<h1 className="text-xl font-bold">Welcome to the Game!</h1>
-								<div className="text-center text-sm cursor-pointer my-2">
-									Back to{' '}
-									<a onClick={() => nav('/login')} className="underline underline-offset-4">
-										Login
-									</a>
-								</div>
-							</div>
-							<div className="flex flex-col gap-6">
-								<div className="grid gap-3">
-									<Label htmlFor="email">Email</Label>
+		<Card className="max-w-md mx-auto mt-64">
+			<CardHeader>
+				<CardTitle className="justify-self-center">Welcome to The Game!</CardTitle>
+				<CardDescription className="font-mono mx-auto">Sign Up Form</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<form id="sign-up-form" onSubmit={signUpForm.handleSubmit(onSubmit)}>
+					<FieldGroup>
+						<Controller
+							name="email"
+							control={signUpForm.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor="sign-up-form">Email Address</FieldLabel>
 									<Input
-										id="email"
-										type="email"
+										{...field}
+										id="sign-up-form"
+										aria-invalid={fieldState.invalid}
 										placeholder="me@example.com"
-										onChange={(e) => setEmail(e.target.value)}
-										autoComplete="me@example.com"
-										required
+										autoComplete="off"
+										className="rounded-none"
 									/>
-									<Label htmlFor="password">Password</Label>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
+						<Controller
+							name="password"
+							control={signUpForm.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor="sign-up-form">Password</FieldLabel>
 									<Input
-										id="password"
-										type="password"
+										{...field}
+										id="sign-up-form"
+										aria-invalid={fieldState.invalid}
 										placeholder="hunter2"
-										onChange={(e) => setPassword(e.target.value)}
-										autoComplete="hunter2"
-										required
-									/>
-									<Label htmlFor="password">Password</Label>
-									<Input
-										id="confirm-password"
+										autoComplete="off"
 										type="password"
-										placeholder="Confirm Password..."
-										onChange={(e) => setConfirmPassword(e.target.value)}
-										autoComplete="hunter2"
-										required
+										className="rounded-none"
 									/>
-								</div>
-								<div>
-									<Button type="submit" className="w-full" disabled={!(password === confirmPassword)}>
-										Sign Up
-									</Button>
-									{password !== confirmPassword ? <small>Passwords need to match!</small> : <></>}
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
+						<Controller
+							name="confirmPassword"
+							control={signUpForm.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor="sign-up-form">Confirm Password</FieldLabel>
+									<Input
+										{...field}
+										id="sign-up-form"
+										aria-invalid={fieldState.invalid}
+										placeholder="hunter2"
+										autoComplete="off"
+										type="password"
+										className="rounded-none"
+									/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
+					</FieldGroup>
+				</form>
+			</CardContent>
+			<CardFooter className="flex flex-col gap-2">
+				<Field orientation="horizontal">
+					<div className="mx-auto">
+						<Button type="submit" form="sign-up-form" disabled={!signUpForm.formState.isValid}>
+							Submit
+						</Button>
+						<Button type="reset" asChild variant="link">
+							<NavLink to="/login">Back to Login</NavLink>
+						</Button>
+					</div>
+				</Field>
+				<Field orientation="horizontal">
+					<small className="text-muted-foreground mx-auto">
+						Have an account?{' '}
+						<NavLink to="/login" className="underline">
+							Sign In
+						</NavLink>
+					</small>
+				</Field>
+			</CardFooter>
+		</Card>
 	);
 };
-
-export default SignUpForm;
