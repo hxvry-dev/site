@@ -15,12 +15,11 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CrumbProps {
 	loc: Location;
+	isMobile: boolean;
 }
 
-const Crumb = ({ loc }: CrumbProps) => {
+const Crumb = ({ loc, isMobile }: CrumbProps) => {
 	const path = loc.pathname.split('/').filter((item) => item !== '');
-	const isMobile = useIsMobile();
-	console.log(path, path[0]);
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>
@@ -45,12 +44,13 @@ const Crumb = ({ loc }: CrumbProps) => {
 
 export const Navbar = () => {
 	const loc = useLocation();
+	const isMobile = useIsMobile();
+
 	return (
-		<div className="grid grid-cols-3 font-mono text-center text-md">
+		<div className="grid grid-flow-col font-mono text-center text-md">
 			<div className="self-center px-3 col-span-1">
-				<Crumb loc={loc} />
+				<Crumb loc={loc} isMobile={isMobile} />
 			</div>
-			<span className="mx-auto self-center col-span-1">Henry Ouellette</span>
 			<div className="col-span-1">
 				<ThemeDropdown />
 			</div>
