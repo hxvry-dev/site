@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Home from './components/custom/Home';
+import { Home } from './components/custom/Home';
 import { LoginForm } from './components/custom/login-form';
 import { Navbar } from './components/custom/Navbar';
 import { NotFound } from './components/custom/NotFound';
