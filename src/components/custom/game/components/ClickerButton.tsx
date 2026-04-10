@@ -1,7 +1,9 @@
-import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
-import { gameStateAtom } from './Incremental';
+
 import { costFormatter } from './util/util';
+import { gameStateAtom } from './Incremental';
+
+import { Button } from '@/components/ui/button';
 
 export const ClickerButton = () => {
 	const [gameState, setGameState] = useAtom(gameStateAtom);

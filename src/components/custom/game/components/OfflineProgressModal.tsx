@@ -1,7 +1,9 @@
+import { FC } from 'react';
+
+import { costFormatter } from './util/util';
+
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FC } from 'react';
-import { costFormatter } from './util/util';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface OfflineProgressModalProps {

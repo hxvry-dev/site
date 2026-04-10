@@ -1,14 +1,15 @@
+import { GameState, Upgrade } from '../util/schema';
+import { costFormatter } from '../util/util';
+
 import {
 	Dialog,
-	DialogTrigger,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-	DialogDescription,
+	DialogTrigger,
 } from '@/components/ui/dialog';
-import { TableBody, TableRow, TableCell, Table } from '@/components/ui/table';
-import { costFormatter } from '../util/util';
-import { GameState, Upgrade } from '../util/schema';
+import { Table,TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { calculateLocalLevel } from '@/db/functions';
 
 interface UpgradeDialogProps {

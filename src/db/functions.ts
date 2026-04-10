@@ -1,10 +1,10 @@
 import {
 	GameState,
-	UserUpgrades,
-	Upgrades,
-	Upgrade,
-	User,
 	GameStateSchema,
+	Upgrade,
+	Upgrades,
+	User,
+	UserUpgrades,
 } from '@/components/custom/game/components/util/schema';
 import { supabase } from '@/db/supabaseClient';
 
@@ -25,16 +25,16 @@ export const fetchAndValidateGameState = async (): Promise<GameState | undefined
 	const userID = await getUserID();
 	let gameState: GameState = {} as GameState;
 	try {
-		let { data: gameUpgrades, error: upgradesError } = await supabase!.from('upgrades').select('*');
+		const { data: gameUpgrades, error: upgradesError } = await supabase!.from('upgrades').select('*');
 		if (upgradesError) throw upgradesError;
 
-		let { data: userUpgrades, error: userUpgradesError } = await supabase!
+		const { data: userUpgrades, error: userUpgradesError } = await supabase!
 			.from('user_upgrades')
 			.select('*')
 			.eq('user_id', userID);
 		if (userUpgradesError) throw userUpgradesError;
 
-		let { data: users, error: usersError } = await supabase!
+		const { data: users, error: usersError } = await supabase!
 			.from('users')
 			.select('*')
 			.eq('user_id', userID)

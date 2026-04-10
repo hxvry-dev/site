@@ -1,8 +1,9 @@
-import { Button } from '@/components/ui/button';
 import { NavLink } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
+
 export const Version = () => {
-	const changelogByTag: string = `https://github.com/hxvry-dev/site/compare/${__APP_VERSION__}...main`;
+	const changelogByTag = `https://github.com/hxvry-dev/site/compare/${__APP_VERSION__}...main`;
 
 	return (
 		<div className="justify-self-center mt-5">

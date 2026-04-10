@@ -1,4 +1,5 @@
 import { Location, useLocation } from 'react-router-dom';
+
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -7,7 +8,9 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from '../ui/breadcrumb';
+
 import { ThemeDropdown } from './ThemeDropdown';
+
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CrumbProps {

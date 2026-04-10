@@ -1,5 +1,6 @@
+import { GameState,Upgrade } from './schema';
+
 import { calculateLocalLevel } from '@/db/functions';
-import { Upgrade, GameState } from './schema';
 
 export const getCost = (upgrade: Upgrade, gameState: GameState, purchasePower: number): number => {
 	const currentLevel = calculateLocalLevel(upgrade, gameState);

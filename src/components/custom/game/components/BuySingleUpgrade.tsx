@@ -1,22 +1,22 @@
 import { useAtom } from 'jotai';
+import { toast } from 'sonner';
+
+import { UpgradeDialog } from './dialogs/UpgradeDialog';
+import { Upgrade, Upgrades, UserUpgrade } from './util/schema';
+import { costFormatter, getCost } from './util/util';
 import { Chip } from './Chip';
+import { gameStateAtom, purchasePowerAtom } from './Incremental';
+
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { calculateLocalLevel } from '@/db/functions';
-import { gameStateAtom, purchasePowerAtom } from './Incremental';
-import { toast } from 'sonner';
-import { Upgrades, Upgrade, UserUpgrade } from './util/schema';
-import { costFormatter, getCost } from './util/util';
-import { UpgradeDialog } from './dialogs/UpgradeDialog';
 
 interface UpgradeItemProps {
 	upgradeType: 'base' | 'prestige' | 'mult';
 	prestigeFilter: number;
 }
 
-interface Cost {
-	[key: string]: number;
-}
+type Cost = Record<string, number>;
 
 export const BuySingleUpgrade = ({ upgradeType, prestigeFilter }: UpgradeItemProps) => {
 	const userID: string | void = sessionStorage.getItem('user_id') ?? console.log('userID not defined.');
@@ -26,7 +26,7 @@ export const BuySingleUpgrade = ({ upgradeType, prestigeFilter }: UpgradeItemPro
 	const resources: number =
 		upgradeType === 'prestige' ? gameState.user.prestige_points_balance : gameState.user.currency_balance;
 	const costs: Cost = {};
-	for (let keys of data) {
+	for (const keys of data) {
 		costs[keys.upgrade_id] = getCost(keys, gameState, purchasePower);
 	}
 

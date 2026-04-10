@@ -2,15 +2,15 @@ import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Home from './components/custom/Home';
+import { LoginForm } from './components/custom/login-form';
 import { Navbar } from './components/custom/Navbar';
 import { NotFound } from './components/custom/NotFound';
+import { PasswordResetForm } from './components/custom/password-reset-form';
 import { Projects } from './components/custom/Projects';
 import { Resume } from './components/custom/Resume';
-import { ThemeProvider } from './components/theme-provider';
-import { LoginForm } from './components/custom/login-form';
-import { PasswordResetForm } from './components/custom/password-reset-form';
 import { SetNewPasswordForm } from './components/custom/set-new-password';
 import { SignUpForm } from './components/custom/sign-up-form';
+import { ThemeProvider } from './components/theme-provider';
 
 const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
 

@@ -1,14 +1,15 @@
+import { GameState } from '../util/schema';
+import { costFormatter } from '../util/util';
+
 import {
 	Dialog,
-	DialogTrigger,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-	DialogDescription,
+	DialogTrigger,
 } from '@/components/ui/dialog';
-import { GameState } from '../util/schema';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { costFormatter } from '../util/util';
 
 interface TotalBonusDialogProps {
 	state: GameState;
@@ -16,7 +17,7 @@ interface TotalBonusDialogProps {
 
 export const TotalBonusDialog = ({ state }: TotalBonusDialogProps) => {
 	const totalUpgradesPurchased = (): number => {
-		let total: number = 0;
+		let total = 0;
 		state.userUpgrades.forEach((u) => {
 			total += u.level_current;
 		});

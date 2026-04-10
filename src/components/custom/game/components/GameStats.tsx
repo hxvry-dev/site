@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
-import { gameStateAtom } from './Incremental';
+
 import { costFormatter, handleNewPrestigePoints } from './util/util';
+import { gameStateAtom } from './Incremental';
 
 export const GameStats = () => {
 	const [gameState] = useAtom(gameStateAtom);

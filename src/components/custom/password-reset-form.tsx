@@ -1,13 +1,16 @@
-import z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
+import z from 'zod';
+
+import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
+
 import { supabase } from '@/db/supabaseClient';
-import { toast } from 'sonner';
-import { Button } from '../ui/button';
-import { NavLink } from 'react-router-dom';
 
 const zSetNewPasswordSchema = z.object({
 	email: z.email(),

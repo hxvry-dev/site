@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from '../ui/card';
+import { NavLink } from 'react-router-dom';
+
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { NavLink } from 'react-router-dom';
+import { Card, CardAction,CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+
+import { useIsMobile } from '@/hooks/use-mobile';
 
 function GithubLogo() {
 	return (
@@ -31,9 +33,9 @@ interface ProjectDataProps {
 	id: number;
 	name: string;
 	description: string;
-	link: Array<LinkProps>;
+	link: LinkProps[];
 	src: string;
-	tools: Array<string>;
+	tools: string[];
 	action?: string;
 }
 

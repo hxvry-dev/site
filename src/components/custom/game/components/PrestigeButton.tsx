@@ -1,9 +1,11 @@
-import { Button } from '@/components/ui/button';
 import { useAtom } from 'jotai';
-import { gameStateAtom } from './Incremental';
-import { calculateLocalLevel } from '@/db/functions';
-import { handleNewPrestigePoints } from './util/util';
+
 import { GameState } from './util/schema';
+import { handleNewPrestigePoints } from './util/util';
+import { gameStateAtom } from './Incremental';
+
+import { Button } from '@/components/ui/button';
+import { calculateLocalLevel } from '@/db/functions';
 
 interface PrestigeButtonProps {
 	initialState: GameState;
