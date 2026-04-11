@@ -33,8 +33,8 @@ export const Home = () => {
 					</p>
 				</Marquee>
 			</div>
-			<div className="mx-auto font-mono max-w-md mt-5">
-				<div className="px-5 flex flex-row justify-between">
+			<div className={isMobile ? 'flex flex-col mx-auto font-mono' : 'mx-auto font-mono max-w-md'}>
+				<div className="flex flex-row justify-between mt-5 px-5">
 					<p>Hi - I'm Henry!</p>
 					<p>Welcome to my website.</p>
 				</div>
@@ -50,7 +50,9 @@ export const Home = () => {
 					<CardContent>
 						<ul className="list-disc px-5">
 							{aboutMe.facts.map((i) => (
-								<li key={i.length}>{i}</li>
+								<li key={i.length} className="mb-5 last:mb-0">
+									{i}
+								</li>
 							))}
 						</ul>
 					</CardContent>
@@ -58,9 +60,9 @@ export const Home = () => {
 					<CardFooter>
 						<div className="flex flex-col gap-5">
 							<strong className="text-center">
-								Check the links out below to get a better idea of what I've been up to:
+								Check out the links below to get a better idea of what I've been up to:
 							</strong>
-							<div className="grid grid-flow-col grid-rows-2 mx-auto">
+							<div className="flex flex-col mx-auto">
 								<Button asChild size={isMobile ? 'lg' : 'sm'} variant="outline" className="px-5 w-full">
 									<NavLink to="/projects">Personal Projects + Games</NavLink>
 								</Button>
