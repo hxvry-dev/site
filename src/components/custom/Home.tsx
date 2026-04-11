@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { ButtonGroup } from '../ui/button-group';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Separator } from '../ui/separator';
+import { useIsMobile } from '@/hooks/use-mobile';
 interface AboutMeProps {
 	facts: string[];
 }
@@ -20,13 +21,22 @@ const aboutMe: AboutMeProps = {
 
 export const Home = () => {
 	const [isHovering, setIsHovering] = useState(false);
+	const isMobile = useIsMobile();
 
 	return (
-		<div className="flex flex-col gap-5">
-			<div className="mx-auto font-mono max-w-md">
-				<div className="px-5 grid grid-flow-col-dense">
+		<div className="flex flex-col">
+			<div className="w-full py-5 font-incremental font-bold text-3xl bg-red-700">
+				<Marquee speed={100} speedFactor={0.5} direction={1}>
+					<p>
+						ATTENTION RECRUITERS: I AM LOOKING FOR A NEW ROLE. PLEASE REACH OUT TO ME WITH ANY JOB
+						OPPORTUNITIES VIA EMAIL AT <code>me@hxvry.com</code>. THANK YOU!
+					</p>
+				</Marquee>
+			</div>
+			<div className="mx-auto font-mono max-w-md mt-5">
+				<div className="px-5 flex flex-row justify-between">
 					<p>Hi - I'm Henry!</p>
-					<p className="text-right">Welcome to my website.</p>
+					<p>Welcome to my website.</p>
 				</div>
 				<Separator className="my-5" />
 				<Card>
@@ -40,22 +50,27 @@ export const Home = () => {
 					<CardContent>
 						<ul className="list-disc px-5">
 							{aboutMe.facts.map((i) => (
-								<li>{i}</li>
+								<li key={i.length}>{i}</li>
 							))}
 						</ul>
 					</CardContent>
 					<Separator />
 					<CardFooter>
-						<div className="grid grid-rows-2">
+						<div className="flex flex-col gap-5">
 							<strong className="text-center">
 								Check the links out below to get a better idea of what I've been up to:
 							</strong>
-							<div className="grid grid-flow-col grid-rows-2 mx-auto py-2">
-								<Button asChild size="sm" variant="outline" className="px-5 w-full">
+							<div className="grid grid-flow-col grid-rows-2 mx-auto">
+								<Button asChild size={isMobile ? 'lg' : 'sm'} variant="outline" className="px-5 w-full">
 									<NavLink to="/projects">Personal Projects + Games</NavLink>
 								</Button>
 								<ButtonGroup>
-									<Button asChild size="sm" variant="outline" className="px-5 min-w-fit">
+									<Button
+										asChild
+										size={isMobile ? 'lg' : 'sm'}
+										variant="outline"
+										className="px-5 min-w-fit"
+									>
 										<NavLink
 											to={'https://www.linkedin.com/in/henry-ouellette-8a3b36201/'}
 											target="_blank"
@@ -63,10 +78,20 @@ export const Home = () => {
 											My LinkedIn
 										</NavLink>
 									</Button>
-									<Button asChild size="sm" variant="outline" className="px-5 min-w-fit">
+									<Button
+										asChild
+										size={isMobile ? 'lg' : 'sm'}
+										variant="outline"
+										className="px-5 min-w-fit"
+									>
 										<NavLink to={'/resume'}>My Resume</NavLink>
 									</Button>
-									<Button asChild size="sm" variant="outline" className="px-5 min-w-fit">
+									<Button
+										asChild
+										size={isMobile ? 'lg' : 'sm'}
+										variant="outline"
+										className="px-5 min-w-fit"
+									>
 										<NavLink to={'https://github.com/hxvry-dev'} target="_blank">
 											My Github
 										</NavLink>
@@ -76,21 +101,15 @@ export const Home = () => {
 						</div>
 					</CardFooter>
 				</Card>
-			</div>
-			<small
-				className="font-mono mx-auto text-muted-foreground italic"
-				onMouseEnter={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
-			>
-				Made with &#9829; by me in the <strong>{isHovering ? 'Flour' : 'Flower'}</strong> City
-			</small>
-			<div className="absolute inset-x-0 bottom-0 min-w-full py-5 font-incremental font-bold text-3xl bg-red-700">
-				<Marquee speed={100} speedFactor={0.5} direction={1}>
-					<p>
-						ATTENTION RECRUITERS: I AM LOOKING FOR A NEW ROLE. PLEASE REACH OUT TO ME WITH ANY JOB
-						OPPORTUNITIES VIA EMAIL AT <code>me@hxvry.com</code>. THANK YOU!
-					</p>
-				</Marquee>
+				<div className="text-center">
+					<small
+						className="font-mono text-muted-foreground italic"
+						onMouseEnter={() => setIsHovering(true)}
+						onMouseLeave={() => setIsHovering(false)}
+					>
+						Made with &#9829; by me in the <strong>{isHovering ? 'Flour' : 'Flower'}</strong> City
+					</small>
+				</div>
 			</div>
 		</div>
 	);
