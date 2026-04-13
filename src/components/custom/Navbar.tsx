@@ -47,7 +47,7 @@ export const Navbar = () => {
 	const isMobile = useIsMobile();
 
 	return (
-		<div className="grid grid-flow-col font-mono text-center text-md">
+		<div className="flex flex-row justify-between mx-auto font-mono">
 			<div className="self-center px-3 col-span-1">
 				<Crumb loc={loc} isMobile={isMobile} />
 			</div>
