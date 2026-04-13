@@ -94,11 +94,40 @@ const getDuration = (startDate: Date, endDate: Date): string => {
 	return result;
 };
 
-export const Resume = () => {
-	const pdf = '/pdfs/Resume.pdf';
-	const isMobile = useIsMobile();
+interface ResumeDrawerProps {
+	altButtonText?: string;
+	buttonStyles?: string;
+}
+
+export const ResumeDrawer = ({ altButtonText, buttonStyles }: ResumeDrawerProps) => {
 	const [snap, setSnap] = useState<number | string | null>('50%');
 	const [open, setOpen] = useState(false);
+	const pdf = '/pdfs/Resume.pdf';
+
+	return (
+		<Drawer open={open} onOpenChange={setOpen} snapPoints={[1]} activeSnapPoint={snap} setActiveSnapPoint={setSnap}>
+			<DrawerTrigger asChild>
+				<Button variant="link" onClick={() => setOpen(true)} className={buttonStyles ?? ''}>
+					{altButtonText ? altButtonText : 'View Full Resume'}
+				</Button>
+			</DrawerTrigger>
+			<DrawerContent>
+				<DrawerHeader>
+					<DrawerTitle>Resume</DrawerTitle>
+				</DrawerHeader>
+				<div className="p-5 overflow-scroll">
+					<iframe src={pdf} className="w-full min-h-screen rounded-md border" title="PDF Viewer" />
+				</div>
+				<DrawerFooter>
+					<DrawerClose>Cancel</DrawerClose>
+				</DrawerFooter>
+			</DrawerContent>
+		</Drawer>
+	);
+};
+
+export const Resume = () => {
+	const isMobile = useIsMobile();
 
 	return (
 		<>
@@ -164,30 +193,7 @@ export const Resume = () => {
 				</p>
 			</div>
 			<div className="pt-5 w-fit mx-auto">
-				<Drawer
-					open={open}
-					onOpenChange={setOpen}
-					snapPoints={[1]}
-					activeSnapPoint={snap}
-					setActiveSnapPoint={setSnap}
-				>
-					<DrawerTrigger asChild>
-						<Button variant="link" onClick={() => setOpen(true)}>
-							View Full Resume
-						</Button>
-					</DrawerTrigger>
-					<DrawerContent>
-						<DrawerHeader>
-							<DrawerTitle>Resume</DrawerTitle>
-						</DrawerHeader>
-						<div className="p-5 overflow-scroll">
-							<iframe src={pdf} className="w-full min-h-screen rounded-md border" title="PDF Viewer" />
-						</div>
-						<DrawerFooter>
-							<DrawerClose>Cancel</DrawerClose>
-						</DrawerFooter>
-					</DrawerContent>
-				</Drawer>
+				<ResumeDrawer />
 			</div>
 		</>
 	);
