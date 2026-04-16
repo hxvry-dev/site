@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { loginWithSpotify } from '../../lib/spotify-auth';
 import { Marquee } from '../marquee';
@@ -9,10 +9,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card
 import { Separator } from '../ui/separator';
 
 import { ResumeDrawer } from './Resume';
-import { SpotifyTopArtistsCard, TopTracksResponse } from './spotify-card';
 
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useSpotify } from '@/hooks/use-spotify';
+
 interface AboutMeProps {
 	facts: string[];
 }
@@ -28,11 +27,8 @@ const aboutMe: AboutMeProps = {
 export const Home = () => {
 	const [isHovering, setIsHovering] = useState({ flower: false, banner: false });
 	const isMobile = useIsMobile();
-
-	const { data } = useSpotify<TopTracksResponse>('/me/top/tracks?limit=5');
 	const code = sessionStorage.getItem('access_token');
-
-	if (!data) return;
+	const nav = useNavigate();
 
 	return (
 		<div className="flex flex-col">
@@ -114,10 +110,11 @@ export const Home = () => {
 										size={isMobile ? 'xl' : 'sm'}
 										variant="outline"
 										className="px-5 w-full"
-										onClick={loginWithSpotify}
-										disabled={code !== null}
+										onClick={code === null ? () => loginWithSpotify() : () => nav('/spotify')}
 									>
-										{code !== null ? `You're Signed In!` : `View Your Spotify Stats (Req. Login)`}
+										{code !== null
+											? `You're Signed In! Click to View Stats`
+											: `View Your Spotify Stats (Req. Login)`}
 									</Button>
 									<ButtonGroup
 										className={isMobile ? 'flex-col w-full mt-5 gap-5' : 'flex flex-row min-w-full'}
@@ -169,9 +166,6 @@ export const Home = () => {
 						</small>
 					</div>
 				</div>
-			</div>
-			<div className="w-full pt-5 flex flex-col gap-5 max-w-md mx-auto font-mono">
-				{code ? <SpotifyTopArtistsCard data={data} /> : ''}
 			</div>
 		</div>
 	);
