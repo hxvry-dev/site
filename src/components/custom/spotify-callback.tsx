@@ -10,7 +10,7 @@ export const SpotifyCallback = () => {
 		if (code) {
 			fetchAccessToken(code).then(({ access_token }) => {
 				sessionStorage.setItem('access_token', access_token);
-				nav('/');
+				nav('/spotify');
 			});
 		}
 	}, [nav]);
