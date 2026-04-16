@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
+import { loginWithSpotify } from '../../lib/spotify-auth';
 import { Marquee } from '../marquee';
 import { Button } from '../ui/button';
 import { ButtonGroup } from '../ui/button-group';
@@ -10,6 +11,7 @@ import { Separator } from '../ui/separator';
 import { ResumeDrawer } from './Resume';
 
 import { useIsMobile } from '@/hooks/use-mobile';
+
 interface AboutMeProps {
 	facts: string[];
 }
@@ -25,6 +27,9 @@ const aboutMe: AboutMeProps = {
 export const Home = () => {
 	const [isHovering, setIsHovering] = useState({ flower: false, banner: false });
 	const isMobile = useIsMobile();
+	const code = sessionStorage.getItem('access_token');
+	const nav = useNavigate();
+
 	return (
 		<div className="flex flex-col">
 			<div
@@ -101,12 +106,24 @@ export const Home = () => {
 									>
 										<NavLink to="/projects">Personal Projects + Games</NavLink>
 									</Button>
-									<ButtonGroup className={isMobile ? 'flex-col w-full mt-5 gap-5' : ''}>
+									<Button
+										size={isMobile ? 'xl' : 'sm'}
+										variant="outline"
+										className="px-5 w-full"
+										onClick={code === null ? () => loginWithSpotify() : () => nav('/spotify')}
+									>
+										{code !== null
+											? `You're Signed In! Click to View Stats`
+											: `View Your Spotify Stats (Req. Login)`}
+									</Button>
+									<ButtonGroup
+										className={isMobile ? 'flex-col w-full mt-5 gap-5' : 'flex flex-row min-w-full'}
+									>
 										<Button
 											asChild
 											size={isMobile ? 'xl' : 'sm'}
 											variant="outline"
-											className="px-5 min-w-fit"
+											className="px-5 grow"
 										>
 											<NavLink
 												to={'https://www.linkedin.com/in/henry-ouellette-8a3b36201/'}
@@ -119,7 +136,7 @@ export const Home = () => {
 											asChild
 											size={isMobile ? 'xl' : 'sm'}
 											variant="outline"
-											className="px-5 min-w-fit"
+											className="px-5 grow"
 										>
 											<NavLink to={'/resume'}>My Resume</NavLink>
 										</Button>
@@ -127,7 +144,7 @@ export const Home = () => {
 											asChild
 											size={isMobile ? 'xl' : 'sm'}
 											variant="outline"
-											className="px-5 min-w-fit"
+											className="px-5 grow"
 										>
 											<NavLink to={'https://github.com/hxvry-dev'} target="_blank">
 												My Github
