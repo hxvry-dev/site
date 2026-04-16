@@ -5,7 +5,7 @@ interface UseSpotifyResult<T> {
 	error: Error | null;
 }
 
-export const useSpotify = <T,>(query: string | null): UseSpotifyResult<T> => {
+export const useSpotify = <T>(query: string | null): UseSpotifyResult<T> => {
 	const [data, setData] = useState<T | null>(null);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -20,6 +20,7 @@ export const useSpotify = <T,>(query: string | null): UseSpotifyResult<T> => {
 		}
 
 		const token = sessionStorage.getItem('access_token');
+		if (!token) return;
 		fetch(`https://api.spotify.com/v1${query}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
