@@ -52,12 +52,13 @@ export const SpotifyTopTracksCard = ({ data }: SpotifyTopTracksCardProps) => {
 			{data?.items.map((track) => (
 				<Card key={track.id}>
 					<CardHeader>
-						<img src={track.album.images[0].url} alt={track.album.name} />
+						<img className="mx-auto mb-5" src={track.album.images[0].url} alt={track.album.name} />
 						<CardTitle>{track.name}</CardTitle>
 						<CardDescription>
-							<div>
-								{track.artists[0].name} | {track.album.name} |{' '}
-								<strong>{formatTrackLength(track.duration_ms)}</strong>
+							<div className="py-5">
+								<div>Artist: {track.artists[0].name}</div>
+								<div>Album: {track.album.name}</div>
+								<div>Duration: {formatTrackLength(track.duration_ms)}</div>
 							</div>
 						</CardDescription>
 					</CardHeader>
@@ -78,7 +79,7 @@ export const SpotifyTopArtistsCard = ({ data }: SpotifyTopArtistsCardProps) => {
 			{data?.items.map((artist) => (
 				<Card key={artist.id}>
 					<CardHeader>
-						<img className="mx-auto" src={artist.images[0].url} alt={artist.name} />
+						<img className="mx-auto mb-5" src={artist.images[0].url} alt={artist.name} />
 						<CardTitle>{artist.name}</CardTitle>
 					</CardHeader>
 					<CardContent>
