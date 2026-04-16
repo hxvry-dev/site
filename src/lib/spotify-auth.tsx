@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 const generateCodeVerifier = (): string => {
 	const array = new Uint8Array(64);
 	crypto.getRandomValues(array);
@@ -53,4 +55,32 @@ export const fetchAccessToken = async (code: string): Promise<TokenResponse> => 
 		}),
 	});
 	return response.json();
+};
+
+export const fetchRefreshToken = async () => {
+	const nav = useNavigate();
+	// refresh token that has been previously stored
+	const refreshToken = sessionStorage.getItem('refresh_token')!;
+	const url = 'https://accounts.spotify.com/api/token';
+
+	if (!refreshToken) nav('/');
+
+	const payload = {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: new URLSearchParams({
+			grant_type: 'refresh_token',
+			refresh_token: refreshToken,
+			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+		}),
+	};
+	const body = await fetch(url, payload);
+	const response = await body.json();
+
+	sessionStorage.setItem('access_token', response.access_token);
+	if (response.refresh_token) {
+		sessionStorage.setItem('refresh_token', response.refresh_token);
+	}
 };
