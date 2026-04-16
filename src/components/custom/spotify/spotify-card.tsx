@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 import { formatDuration, intervalToDuration } from 'date-fns';
 
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../../ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card';
 
 interface Image {
 	height: number;

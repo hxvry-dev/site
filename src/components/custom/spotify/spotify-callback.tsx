@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchAccessToken } from '../../lib/spotify-auth';
+import { fetchAccessToken } from '../../../lib/spotify-auth';
 
 export const SpotifyCallback = () => {
 	const nav = useNavigate();
