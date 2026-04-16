@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { fetchRefreshToken } from '@/lib/spotify-auth';
+
 interface UseSpotifyResult<T> {
 	data: T | null;
 	error: Error | null;
@@ -20,7 +22,9 @@ export const useSpotify = <T>(query: string | null): UseSpotifyResult<T> => {
 		}
 
 		const token = sessionStorage.getItem('access_token');
-		if (!token) return;
+		if (!token) {
+			fetchRefreshToken();
+		}
 		fetch(`https://api.spotify.com/v1${query}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
