@@ -56,7 +56,8 @@ export const SpotifyTopTracksCard = ({ data }: SpotifyTopTracksCardProps) => {
 						<CardTitle>{track.name}</CardTitle>
 						<CardDescription>
 							<div>
-								{track.artists[0].name} | <strong>{formatTrackLength(track.duration_ms)}</strong>
+								{track.artists[0].name} | {track.album.name} |{' '}
+								<strong>{formatTrackLength(track.duration_ms)}</strong>
 							</div>
 						</CardDescription>
 					</CardHeader>
