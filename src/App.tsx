@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import SpotifyTopTracks from './components/custom/game/components/spotify-stuff/spotify-recents';
 import { Home } from './components/custom/Home';
 import { LoginForm } from './components/custom/login-form';
 import { Navbar } from './components/custom/Navbar';
@@ -29,7 +28,6 @@ const App = () => {
 					<Route path="/password-reset" element={<PasswordResetForm />} />
 					<Route path="/set-new-password" element={<SetNewPasswordForm />} />
 					<Route path="/sign-up" element={<SignUpForm />} />
-					<Route path="/spotify" element={<SpotifyTopTracks />} />
 
 					<Route path="/incremental" element={<Incremental />} />
 
