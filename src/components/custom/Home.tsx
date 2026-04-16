@@ -105,9 +105,7 @@ export const Home = () => {
 									className="px-5 min-w-full"
 									onClick={code === null ? () => loginWithSpotify() : () => nav('/spotify')}
 								>
-									{code !== null
-										? `You're Signed In! Click to View Stats`
-										: `View Your Spotify Stats (Req. Login)`}
+									{code !== null ? `Click to View Stats` : `Log In To View Your Spotify Stats`}
 								</Button>
 								<div className={isMobile ? 'flex flex-col space-y-5 mx-auto w-full' : 'flex flex-row'}>
 									<Button
