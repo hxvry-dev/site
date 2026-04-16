@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { loginWithSpotify } from '../../lib/spotify-auth';
 import { Marquee } from '../marquee';
 import { Button } from '../ui/button';
 import { ButtonGroup } from '../ui/button-group';
@@ -8,8 +9,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card
 import { Separator } from '../ui/separator';
 
 import { ResumeDrawer } from './Resume';
+import { SpotifyTopArtistsCard, TopTracksResponse } from './spotify-card';
 
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useSpotify } from '@/hooks/use-spotify';
 interface AboutMeProps {
 	facts: string[];
 }
@@ -25,6 +28,12 @@ const aboutMe: AboutMeProps = {
 export const Home = () => {
 	const [isHovering, setIsHovering] = useState({ flower: false, banner: false });
 	const isMobile = useIsMobile();
+
+	const { data } = useSpotify<TopTracksResponse>('/me/top/tracks?limit=5');
+	const code = sessionStorage.getItem('access_token');
+
+	if (!data) return;
+
 	return (
 		<div className="flex flex-col">
 			<div
@@ -101,12 +110,23 @@ export const Home = () => {
 									>
 										<NavLink to="/projects">Personal Projects + Games</NavLink>
 									</Button>
-									<ButtonGroup className={isMobile ? 'flex-col w-full mt-5 gap-5' : ''}>
+									<Button
+										size={isMobile ? 'xl' : 'sm'}
+										variant="outline"
+										className="px-5 w-full"
+										onClick={loginWithSpotify}
+										disabled={code !== null}
+									>
+										{code !== null ? `You're Signed In!` : `View Your Spotify Stats (Req. Login)`}
+									</Button>
+									<ButtonGroup
+										className={isMobile ? 'flex-col w-full mt-5 gap-5' : 'flex flex-row min-w-full'}
+									>
 										<Button
 											asChild
 											size={isMobile ? 'xl' : 'sm'}
 											variant="outline"
-											className="px-5 min-w-fit"
+											className="px-5 grow"
 										>
 											<NavLink
 												to={'https://www.linkedin.com/in/henry-ouellette-8a3b36201/'}
@@ -119,7 +139,7 @@ export const Home = () => {
 											asChild
 											size={isMobile ? 'xl' : 'sm'}
 											variant="outline"
-											className="px-5 min-w-fit"
+											className="px-5 grow"
 										>
 											<NavLink to={'/resume'}>My Resume</NavLink>
 										</Button>
@@ -127,7 +147,7 @@ export const Home = () => {
 											asChild
 											size={isMobile ? 'xl' : 'sm'}
 											variant="outline"
-											className="px-5 min-w-fit"
+											className="px-5 grow"
 										>
 											<NavLink to={'https://github.com/hxvry-dev'} target="_blank">
 												My Github
@@ -149,6 +169,9 @@ export const Home = () => {
 						</small>
 					</div>
 				</div>
+			</div>
+			<div className="w-full pt-5 flex flex-col gap-5 max-w-md mx-auto font-mono">
+				{code ? <SpotifyTopArtistsCard data={data} /> : ''}
 			</div>
 		</div>
 	);

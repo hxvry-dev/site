@@ -10,6 +10,7 @@ import { Projects } from './components/custom/Projects';
 import { Resume } from './components/custom/Resume';
 import { SetNewPasswordForm } from './components/custom/set-new-password';
 import { SignUpForm } from './components/custom/sign-up-form';
+import { SpotifyCallback } from './components/custom/spotify-callback';
 import { ThemeProvider } from './components/theme-provider';
 
 const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
@@ -30,6 +31,7 @@ const App = () => {
 					<Route path="/sign-up" element={<SignUpForm />} />
 
 					<Route path="/incremental" element={<Incremental />} />
+					<Route path="/callback/spotify" element={<SpotifyCallback />} />
 
 					<Route path="*" element={<NotFound />} />
 				</Routes>
