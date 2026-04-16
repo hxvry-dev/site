@@ -4,7 +4,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { loginWithSpotify } from '../../lib/spotify-auth';
 import { Marquee } from '../marquee';
 import { Button } from '../ui/button';
-import { ButtonGroup } from '../ui/button-group';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Separator } from '../ui/separator';
 
@@ -83,7 +82,7 @@ export const Home = () => {
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<ul className="list-disc px-5">
+							<ul className="list-disc list-inside">
 								{aboutMe.facts.map((i) => (
 									<li key={i.length} className="mb-5 last:mb-0">
 										{i}
@@ -92,65 +91,56 @@ export const Home = () => {
 							</ul>
 						</CardContent>
 						<Separator />
-						<CardFooter>
-							<div className="flex flex-col gap-5">
-								<strong className="text-center">
-									Check out the links below to get a better idea of what I've been up to:
-								</strong>
-								<div className="mx-auto">
+						<CardFooter className="flex flex-col space-y-5">
+							<strong className="text-center">
+								Check out the links below to get a better idea of what I've been up to:
+							</strong>
+							<div className={isMobile ? 'flex-col space-y-5' : 'mx-auto'}>
+								<Button asChild size={isMobile ? 'xl' : 'sm'} variant="outline" className="px-5 w-full">
+									<NavLink to="/projects">Personal Projects + Games</NavLink>
+								</Button>
+								<Button
+									size={isMobile ? 'xl' : 'sm'}
+									variant="outline"
+									className="px-5 min-w-full"
+									onClick={code === null ? () => loginWithSpotify() : () => nav('/spotify')}
+								>
+									{code !== null
+										? `You're Signed In! Click to View Stats`
+										: `View Your Spotify Stats (Req. Login)`}
+								</Button>
+								<div className={isMobile ? 'flex flex-col space-y-5 mx-auto w-full' : 'flex flex-row'}>
 									<Button
 										asChild
 										size={isMobile ? 'xl' : 'sm'}
 										variant="outline"
-										className="px-5 w-full"
+										className="px-5 grow"
 									>
-										<NavLink to="/projects">Personal Projects + Games</NavLink>
+										<NavLink
+											to={'https://www.linkedin.com/in/henry-ouellette-8a3b36201/'}
+											target="_blank"
+										>
+											My LinkedIn
+										</NavLink>
 									</Button>
 									<Button
+										asChild
 										size={isMobile ? 'xl' : 'sm'}
 										variant="outline"
-										className="px-5 w-full"
-										onClick={code === null ? () => loginWithSpotify() : () => nav('/spotify')}
+										className="px-5 grow"
 									>
-										{code !== null
-											? `You're Signed In! Click to View Stats`
-											: `View Your Spotify Stats (Req. Login)`}
+										<NavLink to={'/resume'}>My Resume</NavLink>
 									</Button>
-									<ButtonGroup
-										className={isMobile ? 'flex-col w-full mt-5 gap-5' : 'flex flex-row min-w-full'}
+									<Button
+										asChild
+										size={isMobile ? 'xl' : 'sm'}
+										variant="outline"
+										className="px-5 grow"
 									>
-										<Button
-											asChild
-											size={isMobile ? 'xl' : 'sm'}
-											variant="outline"
-											className="px-5 grow"
-										>
-											<NavLink
-												to={'https://www.linkedin.com/in/henry-ouellette-8a3b36201/'}
-												target="_blank"
-											>
-												My LinkedIn
-											</NavLink>
-										</Button>
-										<Button
-											asChild
-											size={isMobile ? 'xl' : 'sm'}
-											variant="outline"
-											className="px-5 grow"
-										>
-											<NavLink to={'/resume'}>My Resume</NavLink>
-										</Button>
-										<Button
-											asChild
-											size={isMobile ? 'xl' : 'sm'}
-											variant="outline"
-											className="px-5 grow"
-										>
-											<NavLink to={'https://github.com/hxvry-dev'} target="_blank">
-												My Github
-											</NavLink>
-										</Button>
-									</ButtonGroup>
+										<NavLink to={'https://github.com/hxvry-dev'} target="_blank">
+											My Github
+										</NavLink>
+									</Button>
 								</div>
 							</div>
 						</CardFooter>

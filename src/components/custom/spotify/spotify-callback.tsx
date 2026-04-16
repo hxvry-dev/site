@@ -8,8 +8,9 @@ export const SpotifyCallback = () => {
 	useEffect(() => {
 		const code = new URLSearchParams(window.location.search).get('code');
 		if (code) {
-			fetchAccessToken(code).then(({ access_token }) => {
+			fetchAccessToken(code).then(({ access_token, refresh_token }) => {
 				sessionStorage.setItem('access_token', access_token);
+				sessionStorage.setItem('refresh_token', refresh_token);
 				nav('/spotify');
 			});
 		}
