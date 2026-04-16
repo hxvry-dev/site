@@ -11,11 +11,14 @@ import { Resume } from './components/custom/Resume';
 import { SetNewPasswordForm } from './components/custom/set-new-password';
 import { SignUpForm } from './components/custom/sign-up-form';
 import { SpotifyCallback } from './components/custom/spotify-callback';
+import { SpotifyLandingPage } from './components/custom/spotify-landing-page';
 import { ThemeProvider } from './components/theme-provider';
 
 const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
 
 const App = () => {
+	const code = sessionStorage.getItem('access_token');
+
 	return (
 		<ThemeProvider defaultTheme="dark">
 			<Navbar />
@@ -32,6 +35,7 @@ const App = () => {
 
 					<Route path="/incremental" element={<Incremental />} />
 					<Route path="/callback/spotify" element={<SpotifyCallback />} />
+					<Route path="/spotify" element={<SpotifyLandingPage code={code} />} />
 
 					<Route path="*" element={<NotFound />} />
 				</Routes>
