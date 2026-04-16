@@ -42,9 +42,12 @@ const jobs: JobCardProps[] = [
 		id: 0,
 		current: true,
 		jobName: 'Employee For Hire',
-		jobTitle: 'Software Engineer | Customer Support Engineer',
+		jobTitle: 'Looking for My Next Position',
 		jobStartDate: new Date('03-27-2026'),
 		jobEndDate: new Date(),
+		responsibilities: [
+			'I am looking for a Customer Support Engineer (CSE) or Software Development/Engineering role.',
+		],
 	},
 	{
 		id: 1,
@@ -141,7 +144,7 @@ export const Resume = () => {
 						<Card className="p-5" key={j.id}>
 							<CardHeader>
 								<CardTitle className="@container underline">
-									<div className="text-[5.5cqw] leading-tight">{j.jobTitle}</div>
+									<div className="text-xl md:text-[5.5cqw] leading-tight">{j.jobTitle}</div>
 								</CardTitle>
 								<CardDescription className="italic">{j.jobName}</CardDescription>
 								{j.current ? (
@@ -157,15 +160,13 @@ export const Resume = () => {
 										: 'no-scrollbar overflow-scroll border p-2 grow w-md h-48'
 								}
 							>
-								<div className="px-5">
-									<ul className="list-disc">
-										{j.responsibilities ? (
-											j.responsibilities?.map((r) => <li key={r.length}>{r}</li>)
-										) : (
-											<li>Currently on-going</li>
-										)}
-									</ul>
-								</div>
+								<ul className="list-disc list-inside space-y-5">
+									{j.responsibilities ? (
+										j.responsibilities?.map((r) => <li key={r.length}>{r}</li>)
+									) : (
+										<li>Currently on-going</li>
+									)}
+								</ul>
 							</CardContent>
 							<CardFooter
 								className={
