@@ -6,8 +6,10 @@ import { Button } from '../ui/button';
 import { ButtonGroup } from '../ui/button-group';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Separator } from '../ui/separator';
-import { useIsMobile } from '@/hooks/use-mobile';
+
 import { ResumeDrawer } from './Resume';
+
+import { useIsMobile } from '@/hooks/use-mobile';
 interface AboutMeProps {
 	facts: string[];
 }
