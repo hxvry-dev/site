@@ -17,8 +17,6 @@ import { ThemeProvider } from './components/theme-provider';
 const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
 
 const App = () => {
-	const code = sessionStorage.getItem('access_token');
-
 	return (
 		<ThemeProvider defaultTheme="dark">
 			<Navbar />
