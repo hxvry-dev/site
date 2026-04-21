@@ -1,4 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+interface TokenResponse {
+	access_token: string;
+	refresh_token?: string;
+}
 
 const generateCodeVerifier = (): string => {
 	const array = new Uint8Array(64);
@@ -35,12 +38,6 @@ export const loginWithSpotify = async (): Promise<void> => {
 	window.location.href = `https://accounts.spotify.com/authorize?${params}`;
 };
 
-interface TokenResponse {
-	access_token: string;
-	refresh_token: string;
-	expires_in: string;
-}
-
 export const fetchAccessToken = async (code: string): Promise<TokenResponse> => {
 	const verifier = sessionStorage.getItem('code_verifier')!;
 	const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -57,30 +54,15 @@ export const fetchAccessToken = async (code: string): Promise<TokenResponse> => 
 	return response.json();
 };
 
-export const fetchRefreshToken = async () => {
-	const nav = useNavigate();
-	// refresh token that has been previously stored
-	const refreshToken = sessionStorage.getItem('refresh_token')!;
-	const url = 'https://accounts.spotify.com/api/token';
-
-	if (!refreshToken) nav('/');
-
-	const payload = {
+export const fetchRefreshToken = async (refreshToken: string): Promise<TokenResponse> => {
+	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		},
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 		body: new URLSearchParams({
 			grant_type: 'refresh_token',
 			refresh_token: refreshToken,
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
 		}),
-	};
-	const body = await fetch(url, payload);
-	const response = await body.json();
-
-	sessionStorage.setItem('access_token', response.access_token);
-	if (response.refresh_token) {
-		sessionStorage.setItem('refresh_token', response.refresh_token);
-	}
+	});
+	return response.json();
 };

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import { loginWithSpotify } from '../../lib/spotify-auth';
-import { Marquee } from '../marquee';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Marquee } from '../ui/marquee';
 import { Separator } from '../ui/separator';
 
 import { ResumeDrawer } from './Resume';
@@ -26,8 +25,6 @@ const aboutMe: AboutMeProps = {
 export const Home = () => {
 	const [isHovering, setIsHovering] = useState({ flower: false, banner: false });
 	const isMobile = useIsMobile();
-	const code = sessionStorage.getItem('access_token');
-	const nav = useNavigate();
 
 	return (
 		<div className="flex flex-col">
@@ -98,14 +95,6 @@ export const Home = () => {
 							<div className={isMobile ? 'flex-col space-y-5' : 'mx-auto'}>
 								<Button asChild size={isMobile ? 'xl' : 'sm'} variant="outline" className="px-5 w-full">
 									<NavLink to="/projects">Personal Projects + Games</NavLink>
-								</Button>
-								<Button
-									size={isMobile ? 'xl' : 'sm'}
-									variant="outline"
-									className="px-5 min-w-full"
-									onClick={code === null ? () => loginWithSpotify() : () => nav('/spotify')}
-								>
-									{code !== null ? `Click to View Stats` : `Log In To View Your Spotify Stats`}
 								</Button>
 								<div className={isMobile ? 'flex flex-col space-y-5 mx-auto w-full' : 'flex flex-row'}>
 									<Button

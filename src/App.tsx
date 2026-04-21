@@ -13,6 +13,7 @@ import { SignUpForm } from './components/custom/sign-up-form';
 import { SpotifyCallback } from './components/custom/spotify/spotify-callback';
 import { SpotifyLandingPage } from './components/custom/spotify/spotify-landing-page';
 import { ThemeProvider } from './components/theme-provider';
+import { SpotifyAuthProvider } from './context/spotify-auth-context';
 
 const Incremental = lazy(() => import('./components/custom/game/components/Incremental'));
 
@@ -21,22 +22,25 @@ const App = () => {
 		<ThemeProvider defaultTheme="dark">
 			<Navbar />
 			<Suspense fallback={<NotFound />}>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/resume" element={<Resume />} />
-					<Route path="/projects" element={<Projects />} />
+				<SpotifyAuthProvider>
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/resume" element={<Resume />} />
+						<Route path="/projects" element={<Projects />} />
 
-					<Route path="/login" element={<LoginForm />} />
-					<Route path="/password-reset" element={<PasswordResetForm />} />
-					<Route path="/set-new-password" element={<SetNewPasswordForm />} />
-					<Route path="/sign-up" element={<SignUpForm />} />
+						<Route path="/login" element={<LoginForm />} />
+						<Route path="/password-reset" element={<PasswordResetForm />} />
+						<Route path="/set-new-password" element={<SetNewPasswordForm />} />
+						<Route path="/sign-up" element={<SignUpForm />} />
 
-					<Route path="/incremental" element={<Incremental />} />
-					<Route path="/callback/spotify" element={<SpotifyCallback />} />
-					<Route path="/spotify" element={<SpotifyLandingPage />} />
+						<Route path="/incremental" element={<Incremental />} />
 
-					<Route path="*" element={<NotFound />} />
-				</Routes>
+						<Route path="/callback/spotify" element={<SpotifyCallback />} />
+						<Route path="/spotify" element={<SpotifyLandingPage />} />
+
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+				</SpotifyAuthProvider>
 			</Suspense>
 		</ThemeProvider>
 	);

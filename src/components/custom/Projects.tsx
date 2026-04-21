@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Card, CardAction,CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -52,16 +52,25 @@ const projectData: ProjectDataProps[] = [
 	},
 	{
 		id: 1,
-		name: 'Idle Game',
+		name: 'Spotify Top Artist/Track View',
+		description:
+			'Simple set of components that display your top 5 most listened to artists and tracks on Spotify. Uses PKCE-based authentication, and will update each time you sign in. I plan to add more content and features to the page located at /spotify in the near future.',
+		link: [{ href: '/spotify', desc: 'Spotify Stats', key: 'sp-st' }],
+		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/spotify',
+		tools: ['React', 'TypeScript', 'ShadCN/UI'],
+		action: 'WIP',
+	},
+	{
+		id: 2,
+		name: 'Idle Game v2',
 		description:
 			'Simple Idle game that I threw together in a few days and refined over the course of a few weeks. It has since grown a mind of its own, and now has a Supabase-powered backend, and handles offline progression. Plenty more upgrades are planned for the future. Drop an Issue in the Github with your suggestions for features/upgrades! The code is available on my GitHub.',
 		link: [{ href: '/login', desc: 'Idle Game', key: 'Incremental' }],
 		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game/components',
 		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
-		action: 'WIP',
 	},
 	{
-		id: 2,
+		id: 3,
 		name: 'Bitburner Scripts',
 		description:
 			'A collection of my TypeScript-based scripts for Bitburner. Some of the code was taken from other repositories, and I tried to credit the author(s) when possible.',
