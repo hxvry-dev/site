@@ -12,7 +12,13 @@ export const SpotifyLandingPage = () => {
 	const isMobile = useIsMobile();
 
 	return (
-		<div className={'grid grid-cols-2 font-mono gap-5 mx-auto max-w-fit'}>
+		<div
+			className={
+				isMobile
+					? 'flex flex-col font-mono gap-5 mx-auto max-w-fit'
+					: 'grid grid-cols-2 font-mono gap-5 mx-auto max-w-fit'
+			}
+		>
 			<div className="mx-auto col-span-2 row-end-1">
 				<Button
 					size={isMobile ? 'xl' : 'sm'}
