@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { atom } from 'jotai';
-
 import { useSpotifyAuth } from '@/context/spotify-auth-context';
 import { fetchRefreshToken } from '@/lib/spotify-auth';
 
@@ -10,9 +8,6 @@ interface UseSpotifyResult<T> {
 	data: T | null;
 	error: Error | null;
 }
-
-export const accessTokenAtom = atom<string | null>(null);
-export const refreshTokenAtom = atom<string | null>(null);
 
 export const useSpotify = <T>(query: string | null): UseSpotifyResult<T> => {
 	const nav = useNavigate();
