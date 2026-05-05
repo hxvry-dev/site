@@ -82,7 +82,7 @@ export const LoginForm = () => {
 										className="rounded-none"
 									/>
 									<FieldDescription>
-										<NavLink to="/test/reset-password" className="underline">
+										<NavLink to="/password-reset" className="underline">
 											Forgot Password?
 										</NavLink>
 									</FieldDescription>
