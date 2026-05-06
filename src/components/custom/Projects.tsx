@@ -69,22 +69,6 @@ const projectData: ProjectDataProps[] = [
 		src: 'https://github.com/hxvry-dev/site/tree/main/src/components/custom/game/components',
 		tools: ['Jotai', 'React', 'TypeScript', 'ShadCN/UI', 'Vite'],
 	},
-	{
-		id: 3,
-		name: 'Bitburner Scripts',
-		description:
-			'A collection of my TypeScript-based scripts for Bitburner. Some of the code was taken from other repositories, and I tried to credit the author(s) when possible.',
-		link: [
-			{
-				href: 'https://github.com/hxvry-dev/bitburner-scripts',
-				desc: 'Bitburner Scripts',
-				key: 'bb',
-				target: true,
-			},
-		],
-		src: 'https://github.com/hxvry-dev/bitburner-scripts',
-		tools: ['TypeScript', 'Vite'],
-	},
 ];
 
 export const Projects = () => {
