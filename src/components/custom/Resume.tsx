@@ -55,7 +55,7 @@ const jobs: JobCardProps[] = [
 		jobName: 'Bryx',
 		jobTitle: 'Customer Support Engineer',
 		jobStartDate: new Date('05-01-2022'),
-		jobEndDate: new Date('03-27-2026'),
+		jobEndDate: new Date('03-01-2026'),
 		responsibilities: [
 			'Triaged and resolved customer issues across hardware and software environments, diagnosing root causes and improving resolution times and customer satisfaction.',
 			'Collaborated with cross-functional teams to deliver cohesive solutions, aligning efforts to efficiently meet customer needs and achieve shared service goals.',
