@@ -14,6 +14,7 @@ export default defineConfig({
 		include: ['@supabase/supabase-js', '@supabase/gotrue-js', '@supabase/postgrest-js'],
 	},
 	build: {
+		chunkSizeWarningLimit: 950,
 		minify: 'esbuild',
 		rollupOptions: {
 			output: {
