@@ -2,5 +2,7 @@
 *.mjs
 *.md
 *.yaml
+*.json
 /app/fonts/*
 /node_modules/*
+/src/components/*
