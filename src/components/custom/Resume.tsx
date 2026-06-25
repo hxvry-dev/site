@@ -41,12 +41,13 @@ const jobs: JobCardProps[] = [
 	{
 		id: 0,
 		current: true,
-		jobName: 'Employee For Hire',
-		jobTitle: 'Looking for My Next Position',
-		jobStartDate: new Date('03-27-2026'),
-		jobEndDate: new Date(),
+		jobName: 'University of Rochester',
+		jobTitle: 'System Engineer I',
+		jobStartDate: new Date('07-20-2026'),
 		responsibilities: [
-			'I am looking for a Customer Support Engineer (CSE) or Software Development/Engineering role.',
+            'Assisted in the management and administration of multi-platform infrastructure (Linux, macOS, and Windows) at the desktop, lab and workstation level.',
+            'Ensured that both high - performance computing resources and lab - specific workstation deployments were secure, automated, and high - performing.',
+            'Deployed and supported heterogeneous environments, with a heavy emphasis on Linux (RHEL/Ubuntu) for departmental servers and macOS/Windows for student and faculty workstations.',
 		],
 	},
 	{
@@ -54,7 +55,7 @@ const jobs: JobCardProps[] = [
 		jobName: 'Bryx',
 		jobTitle: 'Customer Support Engineer',
 		jobStartDate: new Date('05-01-2022'),
-		jobEndDate: new Date('03-01-2026'),
+		jobEndDate: new Date('03-27-2026'),
 		responsibilities: [
 			'Triaged and resolved customer issues across hardware and software environments, diagnosing root causes and improving resolution times and customer satisfaction.',
 			'Collaborated with cross-functional teams to deliver cohesive solutions, aligning efforts to efficiently meet customer needs and achieve shared service goals.',
