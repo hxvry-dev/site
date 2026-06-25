@@ -190,8 +190,8 @@ export const Resume = () => {
 					))}
 				</div>
 				<p className="text-center mt-5">
-					<span className="text-3xl font-black text-destructive">*</span> = Denotes Current Means of
-					"Employment"
+					<span className="text-3xl font-black text-destructive">*</span> = Denotes current means of
+					employment
 				</p>
 			</div>
 			<div className="pt-5 w-fit mx-auto">
