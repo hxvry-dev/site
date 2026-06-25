@@ -3,10 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
-import { Marquee } from '../ui/marquee';
 import { Separator } from '../ui/separator';
-
-import { ResumeDrawer } from './Resume';
 
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -23,42 +20,11 @@ const aboutMe: AboutMeProps = {
 };
 
 export const Home = () => {
-	const [isHovering, setIsHovering] = useState({ flower: false, banner: false });
+	const [isHovering, setIsHovering] = useState(false);
 	const isMobile = useIsMobile();
 
 	return (
 		<div className="flex flex-col">
-			<div
-				className="w-full py-5 font-incremental font-bold text-3xl bg-red-700"
-				onMouseEnter={() => setIsHovering({ ...isHovering, banner: true })}
-				onMouseLeave={() => setIsHovering({ ...isHovering, banner: false })}
-			>
-				<Marquee speed={75} speedFactor={isHovering.banner ? 0 : 0.5} direction={1} autoClone>
-					<ResumeDrawer altButtonText="Click here to view my resume!" buttonStyles="text-3xl font-bold" />
-					<p>
-						Greetings, fellow Internet user! I am currently looking for a job! Check out some of the things
-						I've worked on recently/am working on right now by visiting my
-						<span>
-							{' '}
-							<NavLink to="/projects" className="underline">
-								Projects
-							</NavLink>{' '}
-						</span>
-						page!
-					</p>
-					<p>
-						Check out my
-						<span>
-							{' '}
-							<NavLink to="/resume" className="underline">
-								Resume
-							</NavLink>{' '}
-						</span>
-						for my professional experience/background.
-					</p>
-					<ResumeDrawer altButtonText="Click here to view my resume!" buttonStyles="text-3xl font-bold" />
-				</Marquee>
-			</div>
 			<div className="px-5">
 				<div className={isMobile ? 'flex flex-col mx-auto font-mono' : 'max-w-md mx-auto font-mono'}>
 					<div
@@ -135,11 +101,10 @@ export const Home = () => {
 					<div className="text-center">
 						<small
 							className="font-mono text-muted-foreground italic"
-							onMouseEnter={() => setIsHovering({ ...isHovering, flower: true })}
-							onMouseLeave={() => setIsHovering({ ...isHovering, flower: false })}
+							onMouseEnter={() => setIsHovering(true)}
+							onMouseLeave={() => setIsHovering(false)}
 						>
-							Made with &#9829; by me in the <strong>{isHovering.flower ? 'Flour' : 'Flower'}</strong>{' '}
-							City
+							Made with &#9829; by me in the <strong>{isHovering ? 'Flour' : 'Flower'}</strong> City
 						</small>
 					</div>
 				</div>

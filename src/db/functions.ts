@@ -66,26 +66,26 @@ export const calculateLocalLevel = (upgrade: Upgrade, gameState: GameState): num
 };
 
 export const upsertUserUpgrades = async (gameState: GameState): Promise<void> => {
-		try {
-			const { error: upgradesError } = await supabase
-				.from('user_upgrades')
-				.upsert(gameState.userUpgrades, { onConflict: 'id' });
-			if (upgradesError) {
-				console.error('Error upserting user upgrades:', upgradesError);
-				throw upgradesError;
-			}
-			// Update user data
-			const { error: userError } = await supabase
-				.from('users')
-				.update(gameState.user)
-				.eq('user_id', gameState.user.user_id);
-
-			if (userError) {
-				console.error('Error updating user:', userError);
-				throw userError;
-			}
-		} catch (error) {
-			console.error('Auto-save failed:', error);
-		throw error;
+	try {
+		const { error: upgradesError } = await supabase
+			.from('user_upgrades')
+			.upsert(gameState.userUpgrades, { onConflict: 'id' });
+		if (upgradesError) {
+			console.error('Error upserting user upgrades:', upgradesError);
+			throw upgradesError;
 		}
+		// Update user data
+		const { error: userError } = await supabase
+			.from('users')
+			.update(gameState.user)
+			.eq('user_id', gameState.user.user_id);
+
+		if (userError) {
+			console.error('Error updating user:', userError);
+			throw userError;
+		}
+	} catch (error) {
+		console.error('Auto-save failed:', error);
+		throw error;
+	}
 };
