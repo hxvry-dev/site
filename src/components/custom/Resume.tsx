@@ -42,7 +42,7 @@ const jobs: JobCardProps[] = [
 		id: 0,
 		current: true,
 		jobName: 'University of Rochester',
-		jobTitle: 'System Engineer I',
+		jobTitle: 'Systems Engineer I',
 		jobStartDate: new Date('07-20-2026'),
 		responsibilities: [
             'Assisted in the management and administration of multi-platform infrastructure (Linux, macOS, and Windows) at the desktop, lab and workstation level.',
