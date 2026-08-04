@@ -139,7 +139,7 @@ export const Resume = () => {
 				<p className="text-center text-3xl mt-5">Recent Job Experience</p>
 				<p className="text-center text-sm underline mb-5">Resume At-A-Glance</p>
 				<div
-					className={isMobile ? 'flex flex-col mx-auto gap-5 p-5' : 'grid grid-flow-col mx-auto gap-5 w-fit'}
+					className={isMobile ? 'flex flex-col mx-auto gap-5 p-5' : 'grid grid-cols-2 mx-auto gap-5 w-fit'}
 				>
 					{jobs.map((j) => (
 						<Card className="p-5" key={j.id}>
